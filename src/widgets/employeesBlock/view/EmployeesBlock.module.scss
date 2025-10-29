@@ -1,4 +1,17 @@
 .section {
   margin-top: 100px;
 
+  .content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .btn{
+      height: 44px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+  }
+
 }

@@ -4,7 +4,7 @@ export const mulish = localFont({
 	src: [
 		{
 			path: '../assest/fonts/Mulish-Regular.ttf',
-			weight: '300',
+			weight: '400',
 			style: 'normal',
 		},
 		{
