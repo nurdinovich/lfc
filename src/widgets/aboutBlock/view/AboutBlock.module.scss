@@ -1,0 +1,22 @@
+.section {
+  margin-top: 100px;
+
+  .container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .stats {
+      width: 400px;
+      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 20px;
+    }
+
+    .text {
+      width: 820px;
+    }
+  }
+}

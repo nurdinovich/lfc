@@ -1,0 +1,90 @@
+:root {
+  /* ==== Размеры шрифтов ==== */
+  --font-increase: 0px;
+  /* ==== Базовые цвета ==== */
+  --black: #1C1C1C;
+  --white: #FFFFFF;
+  --contrast: #9BE4FF;
+  --blue: #3A7BD5;
+  --darkBlue: #0D1B2A;
+  --blueAccent: #09233D;
+  --grey: #A0A7AF;
+  --greyLight: #E4E7EB;
+
+  /* ==== Темы ==== */
+  --theme-dark-bg: #1C1C1C;
+  --theme-dark-text: #FFFFFF;
+  --theme-gray-bg: var(--grey);
+  --theme-dark-text: var(--white);
+  --theme-light-bg: var(--greyLight);
+  --theme-light-text: #000000;
+  --theme-high-contrast-bg: #9BE4FF;
+  --theme-high-contrast-text: #3A7BD5;
+  --theme-default-bg: var(--white);
+  --theme-default-text: var(--black);
+
+  /* ==== Семантические переменные для компонентов ==== */
+  --background-color: var(--theme-default-bg);
+  --text-color: var(--theme-default-text);
+  --primary-color: var(--darkBlue);
+  --primary-text-color: var(--white) --primary-button: var(--darkBlue);
+  --primary-button-text: var(--white);
+  /* основной цвет для компонентов */
+
+
+  /* ==== Кнопки в панели ==== */
+  --accessibility-button-bg: var(--white);
+  --accessibility-button-text: var(--grey);
+  --accessibility-button-shadow: 0px 0px 12px 0px #00000040;
+  --accessibility-button-active-bg: var(--blue);
+  --accessibility-button-active-text: var(--white);
+  --accessibility-button-active-shadow: 0px 0px 12px 0px var(--blue);
+
+  /* ==== Переключатели ==== */
+  --accessibility-toggle-bg: var(--white);
+  --accessibility-toggle-text: var(--darkBlue);
+  --accessibility-toggle-border: var(--darkBlue);
+  --accessibility-toggle-active-bg: var(--darkBlue);
+  --accessibility-toggle-active-text: var(--white);
+  --accessibility-toggle-active-border: var(--darkBlue);
+  --accessibility-toggle-hover-bg: var(--blue);
+  --accessibility-toggle-hover-text: var(--white);
+  --accessibility-toggle-hover-border: var(--blue);
+}
+
+/* ==== Классы тем ==== */
+.theme-default {
+  --background-color: var(--theme-default-bg);
+  --text-color: var(--theme-default-text);
+  --primary-color: var(--darkBlue);
+  --primary-text-color: var(--white);
+  --primary-button: var(--darkBlue);
+  --primary-button-text: var(--white);
+}
+
+.theme-light {
+  --background-color: var(--theme-gray-bg);
+  --text-color: var(--theme-light-text);
+  --primary-color: var(--grey);
+  --primary-text-color: var(--white);
+  --primary-button: var(--grey);
+  --primary-button-text: var(--white);
+}
+
+.theme-dark {
+  --background-color: var(--theme-gray-bg);
+  --text-color: var(--theme-gray-text);
+  --primary-color: var(--grey);
+  --primary-text-color: var(--white);
+  --primary-button: var(--grey);
+  --primary-button-text: var(--white)
+}
+
+.theme-high-contrast {
+  --background-color: var(--theme-high-contrast-bg);
+  --text-color: var(--theme-high-contrast-text);
+  --primary-color: var(--theme-high-contrast-b);
+  --primary-text-color: var(--theme-high-contrast-text);
+  --primary-button: var(--theme-high-contrast-b);
+  --primary-button-text: var(--theme-high-contrast-text)
+}

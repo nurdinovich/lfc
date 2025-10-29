@@ -1,0 +1,33 @@
+.h1{
+  font-size: calc(46px + var(--font-increase));
+}
+.h2{
+  font-size: calc(32px + var(--font-increase));
+}
+.h3{
+  font-size:calc(24px + var(--font-increase));
+}
+.b1{
+  font-size: calc(20px + var(--font-increase));
+}
+.b2{
+  font-size: calc(16px + var(--font-increase));
+}
+.buttonText{
+  font-size: calc(20px + var(--font-increase));
+}
+.bodyText{
+  font-size:calc(14px + var(--font-increase));
+}
+.regular {
+  font-weight: 300;
+}
+.medium {
+  font-weight: 500;
+}
+.semiBold {
+  font-weight: 600;
+}
+.bold {
+  font-weight: 700;
+}

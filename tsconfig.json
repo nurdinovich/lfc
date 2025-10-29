@@ -13,14 +13,35 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@entitles/*": [
+        "entitles/*"
+      ],
+      "@widgets/*": [
+        "widgets/*"
+      ],
+      "@features/*": [
+        "features/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@assets/*": [
+        "shared/assets/*"
+      ]
+    },
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
   },
   "include": [
     "next-env.d.ts",

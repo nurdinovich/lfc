@@ -1,0 +1,40 @@
+.header {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--grey);
+  box-shadow: 0px 2px 8px 0px #00000040;
+
+  .container {
+    display: flex;
+    // gap: 86px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 29px;
+  }
+
+  .link {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--blue);
+    }
+  }
+
+  .text {
+    color: var(--text-color);
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
+  .buttons {
+    border: 1px solid var(--darkBlue);
+  }
+}

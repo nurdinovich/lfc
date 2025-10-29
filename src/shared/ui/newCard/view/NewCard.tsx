@@ -1,0 +1,63 @@
+'use client'
+import { FC } from "react"
+import { Typography } from "../../typography/view/Typography"
+import classes from './NewCard.module.scss'
+import { INewCard } from "../types/types"
+import Link from "next/link"
+import { CustomButton } from "../../button/view/CustomButton"
+
+export const NewCard:FC<INewCard> = ({
+	title,
+	descriptions,
+	date,
+	img,
+	variant
+}) => {
+	if (variant === 'mainCard') {
+		return (
+			<Link href={'/'} className={classes.link}>
+			<div className={classes.container}>
+				<div className={classes.img}>
+					<img src={img} alt='' />
+				</div>
+				<div className={classes.content}>
+				<Typography variant='h3' weight='medium' truncate={27}>
+					{title}
+				</Typography>
+				<Typography variant='b1' weight='medium'  className={classes.text}>
+					{descriptions}
+				</Typography>
+				<Typography variant='b1' weight='regular' className={classes.date}>
+					{date}
+				</Typography>
+				</div>
+			</div>
+			</Link>
+		)
+	}
+	if (variant === 'pagesCard') {
+		return (
+			<div className={classes.container}>
+				<div className={classes.img}>
+					<img src={img} alt='' />
+				</div>
+				<div className={classes.content}>
+					<Typography variant='h3' weight='medium' truncate={25}>
+						{title}
+					</Typography>
+					<Typography variant='b1' weight='medium' className={classes.text}>
+						{descriptions}
+					</Typography>
+					<Typography variant='b1' weight='regular' className={classes.date}>
+						{date}
+					</Typography>
+				</div>
+				<CustomButton variant='tetriary' actionType='link' to={'/'} className={classes.btn}>
+				<Typography variant={'b1'} weight={'medium'}>
+					Подробнее
+				</Typography>
+				</CustomButton>
+			</div>
+		)
+	}
+}

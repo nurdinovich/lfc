@@ -1,0 +1,62 @@
+.footer {
+  margin-top: 100px;
+  background-color: var(--primary-color);
+  display: flex;
+  padding: 50px 0px;
+
+  .content {
+    display: flex;
+    gap: 113px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 50px;
+
+    .nav {
+      display: flex;
+      gap: 401px;
+
+      .links {
+        display: flex;
+        gap: 42px;
+
+        .lin {
+          text-decoration: none;
+          color: var(--primary-text-color);
+        }
+      }
+    }
+
+    .social {
+      display: flex;
+      gap: 12px;
+
+      .link {
+        display: flex;
+        gap: 12px;
+        text-decoration: none;
+        color: var(--primary-text-color);
+
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+
+  hr {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .desc {
+    color: var(--primary-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

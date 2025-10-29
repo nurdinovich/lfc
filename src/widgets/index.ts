@@ -1,0 +1,7 @@
+export {AboutBlock} from './aboutBlock/view/AboutBlock'
+export {EmployeesBlock} from './employeesBlock/view/EmployeesBlock'
+export {FaqBlock} from './faqBlock/view/FaqBlock'
+export {HeroBlock} from './heroBlock/view/HeroBlock'
+export {NewsBlock} from './newsBlock/view/NewsBlock'
+export {ServicesBlock} from './servicesBlock/view/ServicesBlock'
+export {Contact} from './contact/view/Contact'

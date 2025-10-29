@@ -1,0 +1,5 @@
+export {Typography} from './typography/view/Typography'
+export {CustomButton} from './button/view/CustomButton'
+export {MultiContainer} from './multiContainer/view/MultiContainer'
+export {NewCard} from './newCard/view/NewCard'
+export {ServicesCard} from './servicesCard/view/ServicesCard'

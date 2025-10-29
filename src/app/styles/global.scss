@@ -1,0 +1,45 @@
+@use "./variables.scss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-mulish), sans-serif;
+    background: var(--white);
+    font-size: 1rem;
+}
+.swiper-slide {
+  width: fit-content;
+}
+
+.theme-light {
+  --background-color: var(--theme-light-bg);
+  --text-color: var(--theme-light-text);
+}
+
+.theme-dark {
+  --background-color: var(--theme-dark-bg);
+  --text-color: var(--theme-dark-text);
+}
+
+.theme-high-contrast {
+  --background-color: var(--theme-high-contrast-bg);
+  --text-color: var(--theme-high-contrast-text);
+}
+
+.theme-default {
+  --background-color: var(--theme-default-bg);
+  --text-color: var(--theme-default-text);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

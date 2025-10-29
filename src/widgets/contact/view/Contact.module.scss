@@ -1,0 +1,10 @@
+.section{
+  margin-top: 100px;
+  margin: 0 auto;
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}

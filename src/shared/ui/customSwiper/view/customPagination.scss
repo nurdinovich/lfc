@@ -1,0 +1,58 @@
+.custom-swiper {
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
+  padding-left: 5px !important;
+}
+
+.swiper {
+  margin-left: calc((100vw - 1240px) / 2);
+}
+
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  margin-left: -100px;
+
+  .swiper-pagination-bullet {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color: var(--darkBlue);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 1;
+    overflow: hidden;
+
+    &-active {
+      width: 24px;
+      height: 5px;
+      border-radius: 10px;
+      background-color: var(--grey);
+      transition: all 0.3s ease;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 100%;
+        width: 0;
+        background-color: var(--darkBlue);
+        animation: progressLine 5s linear forwards;
+      }
+    }
+  }
+}
+
+@keyframes progressLine {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}

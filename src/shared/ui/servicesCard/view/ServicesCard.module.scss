@@ -1,0 +1,56 @@
+.container {
+  background-color: var(--background-color);
+  width: 400px;
+  box-shadow: 0px 0px 12px 0px #00000040;
+  border-radius: 12px;
+  padding: 24px 24px 24px 24px;
+
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .title {
+      color: var(--text-color);
+      text-align: center;
+    }
+    .descItem {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .checkMark {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+.containers{
+  background-color: var(--background-color);
+  width: 610px;
+  box-shadow: 0px 0px 12px 0px #00000040;
+  border-radius: 12px;
+  padding: 24px 24px 24px 24px;
+  .item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+  
+      .title {
+        color: var(--text-color);
+        text-align: center;
+      }
+  
+      .descItem {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+  
+      .checkMark {
+        width: 16px;
+        height: 16px;
+      }
+    }
+}

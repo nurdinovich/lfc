@@ -1,0 +1,94 @@
+
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  // width: 40px;
+  // height: 40px;
+
+  &Button {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 20px;
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
+  &Arrow {
+    width: 24px;
+    height: 24px;
+    color: var(--white);
+  }
+
+  &Icon {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
+  .dropdownIconOpen {
+    transform: rotate(180deg);
+  }
+
+  &List {
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    width: 170px;
+   text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--white);
+    border-radius: 12px;
+    background-color: var(--darkBlue);
+    z-index: 1;
+
+  }
+
+  &Item {
+    width: 100%;
+    height: 40px;
+    padding: 7px 22px 10px 22px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s linear;
+
+    &:last-child {
+      border-bottom: none;
+
+      &:hover {
+        border-bottom-right-radius: 12px;
+        border-bottom-left-radius: 12px;
+
+      }
+    }
+    &:first-child{
+      border-top-right-radius: 12px;
+      border-top-left-radius: 12px;
+    }
+
+    &:hover {
+      background-color: var(--blue);
+      border-top-right-radius: none;
+        border-top-left-radius: none;
+    }
+
+  }
+
+  .dropdownItemActive {
+    background-color: var(--blueAccent);
+    border-bottom-right-radius: 12px;
+      border-bottom-left-radius: 12px;
+  }
+}
