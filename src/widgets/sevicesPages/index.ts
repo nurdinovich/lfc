@@ -1,0 +1,1 @@
+export { SevicesPages } from './view/SevicesPages'

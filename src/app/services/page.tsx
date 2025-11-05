@@ -1,4 +1,5 @@
-import { SevicesPages } from '@/widgets'
+import { SevicesPages } from "@/widgets/sevicesPages"
+
 
 const page = () => {
   return (

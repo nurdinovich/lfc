@@ -1,24 +1,25 @@
-import i18next from 'i18next'
+'use client'
+
+import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import Backend from 'i18next-fs-backend'
-import { i18nConfig } from './settings'
-import path from 'path'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import Backend from 'i18next-http-backend'
+import { languages } from '@/shared/constants/constants'
 
-export async function initI18n(locale: string) {
-	await i18next
-		.use(initReactI18next)
-		.use(Backend)
-		.init({
-			lng: locale,
-			fallbackLng: i18nConfig.defaultLocale,
-			supportedLngs: i18nConfig.locales,
-			backend: {
-				loadPath: path.resolve(
-					'./src/app/i18n/locales/{{lng}}/translation.json'
-				),
-			},
-			react: { useSuspense: false },
-		})
+i18n
+	.use(Backend) 
+	.use(LanguageDetector)
+	.use(initReactI18next)
+	.init({
+		supportedLngs: languages.map(l => l.lang),
+		fallbackLng: 'ru',
+		debug: process.env.NODE_ENV === 'development',
+		interpolation: {
+			escapeValue: false,
+		},
+		backend: {
+			loadPath: '/locales/{{lng}}.json', 
+		},
+	})
 
-	return i18next
-}
+export default i18n

@@ -1,25 +1,32 @@
 'use client'
 import { Logo } from '@/shared/assest/icons'
-import { CustomButton, MultiContainer, Typography } from '@/shared/ui'
+import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './Header.module.scss'
 import Link from 'next/link'
 import { links } from '@/shared/constants/constants'
-// import { LanguageSelect } from '@/features/languageSelect/view/LanguageSelect'
-import { useTranslation } from 'react-i18next'
+import { LanguageSelect } from '@/features/languageSelect/view/LanguageSelect'
 import { AccessibilityPanel } from '@/features/accessibility'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const Header = () => {
-	const { t } = useTranslation()
+	const { t, isClient } = useSafeTranslation() 
+	if (!isClient) return null
+
 	return (
 		<header className={classes.header}>
 			<MultiContainer>
 				<div className={classes.container}>
-					<Link href={'/'} className={classes.icon}>
+					<Link href='/' className={classes.icon}>
 						<Logo />
 					</Link>
 					<nav className={classes.nav}>
 						{links.slice(1).map(link => (
-							<Link key={link.name} href={link.path} className={classes.link}>
+							<Link
+								key={link.name}
+								href={link.path}
+								className={classes.link}
+								suppressHydrationWarning
+							>
 								<Typography
 									variant='b1'
 									weight='medium'
@@ -30,14 +37,7 @@ export const Header = () => {
 							</Link>
 						))}
 					</nav>
-					{/* <LanguageSelect /> */}
-					<CustomButton
-						variant={'primary'}
-						actionType={'button'}
-						className={classes.buttons}
-					>
-						Рu
-					</CustomButton>
+					<LanguageSelect />
 					<AccessibilityPanel />
 				</div>
 			</MultiContainer>

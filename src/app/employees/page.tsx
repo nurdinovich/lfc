@@ -1,4 +1,4 @@
-import { EmployeesPages } from '@/widgets/employeesPages/view/EmployeesPages'
+import { EmployeesPages } from "@/widgets/employeesPages"
 
 const page = () => {
   return (

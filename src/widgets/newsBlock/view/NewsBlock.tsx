@@ -3,6 +3,7 @@ import { CustomSwiper } from "@/shared/ui/customSwiper/view/CustomSwiper"
 import { SwiperSlide } from "swiper/react"
 import classes from './NewsBlock.module.scss'
 import { MultiContainer, NewCard, Typography } from "@/shared/ui"
+import { useSafeTranslation } from "@/shared/hooks/useSafeTranslation"
 
 const data = [
 	{
@@ -49,11 +50,12 @@ const data = [
 	},
 ]
 export const NewsBlock = () => {
+	const {t} = useSafeTranslation()
   return (
 		<section className={classes.section}>
 			<MultiContainer>
 				<Typography variant='h2' weight='bold'>
-					Новости
+					{t('navigation.news')}
 				</Typography>
 			</MultiContainer>
 			<div className={classes.container}>

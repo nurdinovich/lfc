@@ -1,5 +1,4 @@
-
-import { AboutPages } from '@/widgets/aboutPages/view/AboutPages'
+import { AboutPages } from "@/widgets/aboutPages"
 
  const page = () => {
   return (

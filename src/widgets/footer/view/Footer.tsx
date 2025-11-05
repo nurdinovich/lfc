@@ -4,8 +4,8 @@ import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './Footer.module.scss'
 import { links } from '@/shared/constants/constants'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
 import { Adress } from '@/widgets/adress/view/Adress'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 const socialLinks = [
 	{
 		id: 1,
@@ -24,7 +24,9 @@ const socialLinks = [
 	},
 ]
 export const Footer = () => {
-	const { t } = useTranslation()
+	const { t, isClient } = useSafeTranslation()
+
+	if (!isClient) return null
 	return (
 		<footer className={classes.footer}>
 			<MultiContainer>

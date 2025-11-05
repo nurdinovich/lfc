@@ -4,6 +4,7 @@ import classes from './EmployeesBlock.module.scss'
 import { CustomButton, MultiContainer, Typography } from "@/shared/ui"
 import { CustomSwiper } from "@/shared/ui/customSwiper/view/CustomSwiper"
 import { SwiperSlide } from "swiper/react"
+import { useSafeTranslation } from "@/shared/hooks/useSafeTranslation"
 const employees = [
 	{
 		img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
@@ -79,11 +80,12 @@ const employees = [
 	},
 ]
 export const EmployeesBlock = () => {
+	const { t } = useSafeTranslation()
   return (
 		<section className={classes.section}>
 			<MultiContainer>
 				<Typography variant='h2' weight='bold'>
-					Сотрудники
+					{t('block.employees')}
 				</Typography>
 			</MultiContainer>
 			<div className={classes.container}>

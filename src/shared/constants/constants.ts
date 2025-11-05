@@ -8,11 +8,11 @@ export const routes = {
 }
 
 export const links = [
-	{ id: 1, name: 'Главная', path: routes.home },
-	{ id: 2, name: 'О нас', path: routes.about },
-	{ id: 3, name: 'Услуги', path: routes.services },
-	{ id: 4, name: 'Новости', path: routes.news },
-	{ id: 5, name: 'Сотрудники', path: routes.employees },
+	{ id: 1, name: 'navigation.home', path: routes.home },
+	{ id: 2, name: 'navigation.about', path: routes.about },
+	{ id: 3, name: 'navigation.services', path: routes.services },
+	{ id: 4, name: 'navigation.news', path: routes.news },
+	{ id: 5, name: 'navigation.employees', path: routes.employees },
 ]
 export const languages = [
 	{
@@ -28,3 +28,4 @@ export const languages = [
 		name: 'English',
 	},
 ]
+export type LanguageCode = (typeof languages)[number]['lang']

@@ -24,7 +24,7 @@ export const EmployeesCard: FC<IEmployees> = ({
 						<Typography variant='b2' weight='regular'>
 							{branch}
 						</Typography>
-						<CustomButton variant={'primary'} actionType={'button'} className={classes.btn}>
+						<CustomButton variant={'primary'} actionType={'link'} to="consultation" className={classes.btn}>
 							Записаться
 						</CustomButton>
 					</div>

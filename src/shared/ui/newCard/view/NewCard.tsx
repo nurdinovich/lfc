@@ -52,7 +52,7 @@ export const NewCard:FC<INewCard> = ({
 						{date}
 					</Typography>
 				</div>
-				<CustomButton variant='tetriary' actionType='link' to={'/'} className={classes.btn}>
+				<CustomButton variant='tetriary' actionType='link' to={'newsDetails'} className={classes.btn}>
 				<Typography variant={'b1'} weight={'medium'}>
 					Подробнее
 				</Typography>

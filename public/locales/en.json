@@ -1,0 +1,18 @@
+{
+	"navigation": {
+		"home": "Home",
+		"about": "About Us",
+		"news": "News",
+		"employees": "Employees",
+		"services": "Services"
+	},
+	"block": {
+		"about": "About Us",
+		"news": "News",
+		"employees": "Employees",
+		"services": "Services",
+		"contact": "Contact",
+		"faq": "Frequently Asked Questions (FAQ)",
+		"mode": "Accessibility Mode"
+	}
+}

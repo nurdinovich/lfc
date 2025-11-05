@@ -1,0 +1,1 @@
+export {NewsDetailsPages} from './view/NewsDetailsPages'

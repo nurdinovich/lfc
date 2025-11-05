@@ -6,27 +6,23 @@ import styles from './LanguageSelect.module.scss'
 import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
 import { ILanguage } from '../types/types'
-
-import { useClickOutside } from '@/shared/hooks/useClickOutside'
 import { ChevronDown } from '@/shared/assest/icons'
 import i18n from '@/shared/lib/i18next/i18next'
+import { useClickOutside } from '@/shared/hooks/useClickOutside'
 
 export const LanguageSelect = () => {
-	const [selectedLanguage, setSelectedLanguage] = useState<ILanguage>(
-		languages[0]
+	const [selectedLanguage, setSelectedLanguage] = useState<ILanguage | null>(
+		null
 	)
 	const [isOpen, setIsOpen] = useState(false)
 	const queryClient = useQueryClient()
-	const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const storedLang = localStorage.getItem('i18nextLng')
-			const initialLanguage =
-				languages.find(lang => lang.lang === storedLang) || languages[0]
-			setSelectedLanguage(initialLanguage)
-			i18n.changeLanguage(initialLanguage.lang)
-		}
+		const storedLang = localStorage.getItem('i18nextLng')
+		const initialLanguage =
+			languages.find(lang => lang.lang === storedLang) || languages[0]
+		setSelectedLanguage(initialLanguage)
+		i18n.changeLanguage(initialLanguage.lang)
 	}, [])
 
 	const toggleDropdown = () => setIsOpen(prev => !prev)
@@ -36,10 +32,26 @@ export const LanguageSelect = () => {
 		i18n
 			.changeLanguage(language.lang)
 			.then(() => queryClient.invalidateQueries())
-		if (typeof window !== 'undefined') {
-			localStorage.setItem('i18nextLng', language.lang)
-		}
+		localStorage.setItem('i18nextLng', language.lang)
 		setIsOpen(false)
+	}
+
+	const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
+
+	if (!selectedLanguage) {
+		return (
+			<div className={styles.dropdown}>
+				<CustomButton
+					variant='primary'
+					actionType='button'
+					isTextBtn={false}
+					className={styles.dropdownButton}
+					aria-label='Select language'
+				>
+					---
+				</CustomButton>
+			</div>
+		)
 	}
 
 	return (

@@ -1,0 +1,1 @@
+export {ServicesBlock} from './view/ServicesBlock'

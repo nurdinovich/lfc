@@ -6,6 +6,7 @@ import { LowMode } from '@/shared/assest/icons'
 import { useClickOutside } from '@/shared/hooks/useClickOutside'
 import { themeOptions } from '../types/types'
 import { useAccessibility } from '../model/AccessibilityContext'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const AccessibilityPanel: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false)
@@ -28,6 +29,7 @@ export const AccessibilityPanel: React.FC = () => {
 	const resetToDefaultTheme = () => {
 		resetSettings()
 	}
+	const {t } = useSafeTranslation()
   const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
 	return (
 		<div className={classes.container} ref={dropdownRef}>
@@ -42,7 +44,7 @@ export const AccessibilityPanel: React.FC = () => {
 					<LowMode className={classes.icons} />
 				</div>
 				<Typography variant='buttonText' weight='medium'>
-					Режим для слабовидящих
+					{t('block.mode')}
 				</Typography>
 			</div>
 

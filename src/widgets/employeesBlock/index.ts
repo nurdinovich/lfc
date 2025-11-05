@@ -1,0 +1,1 @@
+export {EmployeesBlock} from './view/EmployeesBlock'

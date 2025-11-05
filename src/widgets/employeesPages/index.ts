@@ -1,0 +1,1 @@
+export {EmployeesPages} from './view/EmployeesPages'

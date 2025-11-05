@@ -1,7 +1,7 @@
 import { IIcons } from '@/shared/types/globalTypes'
-import React, { FC } from 'react'
+import { FC } from 'react'
 
-export const Calendar:FC<IIcons> = ({
+export const Calendars:FC<IIcons> = ({
   
 }) => {
   return (

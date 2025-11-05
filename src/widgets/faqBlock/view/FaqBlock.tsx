@@ -4,6 +4,7 @@ import { AccordeonMinus, AccordeonPlus } from '@/shared/assest/icons'
 import { IAccordionItem } from '../types/types'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './FaqBlock.module.scss'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 const data: IAccordionItem[] = [
 	{
@@ -37,12 +38,12 @@ export const FaqBlock: FC = () => {
 	const setContentRef = (id: number) => (el: HTMLDivElement | null) => {
 		contentRefs.current[id] = el
 	}
-
+const { t } = useSafeTranslation()
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
 				<Typography variant='h2' weight='bold'>
-					Часто задаваемые вопросы (FAQ)
+					{t('block.faq')}
 				</Typography>
 				{data.map(item => (
 					<div 

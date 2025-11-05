@@ -1,6 +1,7 @@
 'use client'
 import { CustomButton, MultiContainer, ServicesCard, Typography } from '@/shared/ui'
 import classes from './ServicesBlock.module.scss'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 const data = [
 	{
@@ -29,11 +30,12 @@ const data = [
 	},
 ]
 export const ServicesBlock = () => {
+	const {t} = useSafeTranslation()
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
 				<Typography variant='h2' weight='bold' className={classes.title}>
-					Услуги
+					{t('navigation.services')}
 				</Typography>
 				<div className={classes.container}>
 					{data.map((item, index) => (

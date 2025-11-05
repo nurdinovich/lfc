@@ -1,0 +1,1 @@
+export {NewsBlock} from './view/NewsBlock'

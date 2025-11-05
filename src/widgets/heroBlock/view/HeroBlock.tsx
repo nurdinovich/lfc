@@ -28,7 +28,8 @@ export const HeroBlock = () => {
 
 							<CustomButton
 								variant='primary'
-								actionType='button'
+								actionType='link'
+								to='/employees'
 								className={classes.btn}
 							>
                   Записаться на консультацию

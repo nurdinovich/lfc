@@ -1,7 +1,9 @@
 'use client'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './AboutBlock.module.scss'
-import { useTranslation } from 'react-i18next'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
+
+
 
 const stats = [
 	{ number: '5', text: 'Лет опыта' },
@@ -10,7 +12,7 @@ const stats = [
 	{ number: '2', text: 'Филиала по Кыргызстану' },
 ]
 export const AboutBlock = () => {
-  const { t } = useTranslation()
+  const { t } = useSafeTranslation()
   return (
 		<section className={classes.section}>
 			<MultiContainer>
