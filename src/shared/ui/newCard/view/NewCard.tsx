@@ -5,6 +5,7 @@ import classes from './NewCard.module.scss'
 import { INewCard } from "../types/types"
 import Link from "next/link"
 import { CustomButton } from "../../button/view/CustomButton"
+import Image from "next/image"
 
 export const NewCard:FC<INewCard> = ({
 	title,
@@ -15,10 +16,10 @@ export const NewCard:FC<INewCard> = ({
 }) => {
 	if (variant === 'mainCard') {
 		return (
-			<Link href={'/'} className={classes.link}>
+			<Link href={'/'} className={classes.links}>
 			<div className={classes.container}>
 				<div className={classes.img}>
-					<img src={img} alt='' />
+					<Image width={100} height={100} src={img} alt='' />
 				</div>
 				<div className={classes.content}>
 				<Typography variant='h3' weight='medium' truncate={27}>
@@ -39,7 +40,7 @@ export const NewCard:FC<INewCard> = ({
 		return (
 			<div className={classes.container}>
 				<div className={classes.img}>
-					<img src={img} alt='' />
+					<Image width={100} height={100} src={img} alt='' />
 				</div>
 				<div className={classes.content}>
 					<Typography variant='h3' weight='medium' truncate={25}>

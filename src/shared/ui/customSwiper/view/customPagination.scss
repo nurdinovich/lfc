@@ -1,3 +1,5 @@
+@use "@/app/styles/mixins.scss" as *;
+
 .custom-swiper {
   padding-top: 40px !important;
   padding-bottom: 40px !important;
@@ -6,6 +8,21 @@
 
 .swiper {
   margin-left: calc((100vw - 1240px) / 2);
+
+  @include Tablet {
+    margin-left: 60px;
+  }
+  @include SmallTablet {
+    margin-left: 40px;
+  }
+
+  @include Mobile {
+    margin-left: 15px;
+  }
+
+  @include SmallMobile {
+    margin-left: 10px;
+  }
 }
 
 .custom-pagination {
@@ -13,8 +30,7 @@
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin-top: 20px;
-  margin-left: -100px;
+  margin-top: 25px;
 
   .swiper-pagination-bullet {
     position: relative;

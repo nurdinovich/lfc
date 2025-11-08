@@ -1,21 +1,27 @@
 @use "./variables.scss";
+@use "./mixins.scss";
+@use "./resetStyles.scss";
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-mulish), sans-serif;
-    background: var(--white);
-    font-size: 1rem;
+  background: var(--white);
+  font-size: 1rem;
 }
 .swiper-slide {
-  width: fit-content;
+  width: fit-content !important;
+
+}
+.slide{
+  width: fit-content !important;
 }
 
 .theme-light {

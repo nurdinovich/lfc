@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea {
+  outline: none;
+  border: none;
+  background: none;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p,
+b {
+  font-weight: normal;
+  margin: 0;
+  font-family: var(--font-mulish), sans-serif;
+}
+
+iframe {
+  border-width: 0;
+}

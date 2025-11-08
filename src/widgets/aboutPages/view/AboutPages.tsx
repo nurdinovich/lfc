@@ -1,5 +1,6 @@
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './AboutPages.module.scss'
+import Image from 'next/image'
 
 export const AboutPages = () => {
 	return (
@@ -11,13 +12,17 @@ export const AboutPages = () => {
 					</Typography>
 					<div className={classes.img}>
 						<div className={classes.imgs}>
-							<img
+							<Image
+								width={500}
+								height={500}
 								src='https://navro.org/wp-content/uploads/2022/02/kvalificirovannye-juridicheskie-uslugi-dlja-organizacij.jpg'
 								alt=''
 							/>
 						</div>
 						<div className={classes.imgs}>
-							<img
+							<Image
+								width={500}
+								height={500}
 								src='https://navro.org/wp-content/uploads/2022/02/kvalificirovannye-juridicheskie-uslugi-dlja-organizacij.jpg'
 								alt=''
 							/>

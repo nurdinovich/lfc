@@ -43,7 +43,7 @@ export const AccessibilityPanel: React.FC = () => {
 				<div className={classes.icon}>
 					<LowMode className={classes.icons} />
 				</div>
-				<Typography variant='buttonText' weight='medium'>
+				<Typography variant='buttonText' weight='medium' className={classes.text}>
 					{t('block.mode')}
 				</Typography>
 			</div>
@@ -73,8 +73,6 @@ export const AccessibilityPanel: React.FC = () => {
 								A+
 							</CustomButton>
 						</div>
-					</div>
-
 					<div className={classes.themes}>
 						<div className={classes.themesContainer}>
 							{themeOptions.map(theme => (
@@ -93,6 +91,8 @@ export const AccessibilityPanel: React.FC = () => {
 							))}
 						</div>
 					</div>
+					</div>
+
 					<div className={classes.settings}>
 						<CustomButton
 							actionType='button'

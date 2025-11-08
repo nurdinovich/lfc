@@ -51,6 +51,7 @@ export const ServicesBlock = () => {
 				<CustomButton
 					variant={'primary'}
 					actionType={'button'}
+					className={classes.button}
 				>
 					Узнать подробнее
 				</CustomButton>

@@ -15,13 +15,13 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='ru'>
-			<body className={mulish.variable}>
+			<body className={`${mulish.className} ${mulish.variable}`}>
 				<ReactQueryProvider>
-				<AccessibilityProvider>
-				<Header />
-				{children}
-				<Footer />
-				</AccessibilityProvider>
+					<AccessibilityProvider>
+						<Header />
+						{children}
+						<Footer />
+					</AccessibilityProvider>
 				</ReactQueryProvider>
 			</body>
 		</html>

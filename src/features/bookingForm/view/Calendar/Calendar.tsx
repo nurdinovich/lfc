@@ -9,25 +9,27 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
-	const currentMonth = new Date(2025, 9, 1) 
-
+	// удалили currentMonth, так как он нигде не используется
 	const daysInMonth = new Date(2025, 10, 0).getDate()
 	const firstDayOfMonth = new Date(2025, 9, 1).getDay()
 
-	const days = []
-
+	const days: number[] = []
 	const daysInPrevMonth = new Date(2025, 9, 0).getDate()
 	const startOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1
 
+	// дни из предыдущего месяца
 	for (let i = 0; i < startOffset; i++) {
 		days.push(daysInPrevMonth - startOffset + i + 1)
 	}
+
+	// дни текущего месяца
 	for (let i = 1; i <= daysInMonth; i++) {
 		days.push(i)
 	}
+
+	// дни из следующего месяца
 	const lastDayOfMonth = new Date(2025, 9, daysInMonth).getDay()
 	const daysNeededFromNextMonth = lastDayOfMonth === 0 ? 0 : 7 - lastDayOfMonth
-
 	for (let i = 1; i <= daysNeededFromNextMonth; i++) {
 		days.push(i)
 	}
@@ -52,7 +54,9 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
 					</button>
 				</div>
 			</div>
-<hr />
+
+			<hr />
+
 			<div className={styles.weekDays}>
 				{['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map(day => (
 					<Typography
@@ -71,7 +75,7 @@ const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
 					const isPrevMonth = index < startOffset
 					const isCurrentMonth =
 						index >= startOffset && index < startOffset + daysInMonth
-					const isNextMonth = index >= startOffset + daysInMonth
+					// убрали isNextMonth, так как он нигде не использовался
 
 					const isSelected =
 						selectedDate &&

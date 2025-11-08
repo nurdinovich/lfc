@@ -1,6 +1,7 @@
 'use client'
 import { CustomButton, MultiContainer, Typography } from '@/shared/ui'
 import classes from './HeroBlock.module.scss'
+import Image from 'next/image'
 
 export const HeroBlock = () => {
 	return (
@@ -32,12 +33,14 @@ export const HeroBlock = () => {
 								to='/employees'
 								className={classes.btn}
 							>
-                  Записаться на консультацию
+								Записаться на консультацию
 							</CustomButton>
 						</div>
 
 						<div className={classes.img}>
-							<img
+							<Image
+								width={500}
+								height={500}
 								src='https://advokat-region.ru/wp-content/uploads/2020/05/yuridicheskie-uslugi-v-ufe-900x573.jpg'
 								alt='Юридические услуги в Бишкеке'
 							/>

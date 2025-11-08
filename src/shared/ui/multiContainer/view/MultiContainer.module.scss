@@ -1,4 +1,18 @@
+@use "@/app/styles/mixins.scss" as *;
 .container {
   width: 1240px;
   margin: 0 auto;
+
+    @include Tablet {
+        width: 100%;
+        padding: 0px 40px;
+      }
+    
+      @include SmallTablet {
+        padding: 0px 60px;
+      }
+    
+      @include Mobile {
+        padding: 0px 20px;
+      }
 }

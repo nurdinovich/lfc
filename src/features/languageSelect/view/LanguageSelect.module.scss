@@ -1,18 +1,29 @@
+@use "@/app/styles/mixins.scss" as *;
+
 .dropdown {
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
 
+  @include SmallTablet {
+    width: 103px !important;
+    height: 34px !important;
+  }
+
 
   &Button {
     display: flex;
     gap: 5px;
     cursor: pointer;
-    font-size: 20px;
 
     &:hover {
       color: var(--blue);
+    }
+
+    @include SmallTablet {
+      width: 103px !important;
+      height: 34px !important;
     }
   }
 
@@ -43,7 +54,7 @@
     transform: translateX(-50%);
     display: flex;
     width: 170px;
-   text-align: center;
+    text-align: center;
     justify-content: center;
     flex-direction: column;
     color: var(--white);
@@ -51,6 +62,34 @@
     background-color: var(--darkBlue);
     z-index: 1;
 
+    @include Mobile {
+      position: static;
+      transform: none;
+      background: transparent;
+      flex-direction: column;
+      width: 100%;
+      text-align: center;
+      color: var(--primary-text-color);
+      gap: 6px;
+
+    }
+  }
+
+  &Lists {
+    display: none;
+
+    @include Mobile {
+      display: flex;
+      position: relative;
+      transform: none;
+      background: transparent;
+      flex-direction: column;
+      width: 100%;
+      text-align: center;
+      color: var(--primary-text-color);
+      gap: 6px;
+
+    }
   }
 
   &Item {
@@ -71,7 +110,8 @@
 
       }
     }
-    &:first-child{
+
+    &:first-child {
       border-top-right-radius: 12px;
       border-top-left-radius: 12px;
     }
@@ -79,14 +119,18 @@
     &:hover {
       background-color: var(--blue);
       border-top-right-radius: none;
-        border-top-left-radius: none;
+      border-top-left-radius: none;
     }
 
+    @include Mobile {
+      background-color: var(--primary-color);
+      border-radius: 12px;
+    }
   }
 
   .dropdownItemActive {
     background-color: var(--blueAccent);
     border-bottom-right-radius: 12px;
-      border-bottom-left-radius: 12px;
+    border-bottom-left-radius: 12px;
   }
 }
