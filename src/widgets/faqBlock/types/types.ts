@@ -1,5 +1,11 @@
-export interface IAccordionItem {
+export interface IFaq {
 	id: number
 	title: string
-	content: string
+	description: string
+	language_id: number
+	created: string
+	updated: string
+}
+export interface IFaqResponse {
+	faqs: IFaq[]
 }

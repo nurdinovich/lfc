@@ -12,25 +12,32 @@ export const CustomSwiper: FC<ISlider> = ({
 	children,
 	className,
 	spaceBetween,
-	slidesPerView,
 }) => {
 	return (
 		<Swiper
 			modules={[Pagination, Autoplay]}
 			spaceBetween={spaceBetween}
-			slidesPerView={slidesPerView}
+			slidesPerView={'auto'}
 			className={classNames(className, 'custom-swiper')}
 			slidesPerGroup={5}
-			loop={true} 
+			loop={true}
 			autoplay={{
-				delay: 5000, 
-				disableOnInteraction: false, 
+				delay: 5000,
+				disableOnInteraction: false,
 			}}
 			pagination={{
 				el: '.custom-pagination',
 				clickable: true,
 				renderBullet: function (index, className) {
 					return `<span class="${className}"></span>`
+				},
+			}}
+			breakpoints={{
+				0: {
+					spaceBetween: 16,
+				},
+				660: {
+					spaceBetween: spaceBetween ?? 30,
 				},
 			}}
 		>

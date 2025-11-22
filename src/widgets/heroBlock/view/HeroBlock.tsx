@@ -1,14 +1,24 @@
 'use client'
 import { CustomButton, MultiContainer, Typography } from '@/shared/ui'
 import classes from './HeroBlock.module.scss'
+import Image from 'next/image'
+import { useHeroBlock } from '../api/useHeroBlock'
+import { BASE_URL } from '@/shared/constants/constants'
 
 export const HeroBlock = () => {
+	const {data , isLoading} = useHeroBlock()
+
+
+	  if (isLoading) {
+			return <div>Loading...</div>
+		}
+		
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
 				<div className={classes.container}>
 					<Typography variant='h1' weight='bold'>
-						Профессиональные юридические и бухгалтерские услуги в Бишкеке от LFC
+						{data && data[0] && data[0].title}
 					</Typography>
 
 					<div className={classes.content}>
@@ -18,12 +28,7 @@ export const HeroBlock = () => {
 								weight='regular'
 								className={classes.text}
 							>
-								Legal Finance Center — это команда профессиональных юристов и
-								бухгалтеров, предоставляющая комплексные услуги для бизнеса и
-								частных клиентов. Мы специализируемся на юридическом и
-								бухгалтерском сопровождении компаний, регистрации предприятий,
-								разработке договоров и консультировании по налоговым вопросам.
-								Ваш бизнес — под надёжной правовой и финансовой защитой.
+								{data && data[0] && data[0].description}
 							</Typography>
 
 							<CustomButton
@@ -32,14 +37,16 @@ export const HeroBlock = () => {
 								to='/employees'
 								className={classes.btn}
 							>
-                  Записаться на консультацию
+								Записаться на консультацию
 							</CustomButton>
 						</div>
 
 						<div className={classes.img}>
-							<img
-								src='https://advokat-region.ru/wp-content/uploads/2020/05/yuridicheskie-uslugi-v-ufe-900x573.jpg'
-								alt='Юридические услуги в Бишкеке'
+							<Image
+								width={500}
+								height={500}
+								src={`${BASE_URL}${data?.[0]?.banner?.image}`}
+								alt={(data && data[0] && data[0].title) || 'Юридическая услуга'}
 							/>
 						</div>
 					</div>

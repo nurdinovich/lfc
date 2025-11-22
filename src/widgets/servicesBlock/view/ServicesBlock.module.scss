@@ -1,16 +1,44 @@
-.section{
+@use "@/app/styles/mixins.scss" as *;
+
+.section {
   margin-top: 100px;
-.title{
-  text-align: left;
-}
-  .container{
+
+  @include SmallTablet {
+    margin-top: 61px;
+  }
+
+  .title {
+    text-align: left;
+  }
+
+  .container {
     display: flex;
     align-items: center;
     gap: 20px;
     margin-top: 24px;
     margin-bottom: 24px;
+
+    @include SmallTablet {
+      flex-direction: column;
+    }
   }
-  .btn{
+
+  .btn {
     text-align: center;
+    height: 40px;
+    width: 100%;
+
+    .button {
+      @include SmallTablet {
+        width: 100%;
+        height: 34px;
+      }
+  
+      @include SmallMobile {
+        width: 100%;
+        height: 100% !important;
+      }
+  
+    }
   }
 }

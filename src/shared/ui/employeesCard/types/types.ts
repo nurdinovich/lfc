@@ -1,7 +1,9 @@
 export interface IEmployees {
 	branch: string
-	img: string
+	image: string
 	name: string
+	alt: string
 	position: string
 	variant?: string
+	path?: string
 }

@@ -1,6 +1,12 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import {
+	createContext,
+	useContext,
+	useState,
+	useEffect,
+	useCallback,
+} from 'react'
 import { AccessibilitySettings, AccessibilityContextType } from '../types/types'
 
 const defaultSettings: AccessibilitySettings = {
@@ -21,65 +27,8 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 		useState<AccessibilitySettings>(defaultSettings)
 	const [isInitialized, setIsInitialized] = useState(false)
 
-	useEffect(() => {
-		const savedSettings = localStorage.getItem('accessibility-settings')
-		if (savedSettings) {
-			try {
-				const parsedSettings = {
-					...defaultSettings,
-					...JSON.parse(savedSettings),
-				}
-				setSettings(parsedSettings)
-				applyAccessibilitySettings(parsedSettings)
-			} catch (error) {
-				console.error('Error loading accessibility settings:', error)
-				applyAccessibilitySettings(defaultSettings)
-			}
-		} else {
-			applyAccessibilitySettings(defaultSettings)
-		}
-		setIsInitialized(true)
-	}, [])
-
-	useEffect(() => {
-		if (isInitialized) {
-			localStorage.setItem('accessibility-settings', JSON.stringify(settings))
-			applyAccessibilitySettings(settings)
-		}
-	}, [settings, isInitialized])
-
-	const updateSettings = (newSettings: Partial<AccessibilitySettings>) => {
-		setSettings(prev => ({ ...prev, ...newSettings }))
-	}
-
-	const resetSettings = () => {
-		setSettings({ ...defaultSettings })
-	}
-
-	const applyAccessibilitySettings = (settings: AccessibilitySettings) => {
-		const root = document.documentElement
-
-		// ==== Применяем размер шрифта ====
-		const increase = settings.fontSize - 16
-		root.style.setProperty('--font-increase', `${increase}px`)
-
-		// ==== Применяем тему ====
-		root.classList.remove(
-			'theme-dark',
-			'theme-light',
-			'theme-high-contrast',
-			'theme-default'
-		)
-		root.classList.add(`theme-${settings.theme}`)
-
-		// ==== Цветовая схема ====
-		root.setAttribute('data-color-scheme', settings.colorScheme)
-
-		// ==== Настройки изображений ====
-		applyImageSettings(settings.imagesDisabled)
-	}
-
-	const applyImageSettings = (imagesDisabled: boolean) => {
+	// Выносим applyImageSettings для избежания повторного создания
+	const applyImageSettings = useCallback((imagesDisabled: boolean) => {
 		const styleId = 'accessibility-images-disabled'
 		const existingStyle = document.getElementById(styleId)
 
@@ -103,7 +52,102 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 				existingStyle.remove()
 			}
 		}
-	}
+	}, [])
+
+	// Выносим applyAccessibilitySettings до использования и оборачиваем в useCallback
+	const applyAccessibilitySettings = useCallback(
+		(settings: AccessibilitySettings) => {
+			const root = document.documentElement
+
+			// ==== Применяем размер шрифта ====
+			const increase = settings.fontSize - 16
+			root.style.setProperty('--font-increase', `${increase}px`)
+
+			// ==== Применяем тему ====
+			root.classList.remove(
+				'theme-dark',
+				'theme-light',
+				'theme-high-contrast',
+				'theme-default'
+			)
+			root.classList.add(`theme-${settings.theme}`)
+
+			// ==== Цветовая схема ====
+			root.setAttribute('data-color-scheme', settings.colorScheme)
+
+			// ==== Настройки изображений ====
+			applyImageSettings(settings.imagesDisabled)
+		},
+		[applyImageSettings]
+	)
+
+	// Первый эффект - инициализация
+	useEffect(() => {
+		const initializeSettings = () => {
+			const savedSettings = localStorage.getItem('accessibility-settings')
+
+			if (savedSettings) {
+				try {
+					const parsedSettings = {
+						...defaultSettings,
+						...JSON.parse(savedSettings),
+					}
+
+					// Отложенное обновление состояния
+					requestAnimationFrame(() => {
+						setSettings(parsedSettings)
+						applyAccessibilitySettings(parsedSettings)
+					})
+				} catch (error) {
+					console.error('Error loading accessibility settings:', error)
+					requestAnimationFrame(() => {
+						applyAccessibilitySettings(defaultSettings)
+					})
+				}
+			} else {
+				requestAnimationFrame(() => {
+					applyAccessibilitySettings(defaultSettings)
+				})
+			}
+
+			// setIsInitialized также откладываем
+			requestAnimationFrame(() => {
+				setIsInitialized(true)
+			})
+		}
+
+		// Запускаем инициализацию в следующем кадре анимации
+		const rafId = requestAnimationFrame(initializeSettings)
+
+		return () => {
+			cancelAnimationFrame(rafId)
+		}
+	}, [applyAccessibilitySettings])
+
+	// Второй эффект - сохранение настроек
+	useEffect(() => {
+		if (!isInitialized) return
+
+		const timer = setTimeout(() => {
+			localStorage.setItem('accessibility-settings', JSON.stringify(settings))
+			applyAccessibilitySettings(settings)
+		}, 0)
+
+		return () => {
+			clearTimeout(timer)
+		}
+	}, [settings, isInitialized, applyAccessibilitySettings])
+
+	const updateSettings = useCallback(
+		(newSettings: Partial<AccessibilitySettings>) => {
+			setSettings(prev => ({ ...prev, ...newSettings }))
+		},
+		[]
+	)
+
+	const resetSettings = useCallback(() => {
+		setSettings({ ...defaultSettings })
+	}, [])
 
 	return (
 		<AccessibilityContext.Provider

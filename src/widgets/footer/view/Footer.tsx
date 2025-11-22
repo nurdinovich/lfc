@@ -24,17 +24,17 @@ const socialLinks = [
 	},
 ]
 export const Footer = () => {
-	const { t, isClient } = useSafeTranslation()
+	const { t } = useSafeTranslation()
 
-	if (!isClient) return null
 	return (
 		<footer className={classes.footer}>
 			<MultiContainer>
 				<div className={classes.content}>
-					<div>
+					<div className={classes.logo}>
 						<Logo />
 					</div>
 					<div className={classes.container}>
+						
 						<nav className={classes.nav}>
 							<div className={classes.links}>
 								{links.map(link => (
@@ -55,7 +55,7 @@ export const Footer = () => {
 							</div>
 							<div className={classes.social}>
 								{socialLinks.map(link => (
-									<Link key={link.id} href={link.path} className={classes.link}>
+									<Link key={link.id} href={link.path} className={classes.link} target='_blank'>
 										<div className={classes.icon}>{link.icon}</div>
 									</Link>
 								))}

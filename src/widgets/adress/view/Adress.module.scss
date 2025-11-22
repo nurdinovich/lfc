@@ -1,27 +1,47 @@
-.adress{
+@use '@/app/styles/mixins.scss' as *;
+
+.adress {
   display: flex;
   flex-direction: column;
   gap: 50px;
+
+@include Tablet {
+  gap: 40px;
 }
-.container{
+}
+
+.container {
   display: flex;
   color: var(--primary-text-color);
   gap: 27px;
 
-  .item{
+  @include Tablet {
+    flex-direction: column;
+    width: auto;
+    gap: 40px;
+  }
+
+  .item {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 }
-.grafic{
+
+.grafic {
   display: flex;
   justify-content: space-between;
   color: var(--primary-text-color);
   gap: 8px;
 
-  .item{
+  @include Tablet {
+    flex-direction: column;
+    width: auto;
+  }
+
+  .item {
     display: flex;
     gap: 35px;
+
   }
 }

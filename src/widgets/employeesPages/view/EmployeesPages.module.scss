@@ -1,16 +1,28 @@
+@use "@/app/styles/mixins.scss" as *;
+
 .section {
   margin-top: 70px;
-.title{
-  margin-bottom: 24px;
-}
+
+  .title {
+    margin-bottom: 24px;
+  }
+
   .container {
     display: flex;
     gap: 20px;
-
+@include Tablet {
+      flex-direction: column;
+}
     .content {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+
+      .item{
+        @include SmallTablet {
+          width: 302px;
+        }
+      }
     }
   }
 

@@ -1,22 +1,30 @@
-'use client'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
+
+interface TranslationOptions {
+	[key: string]: unknown
+}
 
 export const useSafeTranslation = () => {
-	const { t, i18n } = useTranslation()
+	const { t } = useTranslation()
 	const [isClient, setIsClient] = useState(false)
 
 	useEffect(() => {
-		setIsClient(true)
+		const timer = setTimeout(() => {
+			setIsClient(true)
+		}, 0)
+
+		return () => {
+			clearTimeout(timer)
+		}
 	}, [])
 
-	const safeT = (key: string, options?: any): string => {
+	const safeT = (key: string, options?: TranslationOptions): string => {
 		if (!isClient) {
-			return key
+			return ''
 		}
-		const result = t(key, options)
-		return typeof result === 'string' ? result : String(result)
+		return t(key, options)
 	}
 
-	return { t: safeT, i18n, isClient }
+	return { t: safeT }
 }

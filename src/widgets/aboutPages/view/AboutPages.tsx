@@ -1,7 +1,17 @@
+'use client'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './AboutPages.module.scss'
+import Image from 'next/image'
+import { useAboutPages } from '../api/useAboutPages'
+import { BASE_URL } from '@/shared/constants/constants'
+import { Loader } from '@/shared/ui/loader/view/Loader'
 
 export const AboutPages = () => {
+	const {data,isLoading} = useAboutPages()
+
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
@@ -11,36 +21,24 @@ export const AboutPages = () => {
 					</Typography>
 					<div className={classes.img}>
 						<div className={classes.imgs}>
-							<img
-								src='https://navro.org/wp-content/uploads/2022/02/kvalificirovannye-juridicheskie-uslugi-dlja-organizacij.jpg'
+							<Image
+								width={500}
+								height={500}
+								src={`${BASE_URL}${data && data[0] && data[0].image1}`}
 								alt=''
 							/>
 						</div>
 						<div className={classes.imgs}>
-							<img
-								src='https://navro.org/wp-content/uploads/2022/02/kvalificirovannye-juridicheskie-uslugi-dlja-organizacij.jpg'
+							<Image
+								width={500}
+								height={500}
+								src={`${BASE_URL}${data && data[0] && data[0].image2}`}
 								alt=''
 							/>
 						</div>
 					</div>
 					<Typography variant='b1' weight='regular' className={classes.text}>
-						Lorem ipsum dolor sit amet consectetur. Amet nunc est scelerisque
-						sed nunc lectus scelerisque nisl. In laoreet orci in felis. Sagittis
-						feugiat nunc leo gravida auctor pulvinar imperdiet pellentesque at.
-						Pharetra dolor id ornare duis nulla. Iaculis nisi tristique amet
-						elementum feugiat elit amet. Consectetur congue imperdiet odio duis.
-						Sed congue fusce libero tortor. Et neque porta feugiat sed a neque
-						donec sed. Montes ut curabitur ornare faucibus. Facilisi orci
-						sagittis semper in. Cras eget dictum facilisis at odio varius.
-						Consequat quis mattis cursus pellentesque. Fringilla hendrerit
-						ullamcorper augue lobortis. Non interdum mauris massa tincidunt
-						rhoncus eleifend semper sed. Convallis massa accumsan lectus auctor
-						ut diam. Neque egestas mi lacus morbi molestie. Vitae amet vivamus
-						ut proin. Turpis id nibh enim dictumst velit eu ligula dignissim
-						nibh. Venenatis fames lobortis eget arcu. Fusce pharetra dignissim
-						id feugiat nulla netus. Dignissim adipiscing eget habitant suscipit
-						turpis faucibus viverra. Elementum proin ultrices odio in aliquam
-						viverra nibh at.
+						{data && data[0] && data[0].about_us}
 					</Typography>
 				</div>
 				<div className={classes.content}>
@@ -48,23 +46,7 @@ export const AboutPages = () => {
 						История компании
 					</Typography>
 					<Typography variant='b1' weight='regular' className={classes.text}>
-						Lorem ipsum dolor sit amet consectetur. Amet nunc est scelerisque
-						sed nunc lectus scelerisque nisl. In laoreet orci in felis. Sagittis
-						feugiat nunc leo gravida auctor pulvinar imperdiet pellentesque at.
-						Pharetra dolor id ornare duis nulla. Iaculis nisi tristique amet
-						elementum feugiat elit amet. Consectetur congue imperdiet odio duis.
-						Sed congue fusce libero tortor. Et neque porta feugiat sed a neque
-						donec sed. Montes ut curabitur ornare faucibus. Facilisi orci
-						sagittis semper in. Cras eget dictum facilisis at odio varius.
-						Consequat quis mattis cursus pellentesque. Fringilla hendrerit
-						ullamcorper augue lobortis. Non interdum mauris massa tincidunt
-						rhoncus eleifend semper sed. Convallis massa accumsan lectus auctor
-						ut diam. Neque egestas mi lacus morbi molestie. Vitae amet vivamus
-						ut proin. Turpis id nibh enim dictumst velit eu ligula dignissim
-						nibh. Venenatis fames lobortis eget arcu. Fusce pharetra dignissim
-						id feugiat nulla netus. Dignissim adipiscing eget habitant suscipit
-						turpis faucibus viverra. Elementum proin ultrices odio in aliquam
-						viverra nibh at.
+						{data && data[0] && data[0].our_history}
 					</Typography>
 				</div>
 			</MultiContainer>

@@ -1,7 +1,37 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+// import i18n from './src/shared/lib/i18next/i18next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+	reactStrictMode: true,
+	// swcMinify: true,
+	// i18n: {
+	// 	defaultLocale: 'ru',
+	// 	locales: ['ru', 'en', 'de', 'fr'],
+	// },
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'http',
+				hostname: '159.223.28.248',
+			},
+			{
+				protocol: 'https',
+				hostname: 'i.pinimg.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'images.unsplash.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'png.pngtree.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'navro.org',
+			},
+		],
+	},
+}
 
-export default nextConfig;
+export default nextConfig

@@ -20,7 +20,7 @@ export const languages = [
 		name: 'Русский',
 	},
 	{
-		lang: 'ky',
+		lang: 'kg',
 		name: 'Кыргызча',
 	},
 	{
@@ -29,3 +29,8 @@ export const languages = [
 	},
 ]
 export type LanguageCode = (typeof languages)[number]['lang']
+
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL
+
+
+

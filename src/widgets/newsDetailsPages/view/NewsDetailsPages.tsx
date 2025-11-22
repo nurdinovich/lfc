@@ -1,6 +1,7 @@
 import { CustomButton, MultiContainer, Typography } from '@/shared/ui'
 import classes from './NewsDetailsPages.module.scss'
 import { IconsLeft } from '@/shared/assest/icons'
+import Image from 'next/image'
 
 const data = [
 	{
@@ -30,7 +31,7 @@ export const NewsDetailsPages = () => {
 							{data[0].date}
 						</Typography>
 						<div className={classes.img}>
-							<img src={data[0].img} alt='' />
+							<Image src={data[0].img} alt='' />
 						</div>
 					</div>
 					<Typography variant='b1' weight='medium' className={classes.text}>

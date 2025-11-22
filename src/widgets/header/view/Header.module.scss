@@ -1,13 +1,33 @@
+@use "@/app/styles/mixins.scss" as *;
+
 .header {
   padding: 18px 0;
   border-bottom: 1px solid var(--grey);
   box-shadow: 0px 2px 8px 0px #00000040;
-
+  display: flex;
+@include Tablet {
+  display: flex;
+}
   .container {
     display: flex;
-    // gap: 86px;
     justify-content: space-between;
     align-items: center;
+
+    @include Tablet {
+      justify-content: space-between;
+      width: 100%;
+    }
+    @include SmallTablet {
+      .icon {
+        width: 86px;
+        height: 48px;
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
   }
 
   .nav {
@@ -15,6 +35,55 @@
     justify-content: space-between;
     align-items: center;
     gap: 29px;
+
+    @include SmallTablet {
+      gap: 12px;
+    }
+
+    @include Mobile {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--background-color);
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+      pointer-events: none;
+      opacity: 0;
+    }
+  }
+
+  .lan {
+    display: flex;
+    gap: 85.33px;
+    align-items: center;
+
+    @include SmallTablet {
+      gap: 12px;
+    }
+
+    @include Mobile {
+      display: none;
+    }
+  }
+
+  .language {
+    display: none;
+
+    @include Mobile {
+      display: flex;
+      padding: 0px auto;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      align-items: center;
+      width: 100%;
+      padding: 0px 20px;
+    }
   }
 
   .link {
@@ -23,6 +92,24 @@
     &:hover {
       text-decoration: underline;
       color: var(--blue);
+    }
+  }
+
+  .navigationOpen {
+    @include SmallTablet {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @include Mobile {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+      align-items: center;
+      color: var(--darkBlue);
+      width: 100%;
+      top: 90px;
     }
   }
 
@@ -36,5 +123,32 @@
 
   .buttons {
     border: 1px solid var(--darkBlue);
+  }
+
+  .burgerButton {
+    width: 68px;
+    height: 32px;
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    padding: 6px 24px;
+
+    display: none;
+
+    &:hover {
+      background-color: var(--blue);
+    }
+
+    &:active {
+      background-color: var(--blue);
+    }
+
+    @include SmallTablet {
+      display: none;
+    }
+
+    @include Mobile {
+      display: block;
+
+    }
   }
 }

@@ -1,28 +1,39 @@
 'use client'
-import { languages } from '@shared/constants/constants'
-import { CustomButton, Typography } from '@shared/ui'
-import { useEffect, useState } from 'react'
+import { languages } from '@/shared/constants/constants'
+import { CustomButton, Typography } from '@/shared/ui'
+import { useState, useEffect, FC } from 'react'
 import styles from './LanguageSelect.module.scss'
 import { useQueryClient } from '@tanstack/react-query'
 import classNames from 'classnames'
-import { ILanguage } from '../types/types'
+import { ILanguage, ILanguageSelect } from '../types/types'
 import { ChevronDown } from '@/shared/assest/icons'
 import i18n from '@/shared/lib/i18next/i18next'
 import { useClickOutside } from '@/shared/hooks/useClickOutside'
 
-export const LanguageSelect = () => {
-	const [selectedLanguage, setSelectedLanguage] = useState<ILanguage | null>(
-		null
-	)
-	const [isOpen, setIsOpen] = useState(false)
+export const LanguageSelect: FC<ILanguageSelect> = ({ variant }) => {
 	const queryClient = useQueryClient()
+	const [isOpen, setIsOpen] = useState(false)
+	const [selectedLanguage, setSelectedLanguage] = useState<ILanguage>(
+		languages[0]
+	)
+	const [isMounted, setIsMounted] = useState(false)
 
 	useEffect(() => {
-		const storedLang = localStorage.getItem('i18nextLng')
-		const initialLanguage =
-			languages.find(lang => lang.lang === storedLang) || languages[0]
-		setSelectedLanguage(initialLanguage)
-		i18n.changeLanguage(initialLanguage.lang)
+		const timer = setTimeout(() => {
+			setIsMounted(true)
+			const storedLang = localStorage.getItem('i18nextLng')
+			const initialLanguage =
+				languages.find(lang => lang.lang === storedLang) || languages[0]
+			setSelectedLanguage(initialLanguage)
+
+			if (i18n.language !== initialLanguage.lang) {
+				i18n.changeLanguage(initialLanguage.lang)
+			}
+		}, 0)
+
+		return () => {
+			clearTimeout(timer)
+		}
 	}, [])
 
 	const toggleDropdown = () => setIsOpen(prev => !prev)
@@ -38,7 +49,7 @@ export const LanguageSelect = () => {
 
 	const dropdownRef = useClickOutside<HTMLDivElement>(() => setIsOpen(false))
 
-	if (!selectedLanguage) {
+	if (!isMounted) {
 		return (
 			<div className={styles.dropdown}>
 				<CustomButton
@@ -48,8 +59,35 @@ export const LanguageSelect = () => {
 					className={styles.dropdownButton}
 					aria-label='Select language'
 				>
-					---
+					<Typography variant='buttonText' weight='semiBold'>
+						{languages[0].lang.toUpperCase()}
+					</Typography>
+					<div className={styles.dropdownArrow}>
+						<ChevronDown className={styles.dropdownIcon} />
+					</div>
 				</CustomButton>
+			</div>
+		)
+	}
+
+	if (variant === 'mobile') {
+		return (
+			<div className={styles.dropdownLists}>
+				{languages.map(language => (
+					<Typography
+						variant='bodyText'
+						color='black'
+						weight='medium'
+						key={language.lang}
+						onClick={() => selectLanguage(language)}
+						className={classNames(styles.dropdownItem, {
+							[styles.dropdownItemActive]:
+								selectedLanguage.lang === language.lang,
+						})}
+					>
+						{language.name}
+					</Typography>
+				))}
 			</div>
 		)
 	}
@@ -60,38 +98,42 @@ export const LanguageSelect = () => {
 				variant='primary'
 				actionType='button'
 				isTextBtn={false}
-				onClick={toggleDropdown}
 				className={styles.dropdownButton}
+				onClick={toggleDropdown}
 				aria-label='Select language'
+				aria-expanded={isOpen}
 			>
-				{selectedLanguage.lang.toUpperCase()}
-				<div className={styles.dropdownArrow}>
-					<ChevronDown
-						className={classNames(styles.dropdownIcon, {
-							[styles.dropdownIconOpen]: isOpen,
-						})}
-					/>
+				<Typography variant='buttonText' weight='semiBold'>
+					{selectedLanguage.lang.toUpperCase()}
+				</Typography>
+				<div
+					className={classNames(styles.dropdownArrow, {
+						[styles.dropdownArrowOpen]: isOpen,
+					})}
+				>
+					<ChevronDown className={styles.dropdownIcon} />
 				</div>
 			</CustomButton>
+
 			{isOpen && (
-				<div className={styles.dropdownList}>
+				<ul className={styles.dropdownMenu}>
 					{languages.map(language => (
-						<Typography
-							variant='bodyText'
-							color='black'
-							weight='medium'
-							key={language.lang}
-							onClick={() => selectLanguage(language)}
-							className={`${styles.dropdownItem} ${
-								selectedLanguage.lang === language.lang
-									? styles.dropdownItemActive
-									: ''
-							}`}
-						>
-							{language.name}
-						</Typography>
+						<li key={language.lang} className={styles.dropdownMenuItem}>
+							<button
+								type='button'
+								className={classNames(styles.dropdownItemButton, {
+									[styles.dropdownItemButtonActive]:
+										selectedLanguage.lang === language.lang,
+								})}
+								onClick={() => selectLanguage(language)}
+							>
+								<Typography variant='b1' weight='medium' className={styles.text}>
+									{language.name}
+								</Typography>
+							</button> 
+						</li>
 					))}
-				</div>
+				</ul>
 			)}
 		</div>
 	)
