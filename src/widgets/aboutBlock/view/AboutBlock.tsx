@@ -3,30 +3,30 @@ import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './AboutBlock.module.scss'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useEffect, useState } from 'react'
-
-interface Stat {
-	number: string
-	text: string
-}
-
-const stats: Stat[] = [
-	{ number: '5', text: 'Лет опыта' },
-	{ number: '1000', text: 'Успешных кейсов' },
-	{ number: '100', text: 'Постоянных клиентов' },
-	{ number: '2', text: 'Филиала по Кыргызстану' },
-]
+import { useAboutBlock } from '../api/useAboutBlock'
 
 export const AboutBlock = () => {
 	const { t } = useSafeTranslation()
-	const [counts, setCounts] = useState<number[]>(Array(stats.length).fill(0))
+	const { data, isLoading } = useAboutBlock()
+	const [counts, setCounts] = useState<number[]>([])
 
 	useEffect(() => {
-		const durations = [2500, 2500, 2500, 2500] 
+		if (!data || !data[0]) return
+
+		const stats = [
+			{ number: data[0].number1, title: data[0].title1 },
+			{ number: data[0].number2, title: data[0].title2 },
+			{ number: data[0].number3, title: data[0].title3 },
+			{ number: data[0].number4, title: data[0].title4 },
+		]
+
+		setCounts(Array(stats.length).fill(0))
 
 		stats.forEach((stat, index) => {
 			const target = Number(stat.number.replace(/\D/g, ''))
 			let start = 0
-			const step = Math.ceil(target / (durations[index] / 20))
+			const duration = 2500
+			const step = Math.ceil(target / (duration / 20))
 
 			const interval = setInterval(() => {
 				start += step
@@ -41,7 +41,18 @@ export const AboutBlock = () => {
 				})
 			}, 20)
 		})
-	}, [])
+	}, [data])
+
+	if (isLoading) return <div>Loading...</div>
+
+	if (!data || !data[0]) return null
+
+	const stats = [
+		{ number: data[0].number1, title: data[0].title1 },
+		{ number: data[0].number2, title: data[0].title2 },
+		{ number: data[0].number3, title: data[0].title3 },
+		{ number: data[0].number4, title: data[0].title4 },
+	]
 
 	return (
 		<section className={classes.section}>
@@ -52,28 +63,21 @@ export const AboutBlock = () => {
 
 				<div className={classes.container}>
 					<div className={classes.stats}>
-						{stats.map((item, index) => (
+						{stats.map((stat, index) => (
 							<div key={index} className={classes.statItem}>
 								<Typography variant='h2' weight='medium'>
 									{counts[index]}
-									{item.number.includes('+') && '+'}
+									{stat.number.includes('+') && '+'}
 								</Typography>
 								<Typography variant='b1' weight='regular'>
-									{item.text}
+									{stat.title}
 								</Typography>
 							</div>
 						))}
 					</div>
 
 					<Typography variant='b1' weight='regular' className={classes.text}>
-						Мы понимаем, как важно для бизнеса чувствовать уверенность в
-						юридических и финансовых вопросах. LFC создан, чтобы стать вашим
-						надёжным партнёром в этих сферах. <br /> Мы объединяем опыт юристов
-						и бухгалтеров, чтобы вы могли сосредоточиться на развитии компании,
-						не отвлекаясь на рутину, отчёты и риски. <br /> Наша миссия —
-						защищать интересы клиентов и помогать им принимать верные решения.
-						Мы верим, что честность, прозрачность и профессионализм — это основа
-						долгосрочного сотрудничества.
+						{data[0].description}
 					</Typography>
 				</div>
 			</MultiContainer>

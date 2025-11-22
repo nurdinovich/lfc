@@ -5,3 +5,11 @@ export interface IIcons {
 	className?: string
 	stroke?: string
 }
+
+export interface ISetting {
+	id: number
+	instagram: string
+	facebook: string
+	email: string
+	logo: string
+}

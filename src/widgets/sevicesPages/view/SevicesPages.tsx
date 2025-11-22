@@ -1,35 +1,13 @@
+'use client'
 import { CustomButton, MultiContainer, ServicesCard, Typography } from '@/shared/ui'
 import classes from './SevicesPages.module.scss'
+import { useServicesPages } from '../api/useServicesPages'
 
-const data = [
-	{
-		title: 'Трудовое право',
-		descriptions: [
-			'Разработка трудовых договоров, приказов, локальных актов;',
-			'Разрешение трудовых споров;',
-			'Консультации по увольнению, отпускам и охране труда.',
-		],
-	},
-	{
-		title: 'Кадровый учёт',
-		descriptions: [
-			'Оформление приёма, увольнения, отпусков;',
-			'Ведение личных дел сотрудников;',
-			'Подготовка трудовых договоров и приказов.',
-		],
-	},
-	{
-		title: 'Консультации и аудит',
-		descriptions: [
-			'Проверка правильности ведения учёта;',
-			'Рекомендации по улучшению финансового контроля;',
-			'Подготовка компании к налоговым проверкам.',
-			'Подготовка компании к налоговым проверкам.',
-			'Подготовка компании к налоговым проверкам.',
-		],
-	},
-]
 export const SevicesPages = () => {
+	const { data } = useServicesPages()
+
+	console.log(data);
+	
   return (
 		<section className={classes.section}>
 			<MultiContainer>
@@ -47,13 +25,12 @@ export const SevicesPages = () => {
 						Наши услуги
 					</Typography>
 					<div className={classes.cards}>
-						{data.map((item, index) => (
-							<div key={index}>
+						{data?.map(item => (
+							<div key={item.id}>
 								<ServicesCard
 									variant='pagesCard'
-									key={index}
 									title={item.title}
-									descriptions={item.descriptions}
+									descriptions={item.descriptions.map(desc => desc.description)}
 								/>
 							</div>
 						))}
@@ -61,7 +38,7 @@ export const SevicesPages = () => {
 					<CustomButton
 						variant={'primary'}
 						actionType={'link'}
-            to={'/'}
+						to={'/'}
 						className={classes.btn}
 					>
 						Записаться на консультацию

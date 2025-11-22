@@ -38,12 +38,13 @@ export const NewCard:FC<INewCard> = ({
 	}
 	if (variant === 'pagesCard') {
 		return (
+
 			<div className={classes.container}>
 				<div className={classes.img}>
 					<Image width={100} height={100} src={img} alt='' />
 				</div>
 				<div className={classes.content}>
-					<Typography variant='h3' weight='medium' truncate={25}>
+					<Typography variant='h3' weight='medium' truncate={25} className={classes.title}>
 						{title}
 					</Typography>
 					<Typography variant='b1' weight='medium' className={classes.text}>
@@ -59,6 +60,7 @@ export const NewCard:FC<INewCard> = ({
 				</Typography>
 				</CustomButton>
 			</div>
+
 		)
 	}
 }

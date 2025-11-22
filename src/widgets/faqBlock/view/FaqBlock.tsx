@@ -1,38 +1,18 @@
 'use client'
 import { FC, useRef, useState, useLayoutEffect } from 'react'
 import { AccordeonMinus, AccordeonPlus } from '@/shared/assest/icons'
-import { IAccordionItem } from '../types/types'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './FaqBlock.module.scss'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
+import { useFaqBlock } from '../api/useFaqBlock'
 
-const data: IAccordionItem[] = [
-	{
-		id: 1,
-		title: 'Чем вы отличаетесь от частных бухгалтеров и юристов?',
-		content:
-			'Мы предоставляем широкий спектр услуг, включая веб-разработку, дизайн и консультации.',
-	},
-	{
-		id: 2,
-		title: 'Как связаться с поддержкой?',
-		content:
-			'Вы можете связаться с нашей поддержкой по телефону, email или через онлайн-чат на сайте.',
-	},
-	{
-		id: 3,
-		title: 'Какие у вас условия сотрудничества?',
-		content:
-			'Мы предлагаем гибкие условия и индивидуальный подход к каждому клиенту.',
-	},
-]
 
 export const FaqBlock: FC = () => {
 	const [openItemId, setOpenItemId] = useState<number | null>(null)
 	const [maxHeights, setMaxHeights] = useState<{ [key: number]: number }>({})
 	const contentRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
 	const { t } = useSafeTranslation()
-
+const {data} = useFaqBlock()
 	const toggleItem = (id: number) => {
 		setOpenItemId(prevId => (prevId === id ? null : id))
 	}
@@ -41,15 +21,18 @@ export const FaqBlock: FC = () => {
 		contentRefs.current[id] = el
 	}
 
-	// ✅ Используем useLayoutEffect для измерения DOM
 	useLayoutEffect(() => {
-		const newHeights: { [key: number]: number } = {}
-		for (const [id, el] of Object.entries(contentRefs.current)) {
-			if (el) newHeights[Number(id)] = el.scrollHeight
+		const updateHeights = () => {
+			const newHeights: { [key: number]: number } = {}
+			for (const [id, el] of Object.entries(contentRefs.current)) {
+				if (el) newHeights[Number(id)] = el.scrollHeight
+			}
+			setMaxHeights(newHeights)
 		}
-		setMaxHeights(newHeights)
-	}, [])
-
+		const rafId = requestAnimationFrame(updateHeights)
+		return () => cancelAnimationFrame(rafId)
+	}, [data])
+	
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
@@ -57,7 +40,7 @@ export const FaqBlock: FC = () => {
 					{t('block.faq')}
 				</Typography>
 
-				{data.map(item => {
+				{data?.map(item => {
 					const isOpen = openItemId === item.id
 					return (
 						<div
@@ -98,7 +81,7 @@ export const FaqBlock: FC = () => {
 										weight='regular'
 										className={classes.text}
 									>
-										{item.content}
+										{item.description}
 									</Typography>
 								</div>
 							</div>

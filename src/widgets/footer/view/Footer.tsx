@@ -24,9 +24,8 @@ const socialLinks = [
 	},
 ]
 export const Footer = () => {
-	const { t, isClient } = useSafeTranslation()
+	const { t } = useSafeTranslation()
 
-	if (!isClient) return null
 	return (
 		<footer className={classes.footer}>
 			<MultiContainer>

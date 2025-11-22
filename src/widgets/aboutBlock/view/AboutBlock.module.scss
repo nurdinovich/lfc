@@ -32,7 +32,7 @@
 
     .text {
       width: 820px;
-
+height: auto;
       @include SmallTablet {
         width: 100%;
       }

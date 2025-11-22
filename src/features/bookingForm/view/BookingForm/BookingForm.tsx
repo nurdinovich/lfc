@@ -6,6 +6,8 @@ import Calendar from '../Calendar/Calendar'
 import TimeSlots from '../TimeSlots/TimeSlots'
 import { Calendars, Time } from '@/shared/assest/icons'
 import { CustomButton, Typography } from '@/shared/ui'
+import { useBookingMutation } from '../../api/useForm'
+
 
 const BookingForm: React.FC = () => {
 	const [formData, setFormData] = useState<BookingFormData>({
@@ -17,6 +19,8 @@ const BookingForm: React.FC = () => {
 		email: '',
 		purpose: '',
 	})
+
+	const mutation = useBookingMutation()
 
 	const [showCalendar, setShowCalendar] = useState(false)
 	const [showTimeSlots, setShowTimeSlots] = useState(false)
@@ -37,32 +41,33 @@ const BookingForm: React.FC = () => {
 
 	const handlePhoneChange = (value: string) => {
 		let digits = value.replace(/\D/g, '')
-		if (digits.startsWith('996')) {
-			digits = digits.slice(3)
-		}
+
+		if (digits.startsWith('996')) digits = digits.slice(3)
+
 		let formatted = '+996'
-		if (digits.length > 0) {
-			formatted += ` (${digits.slice(0, 3)}`
-		}
-
-		if (digits.length > 3) {
-			formatted += `) ${digits.slice(3, 5)}`
-		}
-
-		if (digits.length > 5) {
-			formatted += ` ${digits.slice(5, 7)}`
-		}
-
-		if (digits.length > 7) {
-			formatted += ` ${digits.slice(7, 9)}`
-		}
+		if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`
+		if (digits.length > 3) formatted += `) ${digits.slice(3, 5)}`
+		if (digits.length > 5) formatted += ` ${digits.slice(5, 7)}`
+		if (digits.length > 7) formatted += ` ${digits.slice(7, 9)}`
 
 		setFormData(prev => ({ ...prev, phone: formatted }))
 	}
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
-		console.log('Form submitted:', formData)
+
+		if (!formData.date) return alert('Выберите дату')
+		if (!formData.time) return alert('Выберите время')
+
+		mutation.mutate({
+			date: formData.date.toISOString(),
+			time: formData.time,
+			full_name: formData.fullName,
+			company: formData.company,
+			phone_number: formData.phone,
+			email: formData.email,
+			description: formData.purpose,
+		})
 	}
 
 	return (
@@ -71,111 +76,98 @@ const BookingForm: React.FC = () => {
 				<Typography variant='h2' weight='bold' className={classes.title}>
 					Заполните форму
 				</Typography>
-				<Typography variant='b1' weight='semiBold' className={classes.subtitle}>
-					Выберите удобное для вас время и дату
-				</Typography>
 
-				<div className={classes.fields}>
-					<div className={classes.fieldGroup}>
-						<Typography variant='b2' weight='medium' className={classes.label}>
-							Выберите дату
-						</Typography>
-						<div
-							className={classes.selectField}
-							onClick={() => {
-								setShowCalendar(!showCalendar)
-								setShowTimeSlots(false)
-							}}
-						>
-							<span>
-								{formData.date ? (
-									<Typography variant='b1' weight='regular'>
-										{formData.date.toLocaleDateString('ru-RU')}
-									</Typography>
-								) : (
-									<Typography
-										variant='b1'
-										weight='regular'
-										className={classes.placeholder}
-									>
-										Выберите дату
-									</Typography>
-								)}
-							</span>
-							<Calendars />
-						</div>
-
-						{showCalendar && (
-							<div
-								className={classes.popupOverlay}
-								onClick={() => setShowCalendar(false)}
-							>
-								<div
-									className={classes.popupContent}
-									onClick={e => e.stopPropagation()}
-								>
-									<Calendar
-										selectedDate={formData.date}
-										onDateSelect={handleDateSelect}
-									/>
-								</div>
-							</div>
-						)}
-					</div>
-
-					<div className={classes.fieldGroup}>
-						<Typography variant='b2' weight='medium' className={classes.label}>
-							Выберите время
-						</Typography>
-						<div
-							className={classes.selectField}
-							onClick={() => {
-								setShowTimeSlots(!showTimeSlots)
-								setShowCalendar(false)
-							}}
-						>
-							<span>
-								{formData.time ? (
-									<Typography variant='b1' weight='regular'>
-										{formData.time}
-									</Typography>
-								) : (
-									<Typography
-										variant='b1'
-										weight='regular'
-										className={classes.placeholder}
-									>
-										Выберите время
-									</Typography>
-								)}
-							</span>
-							<Time />
-						</div>
-
-						{showTimeSlots && (
-							<div
-								className={classes.popupOverlays}
-								onClick={() => setShowTimeSlots(false)}
-
-							>
-								<div
-									className={classes.popupContent}
-									onClick={e => e.stopPropagation()}
-								>
-									<TimeSlots
-										selectedTime={formData.time}
-										onTimeSelect={handleTimeSelect}
-									/>
-								</div>
-							</div>
-						)}
-					</div>
-				</div>
-
+				{/* ДАТА ------------------------------------------------------------------ */}
 				<div className={classes.fieldGroup}>
 					<Typography variant='b2' weight='medium' className={classes.label}>
-						Введите ФИО
+						Выберите дату
 					</Typography>
+
+					<div
+						className={classes.selectField}
+						onClick={() => {
+							setShowCalendar(!showCalendar)
+							setShowTimeSlots(false)
+						}}
+					>
+						<span>
+							{formData.date ? (
+								<Typography variant='b1' weight='regular'>
+									{formData.date.toLocaleDateString('ru-RU')}
+								</Typography>
+							) : (
+								<Typography variant='b1' weight='regular'  className={classes.placeholder}>
+									Выберите дату
+								</Typography>
+							)}
+						</span>
+						<Calendars />
+					</div>
+
+					{showCalendar && (
+						<div
+							className={classes.popupOverlay}
+							onClick={() => setShowCalendar(false)}
+						>
+							<div
+								className={classes.popupContent}
+								onClick={e => e.stopPropagation()}
+							>
+								<Calendar
+									selectedDate={formData.date}
+									onDateSelect={handleDateSelect}
+								/>
+							</div>
+						</div>
+					)}
+				</div>
+
+				{/* ВРЕМЯ ------------------------------------------------------------------ */}
+				<div className={classes.fieldGroup}>
+					<Typography variant='b2' weight='medium' className={classes.label}>
+						Выберите время
+					</Typography>
+
+					<div
+						className={classes.selectField}
+						onClick={() => {
+							setShowTimeSlots(!showTimeSlots)
+							setShowCalendar(false)
+						}}
+					>
+						<span>
+							{formData.time ? (
+								<Typography variant='b1' weight='regular'>{formData.time}</Typography>
+							) : (
+								<Typography variant='b1' weight='regular' className={classes.placeholder}>
+									Выберите время
+								</Typography>
+							)}
+						</span>
+						<Time />
+					</div>
+
+					{showTimeSlots && (
+						<div
+							className={classes.popupOverlays}
+							onClick={() => setShowTimeSlots(false)}
+						>
+							<div
+								className={classes.popupContent}
+								onClick={e => e.stopPropagation()}
+							>
+								<TimeSlots
+									selectedTime={formData.time}
+									onTimeSelect={handleTimeSelect}
+								/>
+							</div>
+						</div>
+					)}
+				</div>
+
+				{/* ФИО ------------------------------------------------------------------ */}
+				<div className={classes.fieldGroup}>
+					<Typography weight='medium' variant='b2'>Введите ФИО</Typography>
 					<input
 						type='text'
 						className={classes.input}
@@ -186,15 +178,9 @@ const BookingForm: React.FC = () => {
 					/>
 				</div>
 
+				{/* КОМПАНИЯ --------------------------------------------------------------- */}
 				<div className={classes.fieldGroup}>
-					<Typography variant='b2' weight='medium' className={classes.label}>
-						Введите название компании{' '}
-						<span className={classes.optional}>
-							<Typography variant='b2' weight='regular'>
-								(не обязательное поле)
-							</Typography>
-						</span>
-					</Typography>
+					<Typography weight='medium' variant='b2'>Введите название компании</Typography>
 					<input
 						type='text'
 						className={classes.input}
@@ -204,24 +190,22 @@ const BookingForm: React.FC = () => {
 					/>
 				</div>
 
+				{/* ТЕЛЕФОН + EMAIL -------------------------------------------------------- */}
 				<div className={classes.fields}>
 					<div className={classes.fieldGroup}>
-						<Typography variant='b2' weight='medium' className={classes.label}>
-							Введите номер телефона
-						</Typography>
+						<Typography weight='medium' variant='b2'>Введите номер телефона</Typography>
 						<input
 							type='tel'
 							className={classes.input}
-							placeholder='+996 (000) 000 000'
+							placeholder='+996 (000) 00 00 00'
 							value={formData.phone}
 							onChange={e => handlePhoneChange(e.target.value)}
 							required
 						/>
 					</div>
+
 					<div className={classes.fieldGroup}>
-						<Typography variant='b2' weight='medium' className={classes.label}>
-							Введите электронную почту
-						</Typography>
+						<Typography weight='medium' variant='b2'>Введите электронную почту</Typography>
 						<input
 							type='email'
 							className={classes.input}
@@ -233,10 +217,9 @@ const BookingForm: React.FC = () => {
 					</div>
 				</div>
 
+				{/* СУТЬ ------------------------------------------------------------------ */}
 				<div className={classes.fieldGroup}>
-					<Typography variant='b2' weight='medium' className={classes.label}>
-						Суть обращения
-					</Typography>
+					<Typography weight='medium' variant='b2'>Суть обращения</Typography>
 					<textarea
 						className={classes.textarea}
 						placeholder='Введите текст'
@@ -247,14 +230,16 @@ const BookingForm: React.FC = () => {
 					/>
 				</div>
 
+				{/* КНОПКА ------------------------------------------------------------------ */}
 				<CustomButton
 					variant='primary'
 					actionType='button'
 					type='submit'
 					className={classes.submitButton}
+					disabled={mutation.isPending}
 				>
 					<Typography variant='b1' weight='medium'>
-						Отправить заявку
+						{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
 					</Typography>
 				</CustomButton>
 			</form>

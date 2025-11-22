@@ -5,60 +5,78 @@ import { IEmployees } from "../types/types"
 import { CustomButton } from "../../button/view/CustomButton"
 import Image from "next/image"
 export const EmployeesCard: FC<IEmployees> = ({
-  img,
-  name,
-  position,
-  branch,
-  variant
+	image,
+	name,
+	position,
+	branch,
+	alt,
+	variant,
+	path,
 }) => {
-		if (variant === 'director') {
-			return (
-				<div className={classes.containers}>
-					<Image width={610} height={884} src={img} alt={name} />
-					<div className={classes.content}>
-						<Typography variant='h2' weight='bold' truncate={20}>
-							{name}
-						</Typography>
-						<Typography variant='b1' weight='regular'>
-							{position}
-						</Typography>
-						<Typography variant='b2' weight='regular'>
-							{branch}
-						</Typography>
-						<CustomButton variant={'primary'} actionType={'link'} to="consultation" className={classes.btn}>
-							Записаться
-						</CustomButton>
-					</div>
-				</div>
-			)
-		}
-		if( variant === 'mainCard'){
-			return (
-				<div className={classes.mainCard}>
-					<Image width={295} height={432} src={img} alt={name} />
-					<div className={classes.content}>
-						<Typography variant='h3' weight='semiBold' truncate={20}>
-							{name}
-						</Typography>
-						<Typography variant='b1' weight='medium'>
-							{position}
-						</Typography>
-						<Typography variant='b2' weight='regular'>
-							{branch}
-						</Typography>
-						<CustomButton variant={'primary'} actionType={'button'}>
-							Записаться
-						</CustomButton>
-					</div>
-				</div>
-			)
-		}
-  if( variant === 'mainBlock'){
-    return (
-			<div className={classes.container}>
-				<Image width={295} height={432} src={img} alt={name} />
+	if (variant === 'director') {
+		return (
+			<div className={classes.containers}>
+				<Image width={610} height={884} src={image} alt={alt} />
 				<div className={classes.content}>
-					<Typography variant='h3' weight='medium' truncate={20}>
+					<Typography variant='h2' weight='bold' truncate={20}>
+						{name}
+					</Typography>
+					<Typography variant='b1' weight='regular'>
+						{position}
+					</Typography>
+					<Typography variant='b2' weight='regular'>
+						{branch}
+					</Typography>
+					<CustomButton
+						variant={'primary'}
+						actionType={'link'}
+						to={path}
+						className={classes.btn}
+					>
+						Записаться
+					</CustomButton>
+				</div>
+			</div>
+		)
+	}
+	if (variant === 'mainCard') {
+		return (
+			<div className={classes.mainCard}>
+				<Image width={295} height={432} src={image} alt={alt} />
+				<div className={classes.content}>
+					<Typography variant='h3' weight='semiBold' className={classes.name}>
+						{name}
+					</Typography>
+					<Typography variant='b1' weight='medium'>
+						{position}
+					</Typography>
+					<Typography variant='b2' weight='regular'>
+						{branch}
+					</Typography>
+					<CustomButton variant={'primary'} actionType={'button'}>
+						Записаться
+					</CustomButton>
+				</div>
+			</div>
+		)
+	}
+	if (variant === 'mainBlock') {
+		return (
+			<div className={classes.container}>
+				<Image
+					width={295}
+					height={432}
+					src={image}
+					alt={alt}
+					style={{ width: '100%', height: '100%' }}
+				/>
+				<div className={classes.content}>
+					<Typography
+						variant='h3'
+						weight='medium'
+						truncate={15}
+						className={classes.name}
+					>
 						{name}
 					</Typography>
 					<Typography variant='b1' weight='regular'>
@@ -70,5 +88,5 @@ export const EmployeesCard: FC<IEmployees> = ({
 				</div>
 			</div>
 		)
-  }
+	}
 }

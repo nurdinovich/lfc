@@ -1,3 +1,4 @@
+@use "@/app/styles/mixins.scss" as *;
 .section{
   margin-top: 100px;
 
@@ -10,11 +11,28 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
+
+      @include Mobile {
+        grid-template-columns: repeat(1, 1fr);
+      }
+      @include SmallMobile {
+        grid-template-columns: repeat(1, 1fr);
+      }
     }
+
     .btn{
       margin: 0 auto;
       width: 338px;
       text-decoration: none;
+      text-align: center;
+
+      @include SmallTablet {
+        width: 339px;
+        text-align: center;
+      }
+      @include SmallMobile {
+        width: 100%;
+      }
     }
   }
 }

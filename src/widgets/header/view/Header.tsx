@@ -8,11 +8,12 @@ import { LanguageSelect } from '@/features/languageSelect/view/LanguageSelect'
 import { AccessibilityPanel } from '@/features/accessibility'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useState } from 'react'
+import { useBaseSetting } from '@/shared/api/useBaseSetting'
 
 export const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const { t } = useSafeTranslation() 
-
+const {data} = useBaseSetting()
 	return (
 		<header className={classes.header}>
 			<MultiContainer>

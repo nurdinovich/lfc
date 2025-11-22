@@ -12,7 +12,6 @@ export const CustomSwiper: FC<ISlider> = ({
 	children,
 	className,
 	spaceBetween,
-	slidesPerView,
 }) => {
 	return (
 		<Swiper

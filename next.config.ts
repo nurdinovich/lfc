@@ -11,8 +11,8 @@ const nextConfig: NextConfig = {
 	images: {
 		remotePatterns: [
 			{
-				protocol: 'https',
-				hostname: 'advokat-region.ru',
+				protocol: 'http',
+				hostname: '159.223.28.248',
 			},
 			{
 				protocol: 'https',
