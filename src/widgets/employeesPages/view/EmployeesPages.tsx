@@ -4,11 +4,13 @@ import { EmployeesCard } from '@/shared/ui/employeesCard/view/EmployeesCard'
 import classes from './EmployeesPages.module.scss'
 import { useEmployees } from '../api/useEmployees'
 import { BASE_URL } from '@/shared/constants/constants'
+import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 
 export const EmployeesPages = () => {
 	const {data} = useEmployees()
 	return (
 		<section className={classes.section}>
+			<BreadCrumbs breadCrumbKey='employees' />
 			<MultiContainer>
 				<Typography variant='h1' weight='bold' className={classes.title}>
 					Сотрудники

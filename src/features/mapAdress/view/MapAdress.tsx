@@ -3,8 +3,8 @@ import { FC, useEffect, useState } from 'react'
 import { Typography } from '@/shared/ui'
 import classes from './MapAdress.module.scss'
 import { MapPin, Phone } from '@/shared/assest/icons'
-import { useWorks } from '../api/useWorks'
-import { useMapAdress } from '../api/useMapAdress'
+import { useWorks } from '@/shared/api/useWorks'
+import { useMapAdress } from '@/shared/api/useMapAdress'
 
 interface ILocation {
 	city: string
@@ -17,7 +17,6 @@ export const MapAdress: FC = () => {
 	const { data } = useWorks()
 	const { data: contacts } = useMapAdress()
 
-	// 👉 храним locations в состоянии
 	const [locations, setLocations] = useState<ILocation[]>([])
 	const [activeIframe, setActiveIframe] = useState<string>('')
 

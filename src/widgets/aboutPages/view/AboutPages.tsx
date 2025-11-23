@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useAboutPages } from '../api/useAboutPages'
 import { BASE_URL } from '@/shared/constants/constants'
 import { Loader } from '@/shared/ui/loader/view/Loader'
+import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 
 export const AboutPages = () => {
 	const {data,isLoading} = useAboutPages()
@@ -14,6 +15,7 @@ export const AboutPages = () => {
 	}
 	return (
 		<section className={classes.section}>
+			<BreadCrumbs breadCrumbKey='about' />
 			<MultiContainer>
 				<div className={classes.container}>
 					<Typography variant='h1' weight='bold'>

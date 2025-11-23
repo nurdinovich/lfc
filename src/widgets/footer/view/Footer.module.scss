@@ -20,13 +20,25 @@
   }
 
   .logo {
+    width: 118px;
+    height: 64px;
+    display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     @include Tablet {
       width: 88px;
       height: 48px;
 
-      svg {
+      img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 
@@ -34,7 +46,7 @@
       width: 76px;
       height: 42px;
 
-      svg {
+      img {
         width: 100%;
         height: 100%;
       }

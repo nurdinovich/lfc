@@ -67,7 +67,7 @@ export const AboutBlock = () => {
 							<div key={index} className={classes.statItem}>
 								<Typography variant='h2' weight='medium'>
 									{counts[index]}
-									{stat.number.includes('+') && '+'}
+									{stat.number?.includes('+') && '+'}
 								</Typography>
 								<Typography variant='b1' weight='regular'>
 									{stat.title}
