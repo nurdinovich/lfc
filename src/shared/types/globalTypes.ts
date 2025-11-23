@@ -13,3 +13,14 @@ export interface ISetting {
 	email: string
 	logo: string
 }
+export interface IBreadCrumbItem {
+	key?: string
+	label: string
+	route?: string | null
+	class?: string
+}
+
+export interface IThirdBread {
+	text: string
+	route: string
+}
