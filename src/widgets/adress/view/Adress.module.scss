@@ -5,9 +5,9 @@
   flex-direction: column;
   gap: 50px;
 
-@include Tablet {
-  gap: 40px;
-}
+  @include Tablet {
+    gap: 40px;
+  }
 }
 
 .container {
@@ -43,5 +43,23 @@
     display: flex;
     gap: 35px;
 
+    @include SmallMobile {
+      display: none;
+    }
+  }
+
+  .content {
+    display: none;
+
+    @include SmallMobile {
+      display: flex;
+      gap: 35px;
+
+      .item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
   }
 }
