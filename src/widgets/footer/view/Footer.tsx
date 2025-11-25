@@ -1,5 +1,5 @@
 'use client'
-import { Facebook, Gail, Instagram, Logo } from '@/shared/assest/icons'
+import { Facebook, Gail, Instagram} from '@/shared/assest/icons'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './Footer.module.scss'
 import { BASE_URL, links } from '@/shared/constants/constants'

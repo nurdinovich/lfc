@@ -1,3 +1,4 @@
+@use '@/app/styles/mixins.scss' as *;
 .section{
   margin-top: 100px;
 }
@@ -41,4 +42,8 @@
   overflow: hidden;
   transition: max-height 0.3s ease;
   padding: 0 35px;
+
+  @include Tablet {
+    padding: 0;
+  }
 }

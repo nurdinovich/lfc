@@ -3,7 +3,6 @@ import { FC } from "react"
 import { Typography } from "../../typography/view/Typography"
 import classes from './NewCard.module.scss'
 import { INewCard } from "../types/types"
-import Link from "next/link"
 import { CustomButton } from "../../button/view/CustomButton"
 import Image from "next/image"
 
@@ -17,7 +16,6 @@ export const NewCard:FC<INewCard> = ({
 }) => {
 	if (variant === 'mainCard') {
 		return (
-			// <Link href={'/'} className={classes.links}>
 			<div className={classes.container}>
 				<div className={classes.img}>
 					<Image width={100} height={100} src={img} alt='' />
@@ -34,7 +32,6 @@ export const NewCard:FC<INewCard> = ({
 				</Typography>
 				</div>
 			</div>
-			// </Link>
 		)
 	}
 	if (variant === 'pagesCard') {

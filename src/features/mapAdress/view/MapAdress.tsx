@@ -7,8 +7,6 @@ import { useWorks } from '@/shared/api/useWorks'
 import { useMapAdress } from '@/shared/api/useMapAdress'
 
 interface ILocation {
-	city: string
-	adress: string
 	phone: string[]
 	iframeSrc: string
 }
@@ -23,23 +21,23 @@ export const MapAdress: FC = () => {
 	useEffect(() => {
 		if (!contacts || !contacts[0]) return
 
-		const locs: ILocation[] = [
-			{
-				city: 'г. Бишкек',
-				adress: 'улица Фрунзе, 387. 2 этаж',
-				phone: ['0771 669 436', '0553 330 123'],
-				iframeSrc: contacts[0].maps,
-			},
-			{
-				city: 'г. Ош',
-				adress: 'улица Курманжан датка, 287',
-				phone: ['0557 287 282', '0502 519 951'],
-				iframeSrc: contacts[1].maps,
-			},
-		]
+		const initializeData = () => {
+			const locs: ILocation[] = [
+				{
+					phone: [contacts[0].phone_number1, contacts[0].phone_number2],
+					iframeSrc: contacts[0].maps,
+				},
+				{
+					phone: [contacts[0].phone_number1, contacts[0].phone_number2],
+					iframeSrc: contacts[1].maps,
+				},
+			]
 
-		setLocations(locs)
-		setActiveIframe(locs[0].iframeSrc)
+			setLocations(locs)
+			setActiveIframe(locs[0].iframeSrc)
+		}
+
+		initializeData()
 	}, [contacts])
 
 	const iframeSrc = activeIframe
@@ -70,10 +68,10 @@ export const MapAdress: FC = () => {
 										weight='bold'
 										className={classes.city}
 									>
-										{loc.city}
+										{contacts?.[0]?.contact_translations[0].city}
 									</Typography>
 									<Typography variant='bodyText' weight='medium'>
-										{loc.adress}
+										{contacts?.[0]?.contact_translations[0].address}
 									</Typography>
 								</div>
 							</div>
@@ -105,19 +103,35 @@ export const MapAdress: FC = () => {
 
 				<div className={classes.hoursGrid}>
 					<div className={classes.days}>
-						<Typography variant='bodyText' weight='bold'>
+						<Typography
+							variant='bodyText'
+							weight='medium'
+							className={classes.day}
+						>
 							{data?.[0]?.working_days}
 						</Typography>
-						<Typography variant='bodyText' weight='bold'>
+						<Typography
+							variant='bodyText'
+							weight='medium'
+							className={classes.day}
+						>
 							{data?.[0]?.weekend}
 						</Typography>
 					</div>
 
 					<div className={classes.times}>
-						<Typography variant='bodyText' weight='regular'>
+						<Typography
+							variant='bodyText'
+							weight='regular'
+							className={classes.day}
+						>
 							{data?.[0]?.working_hours}
 						</Typography>
-						<Typography variant='bodyText' weight='regular'>
+						<Typography
+							variant='bodyText'
+							weight='regular'
+							className={classes.day}
+						>
 							Выходной
 						</Typography>
 					</div>

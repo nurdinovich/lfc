@@ -26,20 +26,41 @@ export const Adress = () => {
 					График работы:
 				</Typography>
 				{grafic?.map((item, index) => (
-					<div key={index} className={classes.item}>
-						<Typography variant='b2' weight='regular'>
-							{item.working_days}
-						</Typography>
+					<div key={index}>
+						<div className={classes.item}>
+							<Typography variant='b2' weight='regular'>
+								{item.working_days}
+							</Typography>
 
-						<Typography variant='b2' weight='regular'>
-							{item.working_hours}
-						</Typography>
-						<Typography variant='bodyText' weight='bold'>
-							{item.weekend}
-						</Typography>
-						<Typography variant='bodyText' weight='regular'>
-							Выходной
-						</Typography>
+							<Typography variant='b2' weight='regular'>
+								{item.working_hours}
+							</Typography>
+							<Typography variant='bodyText' weight='bold'>
+								{item.weekend}
+							</Typography>
+							<Typography variant='bodyText' weight='regular'>
+								Выходной
+							</Typography>
+						</div>
+
+						<div className={classes.content}>
+							<div className={classes.item}>
+								<Typography variant='b2' weight='medium'>
+									{item.working_days}
+								</Typography>
+								<Typography variant='b2' weight='medium'>
+									{item.weekend}
+								</Typography>
+							</div>
+							<div className={classes.item}>
+								<Typography variant='b2' weight='medium'>
+									{item.working_hours}
+								</Typography>
+								<Typography variant='b2' weight='medium'>
+									Выходной
+								</Typography>
+							</div>
+						</div>
 					</div>
 				))}
 			</div>

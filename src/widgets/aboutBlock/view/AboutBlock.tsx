@@ -4,6 +4,7 @@ import classes from './AboutBlock.module.scss'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useEffect, useState } from 'react'
 import { useAboutBlock } from '../api/useAboutBlock'
+import { Loader } from '@/shared/ui/loader/view/Loader'
 
 export const AboutBlock = () => {
 	const { t } = useSafeTranslation()
@@ -20,7 +21,12 @@ export const AboutBlock = () => {
 			{ number: data[0].number4, title: data[0].title4 },
 		]
 
-		setCounts(Array(stats.length).fill(0))
+		// Initialize counts asynchronously using a function
+		const initializeCounts = () => {
+			setCounts(Array(stats.length).fill(0))
+		}
+
+		initializeCounts()
 
 		stats.forEach((stat, index) => {
 			const target = Number(stat.number.replace(/\D/g, ''))
@@ -43,7 +49,7 @@ export const AboutBlock = () => {
 		})
 	}, [data])
 
-	if (isLoading) return <div>Loading...</div>
+	if (isLoading) return <Loader />
 
 	if (!data || !data[0]) return null
 
