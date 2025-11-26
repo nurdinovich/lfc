@@ -40,7 +40,7 @@ export const SevicesPages = () => {
 					<CustomButton
 						variant={'primary'}
 						actionType={'link'}
-						to={'/'}
+						to={'employees'}
 						className={classes.btn}
 					>
 						Записаться на консультацию

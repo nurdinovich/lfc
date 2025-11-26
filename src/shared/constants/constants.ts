@@ -23,11 +23,11 @@ export const languages = [
 	},
 	{
 		lang: 'kg',
-		name: 'Кыргызча',
+		name: 'Кыргызский',
 	},
 	{
 		lang: 'en',
-		name: 'English',
+		name: 'Английский',
 	},
 ]
 export const breadCrumbs: IBreadCrumbItem[] = [

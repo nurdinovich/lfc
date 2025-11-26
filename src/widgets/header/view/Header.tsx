@@ -1,5 +1,5 @@
 'use client'
-import { BurgerMenu,  XIcons } from '@/shared/assest/icons'
+import { BurgerMenu, XIcons } from '@/shared/assest/icons'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './Header.module.scss'
 import Link from 'next/link'
@@ -12,10 +12,8 @@ import { useBaseSetting } from '@/shared/api/useBaseSetting'
 import Image from 'next/image'
 export const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
-	const { t } = useSafeTranslation() 
-const {data} = useBaseSetting()
-
-console.log(data);
+	const { t } = useSafeTranslation()
+	const { data } = useBaseSetting()
 
 	return (
 		<header className={classes.header}>
