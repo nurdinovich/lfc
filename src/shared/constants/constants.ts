@@ -1,3 +1,5 @@
+import { IBreadCrumbItem } from "../types/globalTypes"
+
 export const routes = {
 	home: '/',
 	services: '/services',
@@ -21,12 +23,39 @@ export const languages = [
 	},
 	{
 		lang: 'kg',
-		name: 'Кыргызча',
+		name: 'Кыргызский',
 	},
 	{
 		lang: 'en',
-		name: 'English',
+		name: 'Английский',
 	},
+]
+export const breadCrumbs: IBreadCrumbItem[] = [
+	{
+		key: 'home',
+		label: 'navigation.home',
+		route: routes.home,
+	},
+	{
+		key: 'services',
+		label: 'navigation.services',
+		route: routes.services,
+	},
+	{
+		key: 'employees',
+		label: 'navigation.employees',
+		route: routes.employees,
+	},
+	{
+		key: 'news',
+		label: 'navigation.news',
+		route: routes.news,
+	},
+	{
+		key: 'about',
+		label: 'navigation.about',
+		route: routes.about,
+	}
 ]
 export type LanguageCode = (typeof languages)[number]['lang']
 

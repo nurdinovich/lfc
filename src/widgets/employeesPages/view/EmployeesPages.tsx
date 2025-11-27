@@ -6,6 +6,7 @@ import { useEmployees } from '../api/useEmployees'
 import { BASE_URL } from '@/shared/constants/constants'
 import { ConsultationStore } from '@/entitles/consultation'
 import { useRouter } from 'next/navigation'
+import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 
 export const EmployeesPages = () => {
 	const router = useRouter()
@@ -18,6 +19,7 @@ export const EmployeesPages = () => {
 	}
 	return (
 		<section className={classes.section}>
+			<BreadCrumbs breadCrumbKey='employees' />
 			<MultiContainer>
 				<Typography variant='h1' weight='bold' className={classes.title}>
 					Сотрудники

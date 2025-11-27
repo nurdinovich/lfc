@@ -2,6 +2,7 @@
 import { CustomButton, MultiContainer, ServicesCard, Typography } from '@/shared/ui'
 import classes from './SevicesPages.module.scss'
 import { useServicesPages } from '../api/useServicesPages'
+import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 
 export const SevicesPages = () => {
 	const { data } = useServicesPages()
@@ -10,6 +11,7 @@ export const SevicesPages = () => {
 	
   return (
 		<section className={classes.section}>
+			<BreadCrumbs breadCrumbKey='services' />
 			<MultiContainer>
 				<div className={classes.container}>
 					<Typography variant='h1' weight='bold'>
@@ -38,7 +40,7 @@ export const SevicesPages = () => {
 					<CustomButton
 						variant={'primary'}
 						actionType={'link'}
-						to={'/'}
+						to={'employees'}
 						className={classes.btn}
 					>
 						Записаться на консультацию

@@ -1,25 +1,32 @@
 'use client'
-import { BurgerMenu, Logo, XIcons } from '@/shared/assest/icons'
+import { BurgerMenu, XIcons } from '@/shared/assest/icons'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './Header.module.scss'
 import Link from 'next/link'
-import { links } from '@/shared/constants/constants'
+import { BASE_URL, links } from '@/shared/constants/constants'
 import { LanguageSelect } from '@/features/languageSelect/view/LanguageSelect'
 import { AccessibilityPanel } from '@/features/accessibility'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useState } from 'react'
 import { useBaseSetting } from '@/shared/api/useBaseSetting'
-
+import Image from 'next/image'
 export const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
-	const { t } = useSafeTranslation() 
-const {data} = useBaseSetting()
+	const { t } = useSafeTranslation()
+	const { data } = useBaseSetting()
+
 	return (
 		<header className={classes.header}>
 			<MultiContainer>
 				<div className={classes.container}>
 					<Link href='/' className={classes.icon}>
-						<Logo />
+						<Image
+							src={`${BASE_URL}${data?.[0]?.logo || ''}`}
+							alt='logo'
+							width={100}
+							height={100}
+							loading='eager'
+						/>
 					</Link>
 					<nav
 						className={`${classes.nav} ${
@@ -43,24 +50,23 @@ const {data} = useBaseSetting()
 								</Typography>
 							</Link>
 						))}
-						
+
 						<div className={classes.language}>
 							<LanguageSelect variant='mobile' />
 							<AccessibilityPanel />
 						</div>
 					</nav>
 					<div className={classes.lan}>
-					<LanguageSelect />
-					<AccessibilityPanel />
+						<LanguageSelect />
+						<AccessibilityPanel />
 					</div>
-						<div
-							className={classes.burgerButton}
-							onClick={() => setIsMenuOpen(!isMenuOpen)}
-						>
-							{isMenuOpen ? <XIcons /> : <BurgerMenu />}
-						</div>
+					<div
+						className={classes.burgerButton}
+						onClick={() => setIsMenuOpen(!isMenuOpen)}
+					>
+						{isMenuOpen ? <XIcons /> : <BurgerMenu />}
+					</div>
 				</div>
-
 			</MultiContainer>
 		</header>
 	)

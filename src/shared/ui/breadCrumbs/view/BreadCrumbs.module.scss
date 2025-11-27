@@ -1,0 +1,36 @@
+@use '@/app/styles/mixins.scss' as *;
+.breadCrumbs {
+  display: flex;
+  list-style: none;
+
+  &Container {
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    @include SmallMobile {
+      display: none;
+    }
+  }
+
+}
+
+.link {
+  display: flex;
+  color: var(--black-blur);
+  gap: 5px;
+
+  &:hover {
+    color: var(--black-main);
+    text-decoration: underline;
+    text-decoration-color: var(--black-main);
+  }
+
+  &:active {
+    color: var(--black-main);
+    text-decoration: none;
+  }
+}
+
+.breadCrumbActive {
+  color: var(--black-main);
+}

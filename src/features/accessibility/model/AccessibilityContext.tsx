@@ -1,5 +1,4 @@
 'use client'
-
 import {
 	createContext,
 	useContext,
@@ -27,43 +26,39 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 		useState<AccessibilitySettings>(defaultSettings)
 	const [isInitialized, setIsInitialized] = useState(false)
 
-	// Выносим applyImageSettings для избежания повторного создания
-	const applyImageSettings = useCallback((imagesDisabled: boolean) => {
-		const styleId = 'accessibility-images-disabled'
-		const existingStyle = document.getElementById(styleId)
+const applyImageSettings = useCallback((imagesDisabled: boolean) => {
+	const styleId = 'accessibility-images-disabled'
+	const existingStyle = document.getElementById(styleId)
 
-		if (imagesDisabled) {
-			if (!existingStyle) {
-				const style = document.createElement('style')
-				style.id = styleId
-				style.textContent = `
-          img, picture, video, canvas, svg, [role="img"] {
-            opacity: 0.1 !important;
-            filter: grayscale(100%) !important;
-          }
-          [class*="image"], [class*="img"], [class*="photo"] {
-            background-color: #f0f0f0 !important;
-          }
-        `
-				document.head.appendChild(style)
-			}
-		} else {
-			if (existingStyle) {
-				existingStyle.remove()
-			}
+	if (imagesDisabled) {
+		if (!existingStyle) {
+			const style = document.createElement('style')
+			style.id = styleId
+			style.textContent = `
+        img, picture, video, canvas {
+          display: none !important;
+        }
+
+        [class*="image"], [class*="img"], [class*="photo"] {
+          background-color: #f0f0f0 !important;
+        }
+      `
+			document.head.appendChild(style)
 		}
-	}, [])
+	} else {
+		if (existingStyle) {
+			existingStyle.remove()
+		}
+	}
+}, [])
 
-	// Выносим applyAccessibilitySettings до использования и оборачиваем в useCallback
 	const applyAccessibilitySettings = useCallback(
 		(settings: AccessibilitySettings) => {
 			const root = document.documentElement
 
-			// ==== Применяем размер шрифта ====
 			const increase = settings.fontSize - 16
 			root.style.setProperty('--font-increase', `${increase}px`)
 
-			// ==== Применяем тему ====
 			root.classList.remove(
 				'theme-dark',
 				'theme-light',
@@ -72,16 +67,13 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 			)
 			root.classList.add(`theme-${settings.theme}`)
 
-			// ==== Цветовая схема ====
 			root.setAttribute('data-color-scheme', settings.colorScheme)
 
-			// ==== Настройки изображений ====
 			applyImageSettings(settings.imagesDisabled)
 		},
 		[applyImageSettings]
 	)
 
-	// Первый эффект - инициализация
 	useEffect(() => {
 		const initializeSettings = () => {
 			const savedSettings = localStorage.getItem('accessibility-settings')
@@ -93,7 +85,6 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 						...JSON.parse(savedSettings),
 					}
 
-					// Отложенное обновление состояния
 					requestAnimationFrame(() => {
 						setSettings(parsedSettings)
 						applyAccessibilitySettings(parsedSettings)
@@ -110,13 +101,11 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 				})
 			}
 
-			// setIsInitialized также откладываем
 			requestAnimationFrame(() => {
 				setIsInitialized(true)
 			})
 		}
 
-		// Запускаем инициализацию в следующем кадре анимации
 		const rafId = requestAnimationFrame(initializeSettings)
 
 		return () => {
@@ -124,7 +113,6 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 		}
 	}, [applyAccessibilitySettings])
 
-	// Второй эффект - сохранение настроек
 	useEffect(() => {
 		if (!isInitialized) return
 
