@@ -1,249 +1,312 @@
 'use client'
 import React, { useState } from 'react'
 import classes from './BookingForm.module.scss'
-import { BookingFormData } from '../../types/types'
 import Calendar from '../Calendar/Calendar'
 import TimeSlots from '../TimeSlots/TimeSlots'
 import { Calendars, Time } from '@/shared/assest/icons'
 import { CustomButton, Typography } from '@/shared/ui'
 import { useBookingMutation } from '../../api/useForm'
+import { Input } from '../Input/Input'
+import { Controller, useForm } from 'react-hook-form'
+import { BookingFormData } from '../../types/types'
+import classNames from 'classnames'
+import { ConsultationStore } from '@/entitles/consultation'
 
 
 const BookingForm: React.FC = () => {
-	const [formData, setFormData] = useState<BookingFormData>({
-		date: null,
-		time: '',
-		fullName: '',
-		company: '',
-		phone: '+996 (',
-		email: '',
-		purpose: '',
-	})
-
 	const mutation = useBookingMutation()
+	const { employeeId } = ConsultationStore()
 
 	const [showCalendar, setShowCalendar] = useState(false)
 	const [showTimeSlots, setShowTimeSlots] = useState(false)
 
-	const handleDateSelect = (date: Date) => {
-		setFormData(prev => ({ ...prev, date }))
-		setShowCalendar(false)
+	const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      date: null,
+			time: '',
+			fullName: '',
+			company: '',
+			phone: '+996 ',
+			email: '',
+			purpose: '',
+    },
+  })
+
+	const dateFormat =(d:Date | null)=> {
+		const date = d ? new Date(d) : null;
+	  const formattedDate = date ? `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}` : '';
+		return formattedDate
 	}
 
-	const handleTimeSelect = (time: string) => {
-		setFormData(prev => ({ ...prev, time }))
-		setShowTimeSlots(false)
-	}
+	const onSubmit =(data:BookingFormData)=> {
+		const formattedDate = dateFormat(data.date)
 
-	const handleInputChange = (field: keyof BookingFormData, value: string) => {
-		setFormData(prev => ({ ...prev, [field]: value }))
-	}
-
-	const handlePhoneChange = (value: string) => {
-		let digits = value.replace(/\D/g, '')
-
-		if (digits.startsWith('996')) digits = digits.slice(3)
-
-		let formatted = '+996'
-		if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`
-		if (digits.length > 3) formatted += `) ${digits.slice(3, 5)}`
-		if (digits.length > 5) formatted += ` ${digits.slice(5, 7)}`
-		if (digits.length > 7) formatted += ` ${digits.slice(7, 9)}`
-
-		setFormData(prev => ({ ...prev, phone: formatted }))
-	}
-
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault()
-
-		if (!formData.date) return alert('Выберите дату')
-		if (!formData.time) return alert('Выберите время')
+		console.log("data", data);
+		
+    if (!employeeId) {
+			console.error("Employee ID not found")
+			return
+		}
 
 		mutation.mutate({
-			date: formData.date.toISOString(),
-			time: formData.time,
-			full_name: formData.fullName,
-			company: formData.company,
-			phone_number: formData.phone,
-			email: formData.email,
-			description: formData.purpose,
+			employee_id:employeeId,
+			date:formattedDate,
+			time: data.time,
+			full_name: data.fullName,
+			company: data.company,
+			phone_number: data.phone,
+			email: data.email,
+			description: data.purpose,
 		})
-	}
+  }
 
 	return (
-		<div className={classes.container}>
-			<form className={classes.form} onSubmit={handleSubmit}>
-				<Typography variant='h2' weight='bold' className={classes.title}>
-					Заполните форму
-				</Typography>
-
-				{/* ДАТА ------------------------------------------------------------------ */}
-				<div className={classes.fieldGroup}>
-					<Typography variant='b2' weight='medium' className={classes.label}>
-						Выберите дату
+		<>
+			<Typography className={classes.titlePage} variant='h1' weight='bold'>
+				Запись на консультацию
+			</Typography>
+			<div className={classes.container}>
+				<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+					<Typography variant='h2' weight='bold' className={classes.title}>
+						Заполните форму
 					</Typography>
 
-					<div
-						className={classes.selectField}
-						onClick={() => {
-							setShowCalendar(!showCalendar)
-							setShowTimeSlots(false)
-						}}
-					>
-						<span>
-							{formData.date ? (
-								<Typography variant='b1' weight='regular'>
-									{formData.date.toLocaleDateString('ru-RU')}
-								</Typography>
-							) : (
-								<Typography variant='b1' weight='regular'  className={classes.placeholder}>
-									Выберите дату
-								</Typography>
-							)}
-						</span>
-						<Calendars />
-					</div>
+					<div>
+						<Typography variant='b1' weight='semiBold' className={classes.labelDateTime}>
+							Выберите удобное для вас время и дату
+						</Typography>
+						<div className={classes.containerDateTime}>
+							{/* ДАТА ------------------------------------------------------------------ */}
+							<div className={classes.fieldGroup}>
+								<Controller
+									name='date'
+									control={control}
+									rules={{ required: "Дата обязательна" }}
+									render={({field})=> (
+										<>
+											<div
+												className={classNames(classes.selectField,
+													errors.date?.message && classes.selectFieldError
+												)}
+												onClick={() => {
+													setShowCalendar(!showCalendar)
+													setShowTimeSlots(false)
+												}}
+											>
+												<span>
+													{field.value ? (
+														<Typography variant='b1' weight='regular'>
+															{dateFormat(field.value)}
+														</Typography>
+													) : (
+														<Typography variant='b1' weight='regular'  className={classes.placeholder}>
+															Выберите дату
+														</Typography>
+													)}
+												</span>
+												<Calendars />
+											</div>
+											{errors.date?.message  && <Typography className={classes.error} variant='b2' weight='semiBold'>{errors.date?.message}</Typography>}
+											{showCalendar && (
+												<div
+													className={classes.popupOverlay}
+													onClick={() => setShowCalendar(false)}
+												>
+													<div
+														className={classes.popupContent}
+														onClick={e => e.stopPropagation()}
+													>
+														<Calendar
+															selectedDate={field.value}
+															onDateSelect={(date: Date) => {
+																field.onChange(date)
+																setShowCalendar(false)
+															}}
+														/>
+													</div>
+												</div>
+											)}
+										</>
+									)}
+								/>
+							</div>
 
-					{showCalendar && (
-						<div
-							className={classes.popupOverlay}
-							onClick={() => setShowCalendar(false)}
-						>
-							<div
-								className={classes.popupContent}
-								onClick={e => e.stopPropagation()}
-							>
-								<Calendar
-									selectedDate={formData.date}
-									onDateSelect={handleDateSelect}
+							{/* ВРЕМЯ ------------------------------------------------------------------ */}
+							<div className={classes.fieldGroup}>
+								<Controller
+									control={control}
+									name='time'
+									rules={{ required: "Время обязательно" }}
+									render={({field})=>(
+										<>
+											<div
+												className={classNames(classes.selectField,
+													errors.time?.message && classes.selectFieldError
+												)}
+												onClick={() => {
+													setShowTimeSlots(!showTimeSlots)
+													setShowCalendar(false)
+												}}
+											>
+												<span>
+													{field.value ? (
+														<Typography variant='b1' weight='regular'>{field.value}</Typography>
+													) : (
+														<Typography variant='b1' weight='regular' className={classes.placeholder}>
+															Выберите время
+														</Typography>
+													)}
+												</span>
+												<Time />
+											</div>
+											{errors.time?.message  && <Typography className={classes.error} variant='b2' weight='semiBold'>{errors.time?.message}</Typography>}
+
+											{showTimeSlots && (
+												<div
+													className={classes.popupOverlays}
+													onClick={() => setShowTimeSlots(false)}
+												>
+													<div
+														className={classes.popupContent}
+														onClick={e => e.stopPropagation()}
+													>
+														<TimeSlots
+															selectedTime={field.value}
+															onTimeSelect={(time: string) => {
+																field.onChange(time)
+																setShowTimeSlots(false)
+															}}
+														/>
+													</div>
+												</div>
+											)}
+										</>
+									)}
 								/>
 							</div>
 						</div>
-					)}
-				</div>
-
-				{/* ВРЕМЯ ------------------------------------------------------------------ */}
-				<div className={classes.fieldGroup}>
-					<Typography variant='b2' weight='medium' className={classes.label}>
-						Выберите время
-					</Typography>
-
-					<div
-						className={classes.selectField}
-						onClick={() => {
-							setShowTimeSlots(!showTimeSlots)
-							setShowCalendar(false)
-						}}
-					>
-						<span>
-							{formData.time ? (
-								<Typography variant='b1' weight='regular'>{formData.time}</Typography>
-							) : (
-								<Typography variant='b1' weight='regular' className={classes.placeholder}>
-									Выберите время
-								</Typography>
-							)}
-						</span>
-						<Time />
 					</div>
+					<Controller
+						control={control}
+						name='fullName'
+						rules={{ required: "Имя обязательно" }}
+						render={({field:{value,onChange,onBlur}})=>(
+							<Input
+								value={value}
+								onChange={onChange}
+								onBlur={onBlur}
+								name='fullName'
+								variant='input'
+								error={errors.fullName?.message}
+								label='Введите ФИО'
+								type='text'
+								placeholder='ФИО'
+							/>
+						)}
+					/>
 
-					{showTimeSlots && (
-						<div
-							className={classes.popupOverlays}
-							onClick={() => setShowTimeSlots(false)}
-						>
-							<div
-								className={classes.popupContent}
-								onClick={e => e.stopPropagation()}
-							>
-								<TimeSlots
-									selectedTime={formData.time}
-									onTimeSelect={handleTimeSelect}
+					<Controller
+						control={control}
+						name='company'
+						render={({field:{value,onChange,onBlur}})=>(
+							<Input
+								value={value}
+								onChange={onChange}
+								onBlur={onBlur}
+								name='company'
+								variant='input'
+								label='Введите название компании (не обязательное поле)'
+								type='text'
+								placeholder='Название компании'
+							/>
+						)}
+					/>
+
+					<div className={classes.telEmail}>
+						<Controller
+							control={control}
+							name='phone'
+							rules={{
+								required: "Телефон обязателен",
+								pattern: {
+									value: /^\+996\d{9}$/,
+									message: "Номер должен быть в формате +996XXXXXXXXX"
+								}
+							}}
+							render={({field:{value,onChange,onBlur}})=>(
+								<Input
+									value={value}
+									onChange={onChange}
+									onBlur={onBlur}
+									name='phone'
+									variant='input'
+									label='Введите номер телефона'
+									type='tel'
+									error={errors.phone?.message}
+									placeholder='+996 (000) 00 00 00'
 								/>
-							</div>
-						</div>
-					)}
-				</div>
+							)}
+						/>
 
-				{/* ФИО ------------------------------------------------------------------ */}
-				<div className={classes.fieldGroup}>
-					<Typography weight='medium' variant='b2'>Введите ФИО</Typography>
-					<input
-						type='text'
-						className={classes.input}
-						placeholder='ФИО'
-						value={formData.fullName}
-						onChange={e => handleInputChange('fullName', e.target.value)}
-						required
-					/>
-				</div>
-
-				{/* КОМПАНИЯ --------------------------------------------------------------- */}
-				<div className={classes.fieldGroup}>
-					<Typography weight='medium' variant='b2'>Введите название компании</Typography>
-					<input
-						type='text'
-						className={classes.input}
-						placeholder='Название компании'
-						value={formData.company}
-						onChange={e => handleInputChange('company', e.target.value)}
-					/>
-				</div>
-
-				{/* ТЕЛЕФОН + EMAIL -------------------------------------------------------- */}
-				<div className={classes.fields}>
-					<div className={classes.fieldGroup}>
-						<Typography weight='medium' variant='b2'>Введите номер телефона</Typography>
-						<input
-							type='tel'
-							className={classes.input}
-							placeholder='+996 (000) 00 00 00'
-							value={formData.phone}
-							onChange={e => handlePhoneChange(e.target.value)}
-							required
+						<Controller
+							control={control}
+							name='email'
+							rules={{ required: "Почта обязательна" }}
+							render={({field:{value,onChange,onBlur}})=>(
+								<Input
+									value={value}
+									onChange={onChange}
+									onBlur={onBlur}
+									name='email'
+									variant='input'
+									label='Введите электронную почту'
+									type='email'
+									error={errors.email?.message}
+									placeholder='E-mail'
+								/>
+							)}
 						/>
 					</div>
 
-					<div className={classes.fieldGroup}>
-						<Typography weight='medium' variant='b2'>Введите электронную почту</Typography>
-						<input
-							type='email'
-							className={classes.input}
-							placeholder='E-mail'
-							value={formData.email}
-							onChange={e => handleInputChange('email', e.target.value)}
-							required
-						/>
-					</div>
-				</div>
-
-				{/* СУТЬ ------------------------------------------------------------------ */}
-				<div className={classes.fieldGroup}>
-					<Typography weight='medium' variant='b2'>Суть обращения</Typography>
-					<textarea
-						className={classes.textarea}
-						placeholder='Введите текст'
-						value={formData.purpose}
-						onChange={e => handleInputChange('purpose', e.target.value)}
-						required
-						rows={4}
+					<Controller
+						control={control}
+						name='purpose'
+						rules={{ required: "Суть обращения обязательна" }}
+						render={({field:{value,onChange,onBlur}})=>(
+							<Input
+								value={value}
+								onChange={onChange}
+								onBlur={onBlur}
+								type='text'
+								name='purpose'
+								variant='textarea'
+								label='Суть обращения'
+								error={errors.purpose?.message}
+								placeholder='Введите текст'
+							/>
+						)}
 					/>
-				</div>
 
-				{/* КНОПКА ------------------------------------------------------------------ */}
-				<CustomButton
-					variant='primary'
-					actionType='button'
-					type='submit'
-					className={classes.submitButton}
-					disabled={mutation.isPending}
-				>
-					<Typography variant='b1' weight='medium'>
-						{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
-					</Typography>
-				</CustomButton>
-			</form>
-		</div>
+					{/* КНОПКА ------- */}
+					<CustomButton
+						variant='primary'
+						actionType='button'
+						type='submit'
+						className={classes.submitButton}
+						disabled={mutation.isPending}
+					>
+						<Typography variant='b1' weight='medium'>
+							{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
+						</Typography>
+					</CustomButton>
+				</form>
+			</div>
+		</>
 	)
 }
 

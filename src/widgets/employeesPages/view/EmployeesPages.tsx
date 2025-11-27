@@ -4,9 +4,18 @@ import { EmployeesCard } from '@/shared/ui/employeesCard/view/EmployeesCard'
 import classes from './EmployeesPages.module.scss'
 import { useEmployees } from '../api/useEmployees'
 import { BASE_URL } from '@/shared/constants/constants'
+import { ConsultationStore } from '@/entitles/consultation'
+import { useRouter } from 'next/navigation'
 
 export const EmployeesPages = () => {
+	const router = useRouter()
 	const {data} = useEmployees()
+	const {setEmployeeId}= ConsultationStore()
+
+	const handleSingUp =(id:number)=> {
+		setEmployeeId(id)
+		router.push('/consultation')
+	}
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
@@ -23,7 +32,7 @@ export const EmployeesPages = () => {
 								name={data[0].employee_translations[0].full_name}
 								position={data[0].employee_translations[0].job}
 								branch={data[0].employee_translations[0].branch}
-								path={`consultation/${data[0].id}`}
+								onClick={()=> handleSingUp(data[0].employee_translations[0].employee_id)}
 								alt='Сотрудник'
 							/>
 						)}
@@ -40,6 +49,7 @@ export const EmployeesPages = () => {
 										name={item.employee_translations[0].full_name}
 										position={item.employee_translations[0].job}
 										branch={item.employee_translations[0].branch}
+										onClick={()=> handleSingUp(item.employee_translations[0].employee_id)}
 									/>
 								</div>
 							))}

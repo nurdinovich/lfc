@@ -9,7 +9,7 @@ export type TVariants =
 	| 'bodyText'
   | 'buttonText'
 export type TColors = 'black' | 'white' | 'green' | 'grey'
-export type TWeights = 'medium' | 'semiBold' | 'bold' | 'regular'
+export type TWeights = 'medium' | 'semiBold' | 'bold' | 'regular'| 'semi600'
 
 export interface TTypographyProps {
 	onClick?: () => void

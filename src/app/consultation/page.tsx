@@ -3,11 +3,11 @@ import { MultiContainer } from '@/shared/ui'
 
 const page = () => {
 	return (
-		<div>
+		
 			<MultiContainer>
 				<BookingForm />
 			</MultiContainer>
-		</div>
+		
 	)
 }
 

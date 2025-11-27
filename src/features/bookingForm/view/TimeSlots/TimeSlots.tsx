@@ -13,14 +13,14 @@ const TimeSlots: React.FC<TimeSlotsProps> = ({
 	onTimeSelect,
 }) => {
 	const timeSlots = [
-		{ start: '09:15', end: '10:00', available: true },
-		{ start: '10:15', end: '11:00', available: true },
-		{ start: '11:15', end: '12:00', available: false },
-		{ start: '12:15', end: '13:00', available: true },
-		{ start: '13:15', end: '14:00', available: false },
-		{ start: '13:15', end: '14:00', available: true },
-		{ start: '13:15', end: '14:00', available: true },
-		{ start: '13:15', end: '14:00', available: true },
+		{ start: '10:00', end: '10:00', available: true },
+		{ start: '11:00', end: '11:00', available: true },
+		{ start: '12:00', end: '12:00', available: false },
+		{ start: '13:00', end: '13:00', available: true },
+		{ start: '14:00', end: '14:00', available: false },
+		{ start: '15:00', end: '14:00', available: true },
+		{ start: '16:00', end: '14:00', available: true },
+		{ start: '17:00', end: '14:00', available: true },
 	]
 
 	return (
@@ -51,7 +51,7 @@ const TimeSlots: React.FC<TimeSlotsProps> = ({
 						onClick={() => slot.available && onTimeSelect(slot.start)}
 					>
 						<Typography variant={'buttonText'} weight={'medium'}>
-						с {slot.start} до {slot.end}
+						{slot.start}
 						</Typography>
 					</div>
 				))}

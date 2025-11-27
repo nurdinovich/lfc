@@ -10,8 +10,8 @@ export const Typography: FC<TTypographyProps> = props => {
 		h1: 'h1',
 		h2: 'h2',
 		h3: 'h3',
-		b1: 'b',
-		b2: 'b',
+		b1: 'p',
+		b2: 'p',
 		bodyText: 'p',
     buttonText: 'p'
 	}
