@@ -5,5 +5,5 @@ export interface IEmployees {
 	alt: string
 	position: string
 	variant?: string
-	path?: string
+	onClick?: ()=> void
 }

@@ -1,3 +1,5 @@
+import { FieldValues, Path } from "react-hook-form"
+
 export interface TimeSlot {
 	start: string
 	end: string
@@ -22,4 +24,18 @@ export interface IConsultationRequest {
 	phone_number: string // Должно быть формата "+996 XXX XX-XX-XX"
 	email: string // Email
 	description: string // Описание/комментарий
+}
+
+export interface BaseInputsProps<T extends FieldValues> {
+  label: string;
+  name: Path<T>;
+  className?: string;
+  placeholder: string;
+  error?: string;
+  disabled?: boolean;
+  type: | 'text'| 'email'| 'number'| 'date'| 'tel';
+  variant: 'input' | 'textarea'
+	value: string;
+  onChange: (value: string) => void;
+  onBlur: () => void;
 }

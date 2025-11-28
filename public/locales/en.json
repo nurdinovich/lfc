@@ -14,5 +14,8 @@
 		"contact": "Contact",
 		"faq": "Frequently Asked Questions (FAQ)",
 		"mode": "Accessibility Mode"
+	},
+	"formErrors": {
+		"required":"Обязательное поле"
 	}
 }

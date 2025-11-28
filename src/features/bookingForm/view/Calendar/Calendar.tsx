@@ -1,109 +1,129 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import styles from './Calendar.module.scss'
 import { ButtonNav, ButtonNavs } from '@/shared/assest/icons'
 import { Typography } from '@/shared/ui'
 
 interface CalendarProps {
-	selectedDate: Date | null
-	onDateSelect: (date: Date) => void
+  selectedDate: Date | null
+  onDateSelect: (date: Date) => void
 }
 
 const Calendar: React.FC<CalendarProps> = ({ selectedDate, onDateSelect }) => {
-	// удалили currentMonth, так как он нигде не используется
-	const daysInMonth = new Date(2025, 10, 0).getDate()
-	const firstDayOfMonth = new Date(2025, 9, 1).getDay()
+  const [currentDate, setCurrentDate] = useState<Date>(selectedDate || new Date())
 
-	const days: number[] = []
-	const daysInPrevMonth = new Date(2025, 9, 0).getDate()
-	const startOffset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1
+  const month = currentDate.getMonth()
+  const year = currentDate.getFullYear()
 
-	// дни из предыдущего месяца
-	for (let i = 0; i < startOffset; i++) {
-		days.push(daysInPrevMonth - startOffset + i + 1)
-	}
+  // Подсчёты календаря, пересчитываются только при изменении currentDate
+  const {
+    days,
+    startOffset,
+    daysInMonth
+  } = useMemo(() => {
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
+    const firstDayOfMonth = new Date(year, month, 1).getDay()
 
-	// дни текущего месяца
-	for (let i = 1; i <= daysInMonth; i++) {
-		days.push(i)
-	}
+    const daysArr: number[] = []
+    const daysInPrevMonth = new Date(year, month, 0).getDate()
+    
+    const offset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1
 
-	// дни из следующего месяца
-	const lastDayOfMonth = new Date(2025, 9, daysInMonth).getDay()
-	const daysNeededFromNextMonth = lastDayOfMonth === 0 ? 0 : 7 - lastDayOfMonth
-	for (let i = 1; i <= daysNeededFromNextMonth; i++) {
-		days.push(i)
-	}
+    // предыдущий месяц
+    for (let i = 0; i < offset; i++) {
+      daysArr.push(daysInPrevMonth - offset + i + 1)
+    }
 
-	const handleDateClick = (day: number, isCurrentMonth: boolean) => {
-		if (isCurrentMonth) {
-			const date = new Date(2025, 9, day)
-			onDateSelect(date)
-		}
-	}
+    // текущий месяц
+    for (let i = 1; i <= daysInMonth; i++) {
+      daysArr.push(i)
+    }
 
-	return (
-		<div className={styles.calendar}>
-			<div className={styles.calendarHeader}>
-				<span className={styles.monthYear}>Октябрь 2025</span>
-				<div className={styles.navButtons}>
-					<button className={styles.navButton}>
-						<ButtonNavs />
-					</button>
-					<button className={styles.navButton}>
-						<ButtonNav />
-					</button>
-				</div>
-			</div>
+    // следующий месяц
+    const lastDayOfMonth = new Date(year, month, daysInMonth).getDay()
+    const daysNeededFromNextMonth = lastDayOfMonth === 0 ? 0 : 7 - lastDayOfMonth
+    for (let i = 1; i <= daysNeededFromNextMonth; i++) {
+      daysArr.push(i)
+    }
 
-			<hr />
+    return { days: daysArr, startOffset: offset, daysInMonth }
+  }, [month, year])
 
-			<div className={styles.weekDays}>
-				{['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map(day => (
-					<Typography
-						variant='b2'
-						weight='regular'
-						key={day}
-						className={styles.weekDay}
-					>
-						{day}
-					</Typography>
-				))}
-			</div>
+  const handleDateClick = (day: number, isCurrentMonth: boolean) => {
+    const newDate = new Date(year, isCurrentMonth ? month : month + 1, day)
+    onDateSelect(newDate)
+  }
 
-			<div className={styles.daysGrid}>
-				{days.map((day, index) => {
-					const isPrevMonth = index < startOffset
-					const isCurrentMonth =
-						index >= startOffset && index < startOffset + daysInMonth
-					// убрали isNextMonth, так как он нигде не использовался
+  const goToPrevMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
+  }
 
-					const isSelected =
-						selectedDate &&
-						isCurrentMonth &&
-						selectedDate.getDate() === day &&
-						selectedDate.getMonth() === 9
+  const goToNextMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))
+  }
 
-					return (
-						<div
-							key={index}
-							className={`${styles.day} ${
-								isCurrentMonth
-									? styles.currentMonth
-									: isPrevMonth
-									? styles.prevMonth
-									: styles.nextMonth
-							} ${isSelected ? styles.selected : ''}`}
-							onClick={() => handleDateClick(day, isCurrentMonth)}
-						>
-							<Typography variant='buttonText' weight='semiBold'>
-								{day}
-							</Typography>
-						</div>
-					)
-				})}
-			</div>
-		</div>
-	)
+  const monthNames = [
+    'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+    'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+  ]
+
+  return (
+    <div className={styles.calendar}>
+      <div className={styles.calendarHeader}>
+        <span className={styles.monthYear}>
+          {monthNames[month]} {year}
+        </span>
+
+        <div className={styles.navButtons}>
+          <button className={styles.navButton} onClick={goToPrevMonth}>
+            <ButtonNavs />
+          </button>
+
+          <button className={styles.navButton} onClick={goToNextMonth}>
+            <ButtonNav />
+          </button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div className={styles.weekDays}>
+        {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'].map(day => (
+          <Typography variant='b2' weight='regular' key={day} className={styles.weekDay}>
+            {day}
+          </Typography>
+        ))}
+      </div>
+
+      <div className={styles.daysGrid}>
+        {days.map((day, index) => {
+          const isPrevMonth = index < startOffset
+          const isCurrentMonth = index >= startOffset && index < startOffset + daysInMonth
+
+          const isSelected =
+            selectedDate &&
+            isCurrentMonth &&
+            selectedDate.getDate() === day &&
+            selectedDate.getMonth() === month &&
+            selectedDate.getFullYear() === year
+
+          return (
+            <div
+              key={index}
+              className={`${styles.day} ${
+                isCurrentMonth ? styles.currentMonth :
+                isPrevMonth ? styles.prevMonth : styles.nextMonth
+              } ${isSelected ? styles.selected : ''}`}
+              onClick={() => handleDateClick(day, isCurrentMonth)}
+            >
+              <Typography variant='buttonText' weight='semiBold'>
+                {day}
+              </Typography>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 export default Calendar

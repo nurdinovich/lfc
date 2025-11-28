@@ -11,7 +11,7 @@ export const EmployeesCard: FC<IEmployees> = ({
 	branch,
 	alt,
 	variant,
-	path,
+	onClick,
 }) => {
 	if (variant === 'director') {
 		return (
@@ -29,8 +29,8 @@ export const EmployeesCard: FC<IEmployees> = ({
 					</Typography>
 					<CustomButton
 						variant={'primary'}
-						actionType={'link'}
-						to={path}
+						actionType={'button'}
+						onClick={onClick}
 						className={classes.btn}
 					>
 						Записаться
@@ -53,7 +53,11 @@ export const EmployeesCard: FC<IEmployees> = ({
 					<Typography variant='b2' weight='regular'>
 						{branch}
 					</Typography>
-					<CustomButton variant={'primary'} actionType={'button'}>
+					<CustomButton 
+						variant={'primary'} 
+						actionType={'button'}
+						onClick={onClick}
+					>
 						Записаться
 					</CustomButton>
 				</div>
