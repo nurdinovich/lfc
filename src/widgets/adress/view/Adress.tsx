@@ -14,7 +14,7 @@ export const Adress = () => {
 					<div key={index} className={classes.item}>
 						<Typography variant='b2' weight='regular'>
 							{item.contact_translations[0].city}{' '}
-							<strong>{item.contact_translations[0].address}</strong>
+							<span>{item.contact_translations[0].address}</span>
 						</Typography>
 						<Typography variant='b2' weight='regular'>
 							<a
@@ -23,14 +23,14 @@ export const Adress = () => {
 							>
 								{item.phone_number1}
 							</a>{' '}
-							<strong>
+							<span>
 								<a
 									href={`tel:${item.phone_number2}`}
 									className={classes.phoneLink}
 								>
 									{item.phone_number2}
 								</a>
-							</strong>
+							</span>
 						</Typography>
 					</div>
 				))}

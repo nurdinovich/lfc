@@ -2,17 +2,30 @@
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './AboutBlock.module.scss'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useAboutBlock } from '../api/useAboutBlock'
 import { Loader } from '@/shared/ui/loader/view/Loader'
+
+// Helper function to safely extract numbers
+const safeExtractNumber = (numString: string | undefined): number => {
+	if (!numString) return 0
+	const numbers = numString.replace(/\D/g, '')
+	return numbers ? Number(numbers) : 0
+}
 
 export const AboutBlock = () => {
 	const { t } = useSafeTranslation()
 	const { data, isLoading } = useAboutBlock()
-	const [counts, setCounts] = useState<number[]>([])
 
+	// Initialize counts based on data availability
+	const initialCounts = data && data[0] ? Array(4).fill(0) : []
+	const [counts, setCounts] = useState<number[]>(initialCounts)
+	const intervalsRef = useRef<NodeJS.Timeout[]>([])
+	const animationStartedRef = useRef(false)
+
+	// Animation effect - only runs when data changes and animation hasn't started
 	useEffect(() => {
-		if (!data || !data[0]) return
+		if (!data || !data[0] || animationStartedRef.current) return
 
 		const stats = [
 			{ number: data[0].number1, title: data[0].title1 },
@@ -21,32 +34,57 @@ export const AboutBlock = () => {
 			{ number: data[0].number4, title: data[0].title4 },
 		]
 
-		// Initialize counts asynchronously using a function
-		const initializeCounts = () => {
-			setCounts(Array(stats.length).fill(0))
-		}
+		// Mark animation as started
+		animationStartedRef.current = true
 
-		initializeCounts()
+		// Clear any existing intervals
+		intervalsRef.current.forEach(interval => clearInterval(interval))
+		intervalsRef.current = []
 
 		stats.forEach((stat, index) => {
-			const target = Number(stat.number.replace(/\D/g, ''))
-			let start = 0
+			if (!stat.number) return
+
+			const target = safeExtractNumber(stat.number)
+			if (target <= 0) return
+
 			const duration = 2500
 			const step = Math.ceil(target / (duration / 20))
 
 			const interval = setInterval(() => {
-				start += step
-				if (start >= target) {
-					start = target
-					clearInterval(interval)
-				}
 				setCounts(prev => {
 					const newCounts = [...prev]
-					newCounts[index] = start
+					const currentValue = newCounts[index]
+
+					// Only update if we haven't reached the target
+					if (currentValue < target) {
+						const nextValue = Math.min(currentValue + step, target)
+						newCounts[index] = nextValue
+
+						// Clear interval if we reached the target
+						if (nextValue >= target) {
+							clearInterval(interval)
+							intervalsRef.current = intervalsRef.current.filter(
+								i => i !== interval
+							)
+						}
+					}
 					return newCounts
 				})
 			}, 20)
+
+			intervalsRef.current.push(interval)
 		})
+
+		// Cleanup function
+		return () => {
+			intervalsRef.current.forEach(interval => clearInterval(interval))
+			intervalsRef.current = []
+		}
+	}, [data]) // Only depend on data
+
+	// Reset animation state when data changes
+	useEffect(() => {
+		animationStartedRef.current = false
 	}, [data])
 
 	if (isLoading) return <Loader />
@@ -60,6 +98,10 @@ export const AboutBlock = () => {
 		{ number: data[0].number4, title: data[0].title4 },
 	]
 
+	// Ensure counts array matches stats length
+	const displayCounts =
+		counts.length === stats.length ? counts : Array(stats.length).fill(0)
+
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
@@ -72,11 +114,11 @@ export const AboutBlock = () => {
 						{stats.map((stat, index) => (
 							<div key={index} className={classes.statItem}>
 								<Typography variant='h2' weight='medium'>
-									{counts[index]}
+									{displayCounts[index]}
 									{stat.number?.includes('+') && '+'}
 								</Typography>
 								<Typography variant='b1' weight='regular'>
-									{stat.title}
+									{stat.title || ''}
 								</Typography>
 							</div>
 						))}
