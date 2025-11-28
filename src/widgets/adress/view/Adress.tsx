@@ -1,12 +1,13 @@
-import { Typography } from "@/shared/ui"
+import { Typography } from '@/shared/ui'
 import classes from './Adress.module.scss'
-import { useMapAdress } from "@/shared/api/useMapAdress"
-import { useWorks } from "@/shared/api/useWorks"
+import { useMapAdress } from '@/shared/api/useMapAdress'
+import { useWorks } from '@/shared/api/useWorks'
 
 export const Adress = () => {
-  const {data} = useMapAdress()
-  const {data: grafic} = useWorks()
-  return (
+	const { data } = useMapAdress()
+	const { data: grafic } = useWorks()
+
+	return (
 		<div className={classes.adress}>
 			<div className={classes.container}>
 				{data?.map((item, index) => (
@@ -16,7 +17,20 @@ export const Adress = () => {
 							<strong>{item.contact_translations[0].address}</strong>
 						</Typography>
 						<Typography variant='b2' weight='regular'>
-							{item.phone_number1} <strong>{item.phone_number2}</strong>
+							<a
+								href={`tel:${item.phone_number1}`}
+								className={classes.phoneLink}
+							>
+								{item.phone_number1}
+							</a>{' '}
+							<strong>
+								<a
+									href={`tel:${item.phone_number2}`}
+									className={classes.phoneLink}
+								>
+									{item.phone_number2}
+								</a>
+							</strong>
 						</Typography>
 					</div>
 				))}
@@ -35,25 +49,28 @@ export const Adress = () => {
 							<Typography variant='b2' weight='regular'>
 								{item.working_hours}
 							</Typography>
-							<Typography variant='bodyText' weight='bold'>
+
+							<Typography variant='b2' weight='regular'>
 								{item.weekend}
 							</Typography>
-							<Typography variant='bodyText' weight='regular'>
+
+							<Typography variant='b2' weight='regular'>
 								Выходной
 							</Typography>
 						</div>
 
 						<div className={classes.content}>
 							<div className={classes.item}>
-								<Typography variant='b2' weight='medium'>
+								<Typography variant='b2' weight='regular'>
 									{item.working_days}
 								</Typography>
 								<Typography variant='b2' weight='medium'>
 									{item.weekend}
 								</Typography>
 							</div>
+
 							<div className={classes.item}>
-								<Typography variant='b2' weight='medium'>
+								<Typography variant='b2' weight='regular'>
 									{item.working_hours}
 								</Typography>
 								<Typography variant='b2' weight='medium'>
