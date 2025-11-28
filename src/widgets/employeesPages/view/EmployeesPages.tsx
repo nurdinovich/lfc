@@ -19,7 +19,7 @@ export const EmployeesPages = () => {
 	}
 	return (
 		<section className={classes.section}>
-			<BreadCrumbs breadCrumbKey='employees' />
+			<BreadCrumbs breadCrumbKey='employees'  />
 			<MultiContainer>
 				<Typography variant='h1' weight='bold' className={classes.title}>
 					Сотрудники
