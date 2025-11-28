@@ -7,6 +7,7 @@ export const routes = {
 	contact: '/contact',
 	news: '/news',
 	employees: '/employees',
+	consultation: '/consultation',
 }
 
 export const links = [
@@ -55,7 +56,12 @@ export const breadCrumbs: IBreadCrumbItem[] = [
 		key: 'about',
 		label: 'navigation.about',
 		route: routes.about,
-	}
+	},
+	{
+		key: 'consultation',
+		label: 'consultation',
+		route: routes.consultation,
+	},
 ]
 export type LanguageCode = (typeof languages)[number]['lang']
 

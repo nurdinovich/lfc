@@ -2,18 +2,18 @@ import { MultiContainer, Typography } from '@shared/ui'
 import classNames from 'classnames'
 import classes from './BreadCrumbs.module.scss'
 import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
 import { BreadProps } from '../types/types'
 import { generateBreadCrumbs } from '@/shared/lib/helpers/helpers'
 import Link from 'next/link'
 import { IconsBread } from '@/shared/assest/icons'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const BreadCrumbs: FC<BreadProps> = ({
 	breadCrumbKey,
 	thirdElement,
 	fourthElement,
 }) => {
-	const { t } = useTranslation()
+	const { t } = useSafeTranslation()
 
 	const breadCrumbs = generateBreadCrumbs(
 		breadCrumbKey,

@@ -11,6 +11,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { BookingFormData } from '../../types/types'
 import classNames from 'classnames'
 import { ConsultationStore } from '@/entitles/consultation'
+import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 
 
 const BookingForm: React.FC = () => {
@@ -67,6 +68,7 @@ const BookingForm: React.FC = () => {
 
 	return (
 		<>
+			<BreadCrumbs breadCrumbKey='employees'  thirdElement={'Запись на консультацию'}/>
 			<Typography className={classes.titlePage} variant='h1' weight='bold'>
 				Запись на консультацию
 			</Typography>
@@ -77,7 +79,11 @@ const BookingForm: React.FC = () => {
 					</Typography>
 
 					<div>
-						<Typography variant='b1' weight='semiBold' className={classes.labelDateTime}>
+						<Typography
+							variant='b1'
+							weight='semiBold'
+							className={classes.labelDateTime}
+						>
 							Выберите удобное для вас время и дату
 						</Typography>
 						<div className={classes.containerDateTime}>
@@ -86,11 +92,12 @@ const BookingForm: React.FC = () => {
 								<Controller
 									name='date'
 									control={control}
-									rules={{ required: "Дата обязательна" }}
-									render={({field})=> (
+									rules={{ required: 'Дата обязательна' }}
+									render={({ field }) => (
 										<>
 											<div
-												className={classNames(classes.selectField,
+												className={classNames(
+													classes.selectField,
 													errors.date?.message && classes.selectFieldError
 												)}
 												onClick={() => {
@@ -104,14 +111,26 @@ const BookingForm: React.FC = () => {
 															{dateFormat(field.value)}
 														</Typography>
 													) : (
-														<Typography variant='b1' weight='regular'  className={classes.placeholder}>
+														<Typography
+															variant='b1'
+															weight='regular'
+															className={classes.placeholder}
+														>
 															Выберите дату
 														</Typography>
 													)}
 												</span>
 												<Calendars />
 											</div>
-											{errors.date?.message  && <Typography className={classes.error} variant='b2' weight='semiBold'>{errors.date?.message}</Typography>}
+											{errors.date?.message && (
+												<Typography
+													className={classes.error}
+													variant='b2'
+													weight='semiBold'
+												>
+													{errors.date?.message}
+												</Typography>
+											)}
 											{showCalendar && (
 												<div
 													className={classes.popupOverlay}
@@ -141,11 +160,12 @@ const BookingForm: React.FC = () => {
 								<Controller
 									control={control}
 									name='time'
-									rules={{ required: "Время обязательно" }}
-									render={({field})=>(
+									rules={{ required: 'Время обязательно' }}
+									render={({ field }) => (
 										<>
 											<div
-												className={classNames(classes.selectField,
+												className={classNames(
+													classes.selectField,
 													errors.time?.message && classes.selectFieldError
 												)}
 												onClick={() => {
@@ -155,16 +175,30 @@ const BookingForm: React.FC = () => {
 											>
 												<span>
 													{field.value ? (
-														<Typography variant='b1' weight='regular'>{field.value}</Typography>
+														<Typography variant='b1' weight='regular'>
+															{field.value}
+														</Typography>
 													) : (
-														<Typography variant='b1' weight='regular' className={classes.placeholder}>
+														<Typography
+															variant='b1'
+															weight='regular'
+															className={classes.placeholder}
+														>
 															Выберите время
 														</Typography>
 													)}
 												</span>
 												<Time />
 											</div>
-											{errors.time?.message  && <Typography className={classes.error} variant='b2' weight='semiBold'>{errors.time?.message}</Typography>}
+											{errors.time?.message && (
+												<Typography
+													className={classes.error}
+													variant='b2'
+													weight='semiBold'
+												>
+													{errors.time?.message}
+												</Typography>
+											)}
 
 											{showTimeSlots && (
 												<div
@@ -194,8 +228,8 @@ const BookingForm: React.FC = () => {
 					<Controller
 						control={control}
 						name='fullName'
-						rules={{ required: "Имя обязательно" }}
-						render={({field:{value,onChange,onBlur}})=>(
+						rules={{ required: 'Имя обязательно' }}
+						render={({ field: { value, onChange, onBlur } }) => (
 							<Input
 								value={value}
 								onChange={onChange}
@@ -213,7 +247,7 @@ const BookingForm: React.FC = () => {
 					<Controller
 						control={control}
 						name='company'
-						render={({field:{value,onChange,onBlur}})=>(
+						render={({ field: { value, onChange, onBlur } }) => (
 							<Input
 								value={value}
 								onChange={onChange}
@@ -232,13 +266,13 @@ const BookingForm: React.FC = () => {
 							control={control}
 							name='phone'
 							rules={{
-								required: "Телефон обязателен",
+								required: 'Телефон обязателен',
 								pattern: {
 									value: /^\+996\d{9}$/,
-									message: "Номер должен быть в формате +996XXXXXXXXX"
-								}
+									message: 'Номер должен быть в формате +996XXXXXXXXX',
+								},
 							}}
-							render={({field:{value,onChange,onBlur}})=>(
+							render={({ field: { value, onChange, onBlur } }) => (
 								<Input
 									value={value}
 									onChange={onChange}
@@ -256,8 +290,8 @@ const BookingForm: React.FC = () => {
 						<Controller
 							control={control}
 							name='email'
-							rules={{ required: "Почта обязательна" }}
-							render={({field:{value,onChange,onBlur}})=>(
+							rules={{ required: 'Почта обязательна' }}
+							render={({ field: { value, onChange, onBlur } }) => (
 								<Input
 									value={value}
 									onChange={onChange}
@@ -276,8 +310,8 @@ const BookingForm: React.FC = () => {
 					<Controller
 						control={control}
 						name='purpose'
-						rules={{ required: "Суть обращения обязательна" }}
-						render={({field:{value,onChange,onBlur}})=>(
+						rules={{ required: 'Суть обращения обязательна' }}
+						render={({ field: { value, onChange, onBlur } }) => (
 							<Input
 								value={value}
 								onChange={onChange}
@@ -300,9 +334,9 @@ const BookingForm: React.FC = () => {
 						className={classes.submitButton}
 						disabled={mutation.isPending}
 					>
-						<Typography variant='b1' weight='medium'>
-							{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
-						</Typography>
+						{/* <Typography variant='b1' weight='medium'> */}
+						{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
+						{/* </Typography> */}
 					</CustomButton>
 				</form>
 			</div>
