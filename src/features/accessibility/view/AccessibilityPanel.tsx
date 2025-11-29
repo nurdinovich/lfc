@@ -11,7 +11,6 @@ import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 export const AccessibilityPanel: React.FC = () => {
 	const [isOpen, setIsOpen] = useState(false)
 	const { settings, updateSettings, resetSettings } = useAccessibility()
-
 	const increaseFontSize = () => {
 		const newSize = Math.min(settings.fontSize + 2, 32)
 		updateSettings({ fontSize: newSize })
@@ -44,7 +43,7 @@ export const AccessibilityPanel: React.FC = () => {
 					<LowMode className={classes.icons} />
 				</div>
 				<Typography variant='buttonText' weight='medium' className={classes.text}>
-					{t('block.mode')}
+					{t('buttons.mode')}
 				</Typography>
 			</div>
 

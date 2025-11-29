@@ -49,10 +49,11 @@
     }
   }
 
-  @include Mobile {
+  @include SmallMobile {
     width: 100% !important;
     height: 44px !important;
     justify-content: center;
+    // display: none;
 
     .text {
       display: block;

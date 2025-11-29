@@ -5,9 +5,11 @@
   border-bottom: 1px solid var(--grey);
   box-shadow: 0px 2px 8px 0px #00000040;
   display: flex;
-@include Tablet {
-  display: flex;
-}
+
+  @include Tablet {
+    display: flex;
+  }
+
   .container {
     display: flex;
     justify-content: space-between;
@@ -17,29 +19,33 @@
       justify-content: space-between;
       width: 100%;
     }
-    @include SmallTablet {
-      .icon {
-        width: 86px;
-        height: 48px;
 
-        svg {
-          width: 100%;
-          height: 100%;
-        }
-      }
+    @include Mobile {
+      justify-content: space-between;
+      width: 100%;
     }
 
-    .icon{
+    .icon {
       width: 118px;
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: center;
 
-      img{
+      img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+
+      @include SmallTablet {
+        width: 86px;
+        height: 48px;
+      }
+
+      @include SmallMobile {
+        width: 76px;
+        height: 42px;
       }
     }
   }
@@ -54,7 +60,7 @@
       gap: 12px;
     }
 
-    @include Mobile {
+    @include SmallMobile {
       position: absolute;
       top: 100%;
       left: 0;
@@ -81,6 +87,10 @@
     }
 
     @include Mobile {
+      display: flex;
+    }
+
+    @include SmallMobile {
       display: none;
     }
   }
@@ -88,7 +98,8 @@
   .language {
     display: none;
 
-    @include Mobile {
+
+    @include SmallMobile {
       display: flex;
       padding: 0px auto;
       flex-direction: column;
@@ -160,9 +171,8 @@
       display: none;
     }
 
-    @include Mobile {
+    @include SmallMobile {
       display: block;
-
     }
   }
 }

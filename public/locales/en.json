@@ -15,7 +15,23 @@
 		"faq": "Frequently Asked Questions (FAQ)",
 		"mode": "Accessibility Mode"
 	},
+	"services": {
+		"desc": "We provide professional legal and accounting services for businesses and private clients. Our goal is to help you operate with confidence, avoid risks, and save time on solving complex issues.",
+		"subtitle": "Our Services",
+		"text": "If you haven’t found the service you need or would like to clarify the details, book a consultation. Our specialist will help you choose the optimal solution for your specific request."
+	},
+	"buttons": {
+		"book": "Book a Consultation",
+		"back": "Back to All News",
+		"grafic": "Working Hours:",
+		"dayof": "Day Off",
+		"mode": "Accessibility Mode"
+	},
+	"overlay": {
+		"successfully": "Your request has been successfully submitted.",
+		"look": "We look forward to seeing you at our office — we’ll be happy to assist you. We are always open for you!"
+	},
 	"formErrors": {
-		"required":"Обязательное поле"
+		"required": "Обязательное поле"
 	}
 }

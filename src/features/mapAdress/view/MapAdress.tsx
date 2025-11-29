@@ -5,6 +5,7 @@ import classes from './MapAdress.module.scss'
 import { MapPin, Phone } from '@/shared/assest/icons'
 import { useWorks } from '@/shared/api/useWorks'
 import { useMapAdress } from '@/shared/api/useMapAdress'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 interface ILocation {
 	phone: string[]
@@ -14,7 +15,7 @@ interface ILocation {
 export const MapAdress: FC = () => {
 	const { data } = useWorks()
 	const { data: contacts } = useMapAdress()
-
+const { t } = useSafeTranslation()
 	const [locations, setLocations] = useState<ILocation[]>([])
 	const [activeIframe, setActiveIframe] = useState<string>('')
 
@@ -98,7 +99,7 @@ export const MapAdress: FC = () => {
 
 			<div className={classes.workHours}>
 				<Typography variant='b1' weight='bold' className={classes.hoursTitle}>
-					График работы
+					{t('buttons.grafic')}
 				</Typography>
 
 				<div className={classes.hoursGrid}>
@@ -132,7 +133,7 @@ export const MapAdress: FC = () => {
 							weight='regular'
 							className={classes.day}
 						>
-							Выходной
+							{t('buttons.dayof')}
 						</Typography>
 					</div>
 				</div>

@@ -8,25 +8,14 @@ import { BASE_URL } from '@/shared/constants/constants'
 import { Loader } from '@/shared/ui/loader/view/Loader'
 import { useParams } from 'next/navigation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const NewsDetailsPages = () => {
 	const { id } = useParams()
-	const { data, isLoading } = useNewsDetailsPages(Number(id))
-
+	const { data, isLoading, error } = useNewsDetailsPages(Number(id))
+  const { t } = useSafeTranslation()
 	if (isLoading) return <Loader />
-
-	if (!data) {
-		return <Typography variant='h1' weight='bold'>Новость не найдена</Typography>
-	}
-
-	if (!data.new_translation?.length) {
-		return (
-			<Typography variant='h1' weight='bold'>
-				Переводы новости отсутствуют
-			</Typography>
-		)
-	}
-	
+	if (!data) return error
 
 	const translation = data.new_translation[0]
 	const detail = translation?.new_detail
@@ -72,7 +61,7 @@ export const NewsDetailsPages = () => {
 						<span className={classes.icon}>
 							<IconsLeft />
 						</span>
-						Вернуться ко всем новостям
+						{t('buttons.back')}
 					</CustomButton>
 				</div>
 			</MultiContainer>
