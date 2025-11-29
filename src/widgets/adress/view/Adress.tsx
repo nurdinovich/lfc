@@ -2,11 +2,12 @@ import { Typography } from '@/shared/ui'
 import classes from './Adress.module.scss'
 import { useMapAdress } from '@/shared/api/useMapAdress'
 import { useWorks } from '@/shared/api/useWorks'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const Adress = () => {
 	const { data } = useMapAdress()
 	const { data: grafic } = useWorks()
-
+const { t } = useSafeTranslation()
 	return (
 		<div className={classes.adress}>
 			<div className={classes.container}>
@@ -37,7 +38,7 @@ export const Adress = () => {
 			</div>
 			<div className={classes.grafic}>
 				<Typography variant='b2' weight='regular'>
-					График работы:
+					{t('buttons.grafic')}
 				</Typography>
 				{grafic?.map((item, index) => (
 					<div key={index}>
@@ -55,7 +56,7 @@ export const Adress = () => {
 							</Typography>
 
 							<Typography variant='b2' weight='regular'>
-								Выходной
+								{t('buttons.dayof')}
 							</Typography>
 						</div>
 
@@ -74,7 +75,7 @@ export const Adress = () => {
 									{item.working_hours}
 								</Typography>
 								<Typography variant='b2' weight='medium'>
-									Выходной
+									{t('buttons.dayof')}
 								</Typography>
 							</div>
 						</div>

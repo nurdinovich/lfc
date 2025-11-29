@@ -7,12 +7,13 @@ import { BASE_URL } from '@/shared/constants/constants'
 import { ConsultationStore } from '@/entitles/consultation'
 import { useRouter } from 'next/navigation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const EmployeesPages = () => {
 	const router = useRouter()
 	const {data} = useEmployees()
 	const {setEmployeeId}= ConsultationStore()
-
+const {t} = useSafeTranslation()
 	const handleSingUp =(id:number)=> {
 		setEmployeeId(id)
 		router.push('/consultation')
@@ -22,7 +23,7 @@ export const EmployeesPages = () => {
 			<BreadCrumbs breadCrumbKey='employees'  />
 			<MultiContainer>
 				<Typography variant='h1' weight='bold' className={classes.title}>
-					Сотрудники
+					{t('navigation.employees')}
 				</Typography>
 				<div className={classes.container}>
 					<div>

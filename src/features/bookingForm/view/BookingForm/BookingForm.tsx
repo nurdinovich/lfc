@@ -12,12 +12,13 @@ import { BookingFormData } from '../../types/types'
 import classNames from 'classnames'
 import { ConsultationStore } from '@/entitles/consultation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 
 const BookingForm: React.FC = () => {
 	const mutation = useBookingMutation()
 	const { employeeId } = ConsultationStore()
-
+	const { t } = useSafeTranslation()
 	const [showCalendar, setShowCalendar] = useState(false)
 	const [showTimeSlots, setShowTimeSlots] = useState(false)
 
