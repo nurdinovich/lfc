@@ -5,32 +5,6 @@ import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useServicesBlock } from '../api/useServicesBlock'
 import { Loader } from '@/shared/ui/loader/view/Loader'
 
-// const data = [
-// 	{
-// 		title: 'Трудовое право',
-// 		descriptions: [
-// 			'Разработка трудовых договоров, приказов, локальных актов;',
-// 			'Разрешение трудовых споров;',
-// 			'Консультации по увольнению, отпускам и охране труда.',
-// 		],
-// 	},
-// 	{
-// 		title: 'Кадровый учёт',
-// 		descriptions: [
-// 			'Оформление приёма, увольнения, отпусков;',
-// 			'Ведение личных дел сотрудников;',
-// 			'Подготовка трудовых договоров и приказов.',
-// 		],
-// 	},
-// 	{
-// 		title: 'Консультации и аудит',
-// 		descriptions: [
-// 			'Проверка правильности ведения учёта;',
-// 			'Рекомендации по улучшению финансового контроля;',
-// 			'Подготовка компании к налоговым проверкам.',
-// 		],
-// 	},
-// ]
 export const ServicesBlock = () => {
 	const {t} = useSafeTranslation()
 	const { data, isLoading } = useServicesBlock()
@@ -56,8 +30,9 @@ export const ServicesBlock = () => {
 				</div>
 				<div className={classes.btn}>
 					<CustomButton
-						variant={'primary'}
-						actionType={'button'}
+						variant='primary'
+						actionType='link'
+						to='services'
 						className={classes.button}
 					>
 						Узнать подробнее

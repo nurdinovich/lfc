@@ -6,9 +6,11 @@ import { useAboutPages } from '../api/useAboutPages'
 import { BASE_URL } from '@/shared/constants/constants'
 import { Loader } from '@/shared/ui/loader/view/Loader'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const AboutPages = () => {
 	const {data,isLoading} = useAboutPages()
+	const {t } = useSafeTranslation()
 
 	if (isLoading) {
 		return <Loader />
@@ -19,7 +21,7 @@ export const AboutPages = () => {
 			<MultiContainer>
 				<div className={classes.container}>
 					<Typography variant='h1' weight='bold'>
-						О нас
+						{t('navigation.about')}
 					</Typography>
 					<div className={classes.img}>
 						<div className={classes.imgs}>

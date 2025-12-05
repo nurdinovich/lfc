@@ -39,3 +39,16 @@ export interface BaseInputsProps<T extends FieldValues> {
   onChange: (value: string) => void;
   onBlur: () => void;
 }
+
+
+export interface DaySchedule {
+	available_times: string[]
+	unavailable_times: string[]
+}
+
+export type CalendarData = {
+	unavailable_dates: string[]
+} & {
+	[date: `${number}-${number}-${number}`]: DaySchedule
+}
+

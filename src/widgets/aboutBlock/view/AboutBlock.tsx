@@ -5,6 +5,7 @@ import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useAboutBlock } from '../api/useAboutBlock'
 import { Loader } from '@/shared/ui/loader/view/Loader'
 
+
 export const AboutBlock = () => {
 	const { t } = useSafeTranslation()
 	const { data, isLoading } = useAboutBlock()
