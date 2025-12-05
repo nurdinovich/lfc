@@ -2,9 +2,11 @@ import { useMutation } from '@tanstack/react-query'
 import { requester } from '@/shared/lib/requester/requester'
 import { IConsultationRequest } from '../types/types'
 
-export const useBookingMutation = () => {
+export const useBookingMutation = (onSuccessCallback?: () => void) => {
 	return useMutation({
-		mutationFn: async (data: IConsultationRequest  & { employee_id: number }) => {
+		mutationFn: async (
+			data: IConsultationRequest & { employee_id: number }
+		) => {
 			const response = await requester.post(
 				`/consultation?employee_id=${data.employee_id}`,
 				{
@@ -19,12 +21,12 @@ export const useBookingMutation = () => {
 			)
 			return response.data
 		},
-		onSuccess: (data) => {
-			alert('Запись успешно создана!');
-			console.log('Ответ сервера:', data);
+		onSuccess: data => {
+			console.log('Ответ сервера:', data)
+			if (onSuccessCallback) onSuccessCallback()
 		},
 		onError: () => {
-			alert('Произошла ошибка при создании записи.');
+			alert('Произошла ошибка при создании записи.')
 		},
 	})
 }

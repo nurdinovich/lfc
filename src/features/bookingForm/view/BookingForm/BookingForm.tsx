@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+
+import React, { useState, useEffect } from 'react'
 import classes from './BookingForm.module.scss'
 import Calendar from '../Calendar/Calendar'
 import TimeSlots from '../TimeSlots/TimeSlots'
 import { Calendars, Time } from '@/shared/assest/icons'
-import { CustomButton, Typography } from '@/shared/ui'
+import { CustomButton, Overlay, Typography } from '@/shared/ui'
 import { useBookingMutation } from '../../api/useForm'
 import { Input } from '../Input/Input'
 import { Controller, useForm } from 'react-hook-form'
@@ -13,51 +14,71 @@ import classNames from 'classnames'
 import { ConsultationStore } from '@/entitles/consultation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
-
+import { useAvailable } from '../../api/useAvailable'
 
 const BookingForm: React.FC = () => {
-	const mutation = useBookingMutation()
 	const { employeeId } = ConsultationStore()
 	const { t } = useSafeTranslation()
+
 	const [showCalendar, setShowCalendar] = useState(false)
 	const [showTimeSlots, setShowTimeSlots] = useState(false)
+	const [isOverlayOpen, setIsOverlayOpen] = useState(false)
 
 	const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
-    mode: 'onBlur',
-    defaultValues: {
-      date: null,
+		handleSubmit,
+		control,
+		formState: { errors },
+		watch,
+		setValue,
+	} = useForm<BookingFormData>({
+		mode: 'onBlur',
+		defaultValues: {
+			date: null,
 			time: '',
 			fullName: '',
 			company: '',
 			phone: '+996 ',
 			email: '',
 			purpose: '',
-    },
-  })
+		},
+	})
 
-	const dateFormat =(d:Date | null)=> {
-		const date = d ? new Date(d) : null;
-	  const formattedDate = date ? `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}` : '';
+	const selectedDate = watch('date')
+
+	const mutation = useBookingMutation(() => {
+		setIsOverlayOpen(true)
+	})
+
+	useEffect(() => {
+		setValue('time', '')
+	}, [selectedDate, setValue])
+
+	const dateFormat = (d: Date | null) => {
+		const date = d ? new Date(d) : null
+		const formattedDate = date
+			? `${date.getFullYear()}-${(date.getMonth() + 1)
+					.toString()
+					.padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+			: ''
 		return formattedDate
 	}
 
-	const onSubmit =(data:BookingFormData)=> {
+	const { availableTimes, unavailableTimes, isLoading, error } = useAvailable(
+		employeeId,
+		selectedDate
+	)
+
+	const onSubmit = (data: BookingFormData) => {
 		const formattedDate = dateFormat(data.date)
 
-		console.log("data", data);
-		
-    if (!employeeId) {
-			console.error("Employee ID not found")
+		if (!employeeId) {
+			console.error('Employee ID not found')
 			return
 		}
 
 		mutation.mutate({
-			employee_id:employeeId,
-			date:formattedDate,
+			employee_id: employeeId,
+			date: formattedDate,
 			time: data.time,
 			full_name: data.fullName,
 			company: data.company,
@@ -65,14 +86,43 @@ const BookingForm: React.FC = () => {
 			email: data.email,
 			description: data.purpose,
 		})
-  }
+	}
+
+	if (!employeeId) {
+		return (
+			<>
+				<BreadCrumbs
+					breadCrumbKey='employees'
+					thirdElement={'Запись на консультацию'}
+				/>
+				<Typography className={classes.titlePage} variant='h1' weight='bold'>
+					Запись на консультацию
+				</Typography>
+				<div className={classes.container}>
+					<div className={classes.errorMessage}>
+						<Typography variant='h3' weight='bold'>
+							Ошибка: не выбран сотрудник
+						</Typography>
+						<Typography variant='b1' weight='regular'>
+							Пожалуйста, вернитесь на страницу сотрудников и выберите
+							специалиста для записи на консультацию.
+						</Typography>
+					</div>
+				</div>
+			</>
+		)
+	}
 
 	return (
 		<>
-			<BreadCrumbs breadCrumbKey='employees'  thirdElement={'Запись на консультацию'}/>
+			<BreadCrumbs
+				breadCrumbKey='employees'
+				thirdElement={'Запись на консультацию'}
+			/>
 			<Typography className={classes.titlePage} variant='h1' weight='bold'>
 				Запись на консультацию
 			</Typography>
+
 			<div className={classes.container}>
 				<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
 					<Typography variant='h2' weight='bold' className={classes.title}>
@@ -87,6 +137,7 @@ const BookingForm: React.FC = () => {
 						>
 							Выберите удобное для вас время и дату
 						</Typography>
+
 						<div className={classes.containerDateTime}>
 							{/* ДАТА ------------------------------------------------------------------ */}
 							<div className={classes.fieldGroup}>
@@ -123,6 +174,7 @@ const BookingForm: React.FC = () => {
 												</span>
 												<Calendars />
 											</div>
+
 											{errors.date?.message && (
 												<Typography
 													className={classes.error}
@@ -132,6 +184,7 @@ const BookingForm: React.FC = () => {
 													{errors.date?.message}
 												</Typography>
 											)}
+
 											{showCalendar && (
 												<div
 													className={classes.popupOverlay}
@@ -147,6 +200,7 @@ const BookingForm: React.FC = () => {
 																field.onChange(date)
 																setShowCalendar(false)
 															}}
+															employeeId={employeeId}
 														/>
 													</div>
 												</div>
@@ -156,7 +210,6 @@ const BookingForm: React.FC = () => {
 								/>
 							</div>
 
-							{/* ВРЕМЯ ------------------------------------------------------------------ */}
 							<div className={classes.fieldGroup}>
 								<Controller
 									control={control}
@@ -167,9 +220,11 @@ const BookingForm: React.FC = () => {
 											<div
 												className={classNames(
 													classes.selectField,
-													errors.time?.message && classes.selectFieldError
+													errors.time?.message && classes.selectFieldError,
+													!selectedDate && classes.selectFieldDisabled
 												)}
 												onClick={() => {
+													if (!selectedDate) return
 													setShowTimeSlots(!showTimeSlots)
 													setShowCalendar(false)
 												}}
@@ -185,12 +240,15 @@ const BookingForm: React.FC = () => {
 															weight='regular'
 															className={classes.placeholder}
 														>
-															Выберите время
+															{selectedDate
+																? 'Выберите время'
+																: 'Сначала выберите дату'}
 														</Typography>
 													)}
 												</span>
 												<Time />
 											</div>
+
 											{errors.time?.message && (
 												<Typography
 													className={classes.error}
@@ -210,13 +268,33 @@ const BookingForm: React.FC = () => {
 														className={classes.popupContent}
 														onClick={e => e.stopPropagation()}
 													>
-														<TimeSlots
-															selectedTime={field.value}
-															onTimeSelect={(time: string) => {
-																field.onChange(time)
-																setShowTimeSlots(false)
-															}}
-														/>
+														{isLoading ? (
+															<Typography
+																variant='b2'
+																weight='regular'
+																className={classes.loadingText}
+															>
+																Загрузка доступного времени...
+															</Typography>
+														) : error ? (
+															<Typography
+																variant='b2'
+																weight='regular'
+																className={classes.error}
+															>
+																Не удалось загрузить слоты для выбранной даты
+															</Typography>
+														) : (
+															<TimeSlots
+																selectedTime={field.value}
+																onTimeSelect={(time: string) => {
+																	field.onChange(time)
+																	setShowTimeSlots(false)
+																}}
+																availableTimes={availableTimes}
+																unavailableTimes={unavailableTimes}
+															/>
+														)}
 													</div>
 												</div>
 											)}
@@ -327,7 +405,6 @@ const BookingForm: React.FC = () => {
 						)}
 					/>
 
-					{/* КНОПКА ------- */}
 					<CustomButton
 						variant='primary'
 						actionType='button'
@@ -335,12 +412,11 @@ const BookingForm: React.FC = () => {
 						className={classes.submitButton}
 						disabled={mutation.isPending}
 					>
-						{/* <Typography variant='b1' weight='medium'> */}
 						{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
-						{/* </Typography> */}
 					</CustomButton>
 				</form>
 			</div>
+			{isOverlayOpen && <Overlay onClose={() => setIsOverlayOpen(false)} />}
 		</>
 	)
 }

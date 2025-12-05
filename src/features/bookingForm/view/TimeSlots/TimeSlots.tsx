@@ -1,4 +1,6 @@
 'use client'
+
+import React from 'react'
 import styles from './TimeSlots.module.scss'
 import { Typography } from '@/shared/ui'
 import { Time } from '@/shared/assest/icons'
@@ -6,22 +8,24 @@ import { Time } from '@/shared/assest/icons'
 interface TimeSlotsProps {
 	selectedTime: string
 	onTimeSelect: (time: string) => void
+	availableTimes: string[]
+	unavailableTimes: string[]
 }
 
 const TimeSlots: React.FC<TimeSlotsProps> = ({
 	selectedTime,
 	onTimeSelect,
+	availableTimes,
+	unavailableTimes,
 }) => {
-	const timeSlots = [
-		{ start: '10:00', end: '10:00', available: true },
-		{ start: '11:00', end: '11:00', available: true },
-		{ start: '12:00', end: '12:00', available: false },
-		{ start: '13:00', end: '13:00', available: true },
-		{ start: '14:00', end: '14:00', available: false },
-		{ start: '15:00', end: '14:00', available: true },
-		{ start: '16:00', end: '14:00', available: true },
-		{ start: '17:00', end: '14:00', available: true },
-	]
+	const allTimes = Array.from(
+		new Set([...availableTimes, ...unavailableTimes])
+	).sort((a, b) => a.localeCompare(b))
+
+	const timeSlots = allTimes.map(time => ({
+		time,
+		available: !unavailableTimes.includes(time),
+	}))
 
 	return (
 		<div className={styles.timeSlots}>
@@ -33,29 +37,38 @@ const TimeSlots: React.FC<TimeSlotsProps> = ({
 				Свободные окна
 				<Time />
 			</Typography>
+
 			<hr />
+
 			<Typography
-				variant={'bodyText'}
-				weight={'medium'}
+				variant='bodyText'
+				weight='medium'
 				className={styles.timeSlotsNote}
 			>
 				Занятые окна отображаются серым цветом
 			</Typography>
-			<div className={styles.slotsList}>
-				{timeSlots.map((slot, index) => (
-					<div
-						key={index}
-						className={`${styles.timeSlot} ${
-							!slot.available ? styles.unavailable : ''
-						} ${selectedTime === slot.start ? styles.selected : ''}`}
-						onClick={() => slot.available && onTimeSelect(slot.start)}
-					>
-						<Typography variant={'buttonText'} weight={'medium'}>
-						{slot.start}
-						</Typography>
-					</div>
-				))}
-			</div>
+
+			{timeSlots.length === 0 ? (
+				<Typography variant='b2' weight='regular' className={styles.noSlots}>
+					На выбранную дату нет доступных временных слотов
+				</Typography>
+			) : (
+				<div className={styles.slotsList}>
+					{timeSlots.map(slot => (
+						<div
+							key={slot.time}
+							className={`${styles.timeSlot} ${
+								!slot.available ? styles.unavailable : ''
+							} ${selectedTime === slot.time ? styles.selected : ''}`}
+							onClick={() => slot.available && onTimeSelect(slot.time)}
+						>
+							<Typography variant='buttonText' weight='medium'>
+								{slot.time}
+							</Typography>
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	)
 }

@@ -6,13 +6,8 @@ import { useHeroBlock } from '../api/useHeroBlock'
 import { BASE_URL } from '@/shared/constants/constants'
 
 export const HeroBlock = () => {
-	const {data , isLoading} = useHeroBlock()
+	const { data } = useHeroBlock()
 
-
-	  if (isLoading) {
-			return <div>Loading...</div>
-		}
-		
 	return (
 		<section className={classes.section}>
 			<MultiContainer>

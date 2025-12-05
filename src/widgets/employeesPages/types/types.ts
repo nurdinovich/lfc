@@ -13,6 +13,7 @@ export interface IEmployee {
 	id: number
 	telegram: string
 	image: string
+	admin: boolean
 	employee_translations: IEmployeeTranslation[]
 }
 export type EmployeesResponse = IEmployee[]
