@@ -1,10 +1,6 @@
 import { AboutPages } from "@/widgets/aboutPages"
 
  const page = () => {
-  return (
-<>
-<AboutPages />
-</>
-  )
+  return <AboutPages />
 }
 export default page

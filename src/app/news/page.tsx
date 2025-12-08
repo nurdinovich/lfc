@@ -2,11 +2,7 @@ import { NewsPages } from "@/widgets/newsPages"
 
 
 const page = () => {
-  return (
-    <>
-    <NewsPages />
-    </>
-  )
+  return <NewsPages />
 }
 
 export default page
