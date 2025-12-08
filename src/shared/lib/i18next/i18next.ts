@@ -1,25 +1,29 @@
+// src/shared/lib/i18next/i18next.ts
 'use client'
 
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
-import Backend from 'i18next-http-backend'
-import { languages } from '@/shared/constants/constants'
 
-i18n
-	.use(Backend) 
-	.use(LanguageDetector)
-	.use(initReactI18next)
-	.init({
-		supportedLngs: languages.map(l => l.lang),
+// подправь пути, если у тебя иначе
+import ru from '@/../public/locales/ru.json'
+import en from '@/../public/locales/en.json'
+import kg from '@/../public/locales/kg.json'
+
+if (!i18n.isInitialized) {
+	i18n.use(initReactI18next).init({
+		resources: {
+			ru: { translation: ru },
+			en: { translation: en },
+			kg: { translation: kg },
+		},
+		lng: 'ru',
 		fallbackLng: 'ru',
+		supportedLngs: ['ru', 'en', 'kg'],
 		debug: process.env.NODE_ENV === 'development',
 		interpolation: {
 			escapeValue: false,
 		},
-		backend: {
-			loadPath: '/locales/{{lng}}.json', 
-		},
 	})
+}
 
 export default i18n

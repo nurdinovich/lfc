@@ -8,10 +8,12 @@ import { ConsultationStore } from '@/entitles/consultation'
 import { useRouter } from 'next/navigation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
+import { Loader } from '@/shared/ui/loader/view/Loader'
+import { useEffect, useState } from 'react'
 
 export const EmployeesPages = () => {
 	const router = useRouter()
-	const { data } = useEmployees()
+	const { data, isLoading } = useEmployees()
 	const { setEmployeeId } = ConsultationStore()
 	const { t } = useSafeTranslation()
 
@@ -24,7 +26,16 @@ export const EmployeesPages = () => {
 		setEmployeeId(id)
 		router.push('/consultation')
 	}
+		const [hasMounted, setHasMounted] = useState(false)
 
+		useEffect(() => {
+			setHasMounted(true)
+		}, [])
+
+		const showLoader = !hasMounted || isLoading
+if (showLoader) {
+	return <Loader />
+}
 	return (
 		<section className={classes.section}>
 			<BreadCrumbs breadCrumbKey='employees' />

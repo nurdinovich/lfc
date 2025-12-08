@@ -1,8 +1,6 @@
-import { SevicesPages } from "@/widgets/sevicesPages"
+import { SevicesPages } from '@/widgets/sevicesPages'
 
-
-const page = () => {
-  return <SevicesPages />
+export default function Page () {
+	return <SevicesPages />
 }
 
-export default page

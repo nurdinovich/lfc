@@ -1,3 +1,4 @@
+'use client'
 import { FC } from "react"
 import { Typography } from "../../typography/view/Typography"
 import classes from './EmployeesCard.module.scss'
