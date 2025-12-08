@@ -4,10 +4,12 @@ import classes from './HeroBlock.module.scss'
 import Image from 'next/image'
 import { useHeroBlock } from '../api/useHeroBlock'
 import { BASE_URL } from '@/shared/constants/constants'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
+
 
 export const HeroBlock = () => {
 	const { data } = useHeroBlock()
-
+const { t } = useSafeTranslation()
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
@@ -32,7 +34,7 @@ export const HeroBlock = () => {
 								to='/employees'
 								className={classes.btn}
 							>
-								Записаться на консультацию
+								{t('buttons.book')}
 							</CustomButton>
 						</div>
 

@@ -47,7 +47,7 @@ export const AboutPages = () => {
 				</div>
 				<div className={classes.content}>
 					<Typography variant='h2' weight='bold'>
-						История компании
+						{t('services.history')}
 					</Typography>
 					<Typography variant='b1' weight='regular' className={classes.text}>
 						{data && data[0] && data[0].our_history}

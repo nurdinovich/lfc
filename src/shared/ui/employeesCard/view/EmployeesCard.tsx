@@ -4,6 +4,7 @@ import classes from './EmployeesCard.module.scss'
 import { IEmployees } from "../types/types"
 import { CustomButton } from "../../button/view/CustomButton"
 import Image from "next/image"
+import { useSafeTranslation } from "@/shared/hooks/useSafeTranslation"
 export const EmployeesCard: FC<IEmployees> = ({
 	image,
 	name,
@@ -13,6 +14,7 @@ export const EmployeesCard: FC<IEmployees> = ({
 	variant,
 	onClick,
 }) => {
+	const { t } = useSafeTranslation()
 	if (variant === 'director') {
 		return (
 			<div className={classes.containers}>
@@ -33,7 +35,7 @@ export const EmployeesCard: FC<IEmployees> = ({
 						onClick={onClick}
 						className={classes.btn}
 					>
-						Записаться
+						{t('buttons.books')}
 					</CustomButton>
 				</div>
 			</div>
@@ -53,12 +55,12 @@ export const EmployeesCard: FC<IEmployees> = ({
 					<Typography variant='b2' weight='regular'>
 						{branch}
 					</Typography>
-					<CustomButton 
-						variant={'primary'} 
+					<CustomButton
+						variant={'primary'}
 						actionType={'button'}
 						onClick={onClick}
 					>
-						Записаться
+						{t('buttons.books')}
 					</CustomButton>
 				</div>
 			</div>

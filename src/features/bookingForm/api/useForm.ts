@@ -1,8 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
 import { requester } from '@/shared/lib/requester/requester'
 import { IConsultationRequest } from '../types/types'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
+import { AxiosError } from 'axios'
 
 export const useBookingMutation = (onSuccessCallback?: () => void) => {
+	const { t } = useSafeTranslation()
+
 	return useMutation({
 		mutationFn: async (
 			data: IConsultationRequest & { employee_id: number }
@@ -21,12 +25,15 @@ export const useBookingMutation = (onSuccessCallback?: () => void) => {
 			)
 			return response.data
 		},
+
 		onSuccess: data => {
 			console.log('Ответ сервера:', data)
-			if (onSuccessCallback) onSuccessCallback()
+			onSuccessCallback?.()
 		},
-		onError: () => {
-			alert('Произошла ошибка при создании записи.')
+
+		onError: (error: AxiosError<{ message?: string }>) => {
+			const message = error.response?.data?.message || t('buttons.anerror')
+			alert(message)
 		},
 	})
 }

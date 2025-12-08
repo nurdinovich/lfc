@@ -82,7 +82,7 @@ const socialLinks = [
 				</div>
 				<hr />
 				<Typography variant='b2' weight='regular' className={classes.desc}>
-					© 2025 LFC. Ваш надёжный партнёр в мире права и финансов.
+					{t('services.textfooter')}
 				</Typography>
 			</MultiContainer>
 		</footer>

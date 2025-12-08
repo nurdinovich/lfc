@@ -9,13 +9,14 @@ import { Loader } from '@/shared/ui/loader/view/Loader'
 import { useParams } from 'next/navigation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
+import { Error } from '@/shared/ui/error/view/Error'
 
 export const NewsDetailsPages = () => {
 	const { id } = useParams()
-	const { data, isLoading, error } = useNewsDetailsPages(Number(id))
+	const { data, isLoading  } = useNewsDetailsPages(Number(id))
   const { t } = useSafeTranslation()
 	if (isLoading) return <Loader />
-	if (!data) return error
+	if (!data) return <Error/>
 
 	const translation = data.new_translation[0]
 	const detail = translation?.new_detail
