@@ -1,3 +1,4 @@
+'use client'
 import classNames from 'classnames'
 import styles from './Typography.module.scss'
 import { FC, JSX, ReactNode } from 'react'

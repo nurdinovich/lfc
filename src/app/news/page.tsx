@@ -1,12 +1,5 @@
-import { NewsPages } from "@/widgets/newsPages"
+import { NewsPages } from '@/widgets/newsPages'
 
-
-const page = () => {
-  return (
-    <>
-    <NewsPages />
-    </>
-  )
+export default function Page (){
+	return <NewsPages />
 }
-
-export default page

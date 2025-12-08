@@ -1,3 +1,4 @@
+'use client'
 import { Typography } from '@/shared/ui'
 import classes from './Adress.module.scss'
 import { useMapAdress } from '@/shared/api/useMapAdress'

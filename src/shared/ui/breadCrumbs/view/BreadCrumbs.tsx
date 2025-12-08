@@ -1,3 +1,4 @@
+'use client'
 import { MultiContainer, Typography } from '@shared/ui'
 import classNames from 'classnames'
 import classes from './BreadCrumbs.module.scss'

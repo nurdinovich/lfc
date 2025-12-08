@@ -1,3 +1,4 @@
+'use client'
 import { useMutation } from '@tanstack/react-query'
 import { requester } from '@/shared/lib/requester/requester'
 import { IConsultationRequest } from '../types/types'

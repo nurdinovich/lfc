@@ -1,3 +1,4 @@
+'use client'
 
 import { useQuery } from '@tanstack/react-query'
 import { requester } from '@/shared/lib/requester/requester'
@@ -9,7 +10,7 @@ export interface DateAvailability {
 
 export interface AvailableResponse {
 	unavailable_dates: string[]
-	[date: string]: DateAvailability | string[] 
+	[date: string]: DateAvailability | string[]
 }
 
 const formatDate = (d: Date | null) => {
@@ -25,10 +26,11 @@ export const useAvailable = (
 	selectedDate?: Date | null
 ) => {
 	const formattedDate = formatDate(selectedDate ?? null)
+	const isBrowser = typeof window !== 'undefined'
 
 	const query = useQuery({
 		queryKey: ['available', employeeId, formattedDate],
-		enabled: Boolean(employeeId) && Boolean(formattedDate),
+		enabled: isBrowser && Boolean(employeeId) && Boolean(formattedDate), // 👈 главное
 		queryFn: async () => {
 			const { data } = await requester.get<AvailableResponse>(
 				`/consultation/available?employee_id=${employeeId}`
@@ -52,4 +54,3 @@ export const useAvailable = (
 		error: query.error as Error | null,
 	}
 }
-

@@ -14,14 +14,16 @@ export const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 	const { t } = useSafeTranslation()
 	const { data } = useBaseSetting()
-
+const logoSrc = data?.[0]?.logo
+	? `${BASE_URL}${data[0].logo}`
+	: '/logo-fallback.png'
 	return (
 		<header className={classes.header}>
 			<MultiContainer>
 				<div className={classes.container}>
 					<Link href='/' className={classes.icon}>
 						<Image
-							src={`${BASE_URL}${data?.[0]?.logo || ''}`}
+							src={logoSrc}
 							alt='logo'
 							width={100}
 							height={100}

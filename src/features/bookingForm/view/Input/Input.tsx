@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react';
 import styles from './Input.module.scss'
 import { FieldValues } from 'react-hook-form'

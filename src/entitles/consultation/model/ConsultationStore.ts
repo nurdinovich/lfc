@@ -1,3 +1,4 @@
+'use client'
 import { create } from 'zustand'
 interface TId {
   employeeId:number | null

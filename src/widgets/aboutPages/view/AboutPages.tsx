@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useState } from 'react'
 import { MultiContainer, Typography } from '@/shared/ui'
 import classes from './AboutPages.module.scss'
 import Image from 'next/image'
@@ -9,12 +10,24 @@ import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 export const AboutPages = () => {
-	const {data,isLoading} = useAboutPages()
-	const {t } = useSafeTranslation()
+	const { data, isLoading } = useAboutPages()
+	const { t } = useSafeTranslation()
 
-	if (isLoading) {
+	const [hasMounted, setHasMounted] = useState(false)
+
+	useEffect(() => {
+		setHasMounted(true)
+	}, [])
+
+	// ВАЖНО: и на сервере, и на первом рендере клиента покажем Loader
+	const showLoader = !hasMounted || isLoading
+
+	if (showLoader) {
 		return <Loader />
 	}
+
+	const about = data?.[0]
+
 	return (
 		<section className={classes.section}>
 			<BreadCrumbs breadCrumbKey='about' />
@@ -23,34 +36,47 @@ export const AboutPages = () => {
 					<Typography variant='h1' weight='bold'>
 						{t('navigation.about')}
 					</Typography>
+
 					<div className={classes.img}>
 						<div className={classes.imgs}>
 							<Image
 								width={500}
 								height={500}
-								src={`${BASE_URL}${data && data[0] && data[0].image1}`}
+								src={
+									about?.image1
+										? `${BASE_URL}${about.image1}`
+										: '/placeholder.png'
+								}
 								alt=''
 							/>
 						</div>
+
 						<div className={classes.imgs}>
 							<Image
 								width={500}
 								height={500}
-								src={`${BASE_URL}${data && data[0] && data[0].image2}`}
+								src={
+									about?.image2
+										? `${BASE_URL}${about.image2}`
+										: '/placeholder.png'
+								}
 								alt=''
 							/>
 						</div>
 					</div>
+
 					<Typography variant='b1' weight='regular' className={classes.text}>
-						{data && data[0] && data[0].about_us}
+						{about?.about_us}
 					</Typography>
 				</div>
+
 				<div className={classes.content}>
 					<Typography variant='h2' weight='bold'>
 						{t('services.history')}
 					</Typography>
+
 					<Typography variant='b1' weight='regular' className={classes.text}>
-						{data && data[0] && data[0].our_history}
+						{about?.our_history}
 					</Typography>
 				</div>
 			</MultiContainer>

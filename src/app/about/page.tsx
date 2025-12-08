@@ -1,10 +1,5 @@
-import { AboutPages } from "@/widgets/aboutPages"
+import { AboutPages } from '@/widgets/aboutPages'
 
- const page = () => {
-  return (
-<>
-<AboutPages />
-</>
-  )
+export default function Page() {
+	return <AboutPages />
 }
-export default page

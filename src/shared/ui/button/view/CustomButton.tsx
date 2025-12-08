@@ -1,3 +1,4 @@
+'use client'
 import { FC } from 'react'
 import styles from './CustomButton.module.scss'
 import classNames from 'classnames'
