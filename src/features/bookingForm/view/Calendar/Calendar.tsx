@@ -3,6 +3,7 @@ import styles from './Calendar.module.scss'
 import { ButtonNav, ButtonNavs } from '@/shared/assest/icons'
 import { Typography } from '@/shared/ui'
 import { useAvailable } from '../../api/useAvailable'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 
 interface CalendarProps {
@@ -24,7 +25,7 @@ const Calendar: React.FC<CalendarProps> = ({
 
 	const month = currentDate.getMonth()
 	const year = currentDate.getFullYear()
-
+const {t} = useSafeTranslation()
 	const isDateUnavailable = (date: Date): boolean => {
 		if (!availabilityData?.unavailable_dates) return false
 
@@ -185,7 +186,7 @@ console.log(availabilityData)
 			{isLoading && (
 				<div className={styles.loading}>
 					<Typography variant='b2' weight='regular'>
-						Загрузка доступных дат...
+						{t('booking.loadingdate')}
 					</Typography>
 				</div>
 			)}

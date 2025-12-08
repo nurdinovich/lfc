@@ -37,7 +37,7 @@ const BookingForm: React.FC = () => {
 			time: '',
 			fullName: '',
 			company: '',
-			phone: '+996 ',
+			phone: '+996',
 			email: '',
 			purpose: '',
 		},
@@ -96,16 +96,15 @@ const BookingForm: React.FC = () => {
 					thirdElement={'Запись на консультацию'}
 				/>
 				<Typography className={classes.titlePage} variant='h1' weight='bold'>
-					Запись на консультацию
+					{t('buttons.book')}
 				</Typography>
 				<div className={classes.container}>
 					<div className={classes.errorMessage}>
 						<Typography variant='h3' weight='bold'>
-							Ошибка: не выбран сотрудник
+							{t('booking.error')}
 						</Typography>
 						<Typography variant='b1' weight='regular'>
-							Пожалуйста, вернитесь на страницу сотрудников и выберите
-							специалиста для записи на консультацию.
+							{t('booking.please')}
 						</Typography>
 					</div>
 				</div>
@@ -115,18 +114,15 @@ const BookingForm: React.FC = () => {
 
 	return (
 		<>
-			<BreadCrumbs
-				breadCrumbKey='employees'
-				thirdElement={'Запись на консультацию'}
-			/>
+			<BreadCrumbs breadCrumbKey='employees' thirdElement={t('buttons.book')} />
 			<Typography className={classes.titlePage} variant='h1' weight='bold'>
-				Запись на консультацию
+				{t('buttons.book')}
 			</Typography>
 
 			<div className={classes.container}>
 				<form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
 					<Typography variant='h2' weight='bold' className={classes.title}>
-						Заполните форму
+						{t('booking.fill')}
 					</Typography>
 
 					<div>
@@ -135,7 +131,7 @@ const BookingForm: React.FC = () => {
 							weight='semiBold'
 							className={classes.labelDateTime}
 						>
-							Выберите удобное для вас время и дату
+							{t('booking.choose')}
 						</Typography>
 
 						<div className={classes.containerDateTime}>
@@ -144,7 +140,9 @@ const BookingForm: React.FC = () => {
 								<Controller
 									name='date'
 									control={control}
-									rules={{ required: 'Дата обязательна' }}
+									rules={{
+										required: { value: true, message: t('booking.required') },
+									}}
 									render={({ field }) => (
 										<>
 											<div
@@ -168,7 +166,7 @@ const BookingForm: React.FC = () => {
 															weight='regular'
 															className={classes.placeholder}
 														>
-															Выберите дату
+															{t('booking.date')}
 														</Typography>
 													)}
 												</span>
@@ -214,7 +212,9 @@ const BookingForm: React.FC = () => {
 								<Controller
 									control={control}
 									name='time'
-									rules={{ required: 'Время обязательно' }}
+									rules={{
+										required: { value: true, message: t('booking.time') },
+									}}
 									render={({ field }) => (
 										<>
 											<div
@@ -241,8 +241,8 @@ const BookingForm: React.FC = () => {
 															className={classes.placeholder}
 														>
 															{selectedDate
-																? 'Выберите время'
-																: 'Сначала выберите дату'}
+																? t('booking.select')
+																: t('booking.pleaseselect')}
 														</Typography>
 													)}
 												</span>
@@ -274,7 +274,7 @@ const BookingForm: React.FC = () => {
 																weight='regular'
 																className={classes.loadingText}
 															>
-																Загрузка доступного времени...
+																{t('booking.loading')}
 															</Typography>
 														) : error ? (
 															<Typography
@@ -282,7 +282,7 @@ const BookingForm: React.FC = () => {
 																weight='regular'
 																className={classes.error}
 															>
-																Не удалось загрузить слоты для выбранной даты
+																{t('booking.timeerr')}
 															</Typography>
 														) : (
 															<TimeSlots
@@ -307,7 +307,9 @@ const BookingForm: React.FC = () => {
 					<Controller
 						control={control}
 						name='fullName'
-						rules={{ required: 'Имя обязательно' }}
+						rules={{
+							required: { value: true, message: t('booking.namerequired') },
+						}}
 						render={({ field: { value, onChange, onBlur } }) => (
 							<Input
 								value={value}
@@ -316,9 +318,9 @@ const BookingForm: React.FC = () => {
 								name='fullName'
 								variant='input'
 								error={errors.fullName?.message}
-								label='Введите ФИО'
+								label={t('booking.fullname')}
 								type='text'
-								placeholder='ФИО'
+								placeholder={t('booking.fn')}
 							/>
 						)}
 					/>
@@ -333,9 +335,9 @@ const BookingForm: React.FC = () => {
 								onBlur={onBlur}
 								name='company'
 								variant='input'
-								label='Введите название компании (не обязательное поле)'
+								label={t('booking.company')}
 								type='text'
-								placeholder='Название компании'
+								placeholder={t('booking.companyname')}
 							/>
 						)}
 					/>
@@ -345,10 +347,10 @@ const BookingForm: React.FC = () => {
 							control={control}
 							name='phone'
 							rules={{
-								required: 'Телефон обязателен',
+								required: { value: true, message: t('booking.phone') },
 								pattern: {
 									value: /^\+996\d{9}$/,
-									message: 'Номер должен быть в формате +996XXXXXXXXX',
+									message: t('booking.number') + ' +996XXXXXXXXX',
 								},
 							}}
 							render={({ field: { value, onChange, onBlur } }) => (
@@ -358,7 +360,7 @@ const BookingForm: React.FC = () => {
 									onBlur={onBlur}
 									name='phone'
 									variant='input'
-									label='Введите номер телефона'
+									label={t('booking.enternumber')}
 									type='tel'
 									error={errors.phone?.message}
 									placeholder='+996 (000) 00 00 00'
@@ -369,7 +371,7 @@ const BookingForm: React.FC = () => {
 						<Controller
 							control={control}
 							name='email'
-							rules={{ required: 'Почта обязательна' }}
+							rules={{ required: { value: true, message: t('booking.emailrequired') } }}
 							render={({ field: { value, onChange, onBlur } }) => (
 								<Input
 									value={value}
@@ -377,7 +379,7 @@ const BookingForm: React.FC = () => {
 									onBlur={onBlur}
 									name='email'
 									variant='input'
-									label='Введите электронную почту'
+									label={t('booking.email')}
 									type='email'
 									error={errors.email?.message}
 									placeholder='E-mail'
@@ -389,7 +391,7 @@ const BookingForm: React.FC = () => {
 					<Controller
 						control={control}
 						name='purpose'
-						rules={{ required: 'Суть обращения обязательна' }}
+						rules={{ required: { value: true, message: t('booking.subject') } }}
 						render={({ field: { value, onChange, onBlur } }) => (
 							<Input
 								value={value}
@@ -398,7 +400,7 @@ const BookingForm: React.FC = () => {
 								type='text'
 								name='purpose'
 								variant='textarea'
-								label='Суть обращения'
+								label={t('booking.subjects')}
 								error={errors.purpose?.message}
 								placeholder='Введите текст'
 							/>
@@ -412,7 +414,7 @@ const BookingForm: React.FC = () => {
 						className={classes.submitButton}
 						disabled={mutation.isPending}
 					>
-						{mutation.isPending ? 'Отправка...' : 'Отправить заявку'}
+						{mutation.isPending ? t('buttons.send') : t('buttons.submit')}
 					</CustomButton>
 				</form>
 			</div>

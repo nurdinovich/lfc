@@ -18,18 +18,62 @@
 	"services": {
 		"desc": "We provide professional legal and accounting services for businesses and private clients. Our goal is to help you operate with confidence, avoid risks, and save time on solving complex issues.",
 		"subtitle": "Our Services",
-		"text": "If you haven’t found the service you need or would like to clarify the details, book a consultation. Our specialist will help you choose the optimal solution for your specific request."
+		"text": "If you haven’t found the service you need or would like to clarify the details, book a consultation. Our specialist will help you choose the optimal solution for your specific request.",
+		"history": "Company History",
+		"textfooter": "© 2025 LFC. Your reliable partner in the world of law and finance."
 	},
 	"buttons": {
 		"book": "Book a Consultation",
 		"back": "Back to All News",
 		"grafic": "Working Hours:",
 		"dayof": "Day Off",
-		"mode": "Accessibility Mode"
+		"mode": "Accessibility Mode",
+		"backt": "Back",
+		"choose": "Choose a Specialist",
+		"more": "Learn More",
+		"moore": "Подробнее",
+		"books": "Book Now",
+		"anerror": "An error occurred while creating the record.",
+		"submit": "Submit Request",
+		"send": "Sending…",
+		"tema": "Default Subject",
+		"disable": "Disable Images",
+		"enable": "Enable Images"
 	},
 	"overlay": {
 		"successfully": "Your request has been successfully submitted.",
-		"look": "We look forward to seeing you at our office — we’ll be happy to assist you. We are always open for you!"
+		"look": "We look forward to seeing you at our office — we’ll be happy to assist you. We are always open for you!",
+		"error": "Failed to complete the request",
+		"errorText": "We value your time and will fix everything shortly"
+	},
+	"booking": {
+		"error": "Error: No employee selected",
+		"please": "Please go back to the employees page and select a specialist for the consultation booking.",
+		"fill": "Fill out the form",
+		"choose": "Choose a convenient time and date for you",
+		"required": "Date is required",
+		"date": "Select a date",
+		"time": "Time is required",
+		"select": "Select a time",
+		"pleaseselect": "First, select a date",
+		"loading": "Loading available times…",
+		"timeerr": "Failed to load slots for the selected date",
+		"namerequired": "Full name is required",
+		"fullname": "Enter your full name",
+		"fn": "F.N",
+		"company": "Enter the company name (optional)",
+		"companyname": "Company Name",
+		"phone": "Phone number is required",
+		"number": "The number must be in the format",
+		"enternumber": "Enter your phone number",
+		"emailrequired": "Email is required",
+		"email": "Введите электронную почту",
+		"subject": "Subject of the request is required",
+		"subjects": "Subject of the request",
+		"loadingdate": "Loading available dates…",
+		"available": "Available Slots",
+		"occupied": "Occupied slots are shown in gray",
+		"uavailable": "There are no available time slots for the selected date"
 	},
 	"formErrors": {
 		"required": "Обязательное поле"

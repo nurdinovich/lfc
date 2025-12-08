@@ -1,19 +1,21 @@
 'use client'
-import { FC } from "react"
-import { Typography } from "../../typography/view/Typography"
+import { FC } from 'react'
+import { Typography } from '../../typography/view/Typography'
 import classes from './NewCard.module.scss'
-import { INewCard } from "../types/types"
-import { CustomButton } from "../../button/view/CustomButton"
-import Image from "next/image"
+import { INewCard } from '../types/types'
+import { CustomButton } from '../../button/view/CustomButton'
+import Image from 'next/image'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
-export const NewCard:FC<INewCard> = ({
+export const NewCard: FC<INewCard> = ({
 	title,
 	descriptions,
 	date,
 	img,
 	variant,
-	path
+	path,
 }) => {
+	const { t } = useSafeTranslation()
 	if (variant === 'mainCard') {
 		return (
 			<div className={classes.container}>
@@ -21,22 +23,21 @@ export const NewCard:FC<INewCard> = ({
 					<Image width={100} height={100} src={img} alt='' />
 				</div>
 				<div className={classes.content}>
-				<Typography variant='h3' weight='medium'  className={classes.title}>
-					{title}
-				</Typography>
-				<Typography variant='b1' weight='medium'  className={classes.text}>
-					{descriptions}
-				</Typography>
-				<Typography variant='b1' weight='regular' className={classes.date}>
-					{date}
-				</Typography>
+					<Typography variant='h3' weight='medium' className={classes.title}>
+						{title}
+					</Typography>
+					<Typography variant='b1' weight='medium' className={classes.text}>
+						{descriptions}
+					</Typography>
+					<Typography variant='b1' weight='regular' className={classes.date}>
+						{date}
+					</Typography>
 				</div>
 			</div>
 		)
 	}
 	if (variant === 'pagesCard') {
 		return (
-
 			<div className={classes.containers}>
 				<div className={classes.img}>
 					<Image width={100} height={100} src={img} alt='' />
@@ -52,11 +53,15 @@ export const NewCard:FC<INewCard> = ({
 						{date}
 					</Typography>
 				</div>
-				<CustomButton variant='tetriary' actionType='link' to={path} className={classes.btn}>
-					Подробнее
+				<CustomButton
+					variant='tetriary'
+					actionType='link'
+					to={path}
+					className={classes.btn}
+				>
+					{t('buttons.moore')}
 				</CustomButton>
 			</div>
-
 		)
 	}
 }

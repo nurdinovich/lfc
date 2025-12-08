@@ -4,6 +4,7 @@ import React from 'react'
 import styles from './TimeSlots.module.scss'
 import { Typography } from '@/shared/ui'
 import { Time } from '@/shared/assest/icons'
+import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 interface TimeSlotsProps {
 	selectedTime: string
@@ -26,7 +27,7 @@ const TimeSlots: React.FC<TimeSlotsProps> = ({
 		time,
 		available: !unavailableTimes.includes(time),
 	}))
-
+const { t } = useSafeTranslation()
 	return (
 		<div className={styles.timeSlots}>
 			<Typography
@@ -34,7 +35,7 @@ const TimeSlots: React.FC<TimeSlotsProps> = ({
 				weight='semiBold'
 				className={styles.timeSlotsTitle}
 			>
-				Свободные окна
+				{t('booking.available')}
 				<Time />
 			</Typography>
 
@@ -45,12 +46,12 @@ const TimeSlots: React.FC<TimeSlotsProps> = ({
 				weight='medium'
 				className={styles.timeSlotsNote}
 			>
-				Занятые окна отображаются серым цветом
+				{t('booking.occupied')}
 			</Typography>
 
 			{timeSlots.length === 0 ? (
 				<Typography variant='b2' weight='regular' className={styles.noSlots}>
-					На выбранную дату нет доступных временных слотов
+					{t('booking.uavilable')}
 				</Typography>
 			) : (
 				<div className={styles.slotsList}>

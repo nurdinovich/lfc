@@ -100,9 +100,7 @@ export const AccessibilityPanel: React.FC = () => {
 							}`}
 							onClick={resetToDefaultTheme}
 						>
-							<Typography variant='b2' weight='medium'>
-								Тема по умолчанию
-							</Typography>
+								{t('buttons.tema')}
 						</CustomButton>
 						<CustomButton
 							actionType='button'
@@ -111,9 +109,7 @@ export const AccessibilityPanel: React.FC = () => {
 							}`}
 							onClick={toggleImages}
 						>
-							<Typography variant='b2' weight='medium'>
-								{settings.imagesDisabled ? 'Включить' : 'Отключить'} изображения
-							</Typography>
+								{settings.imagesDisabled ? t('buttons.enable') : t('buttons.disable')}
 						</CustomButton>
 					</div>
 				</div>

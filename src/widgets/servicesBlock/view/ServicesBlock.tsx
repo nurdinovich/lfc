@@ -35,7 +35,7 @@ export const ServicesBlock = () => {
 						to='services'
 						className={classes.button}
 					>
-						Узнать подробнее
+						{t('buttons.more')}
 					</CustomButton>
 				</div>
 			</MultiContainer>

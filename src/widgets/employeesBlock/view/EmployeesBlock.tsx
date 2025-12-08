@@ -45,7 +45,7 @@ export const EmployeesBlock = () => {
 					to='employees'
 					className={classes.btn}
 				>
-					Выбрать специалиста
+					{t('buttons.choose')}
 				</CustomButton>
 			</div>
 		</section>

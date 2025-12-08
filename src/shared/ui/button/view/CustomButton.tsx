@@ -46,7 +46,7 @@ export const CustomButton: FC<ButtonProps> = ({
 			disabled={disabled}
 		>
 			{isTextBtn ? (
-				<Typography variant={'b1'} weight={'semiBold'}>
+				<Typography variant={'b2'} weight={'semiBold'}>
 					{children}
 				</Typography>
 			) : (
