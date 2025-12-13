@@ -1,18 +1,13 @@
-'use client'
 import { useQuery } from '@tanstack/react-query'
-import { requester } from '@/shared/lib/requester/requester'
-import { NewsResponse } from '../types/types'
+import type { HomeResponse } from '@/shared/api/types/home'
+import { HOME_QUERY_KEY, homeQueryFn } from '@/shared/api/useHomeQuery'
 
-export const useNewsBlock = () => {
-	const isBrowser = typeof window !== 'undefined'
-	
-	return useQuery({
-		enabled: isBrowser,
+export const useNewsBlock = (language: string) => {
+	return useQuery<HomeResponse, Error, HomeResponse['news']>({
+		queryKey: [HOME_QUERY_KEY, language],
+		queryFn: () => homeQueryFn(language),
+		select: data => data.news,
 		staleTime: 5 * 60 * 1000,
-		queryKey: ['news'],
-		queryFn: async () => {
-			const { data } = await requester.get<NewsResponse>('/')
-			return data.news
-		},
+		refetchOnWindowFocus: false,
 	})
 }

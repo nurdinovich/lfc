@@ -47,7 +47,14 @@ const { t } = useSafeTranslation()
 		<div className={classes.wrapper}>
 			<div className={classes.map}>
 				{iframeSrc && (
-					<iframe src={iframeSrc} width='100%' height='100%' loading='lazy' />
+					<iframe
+						src={iframeSrc}
+						width='100%'
+						height='100%'
+						loading='lazy'
+						title='Карта офиса LFC'
+						aria-label='Карта офиса LFC'
+					/>
 				)}
 			</div>
 
@@ -69,10 +76,10 @@ const { t } = useSafeTranslation()
 										weight='bold'
 										className={classes.city}
 									>
-										{contacts?.[0]?.contact_translations[0].city}
+										{contacts?.[0]?.contact_translations?.[0]?.city ?? ''}
 									</Typography>
 									<Typography variant='bodyText' weight='medium'>
-										{contacts?.[0]?.contact_translations[0].address}
+										{contacts?.[0]?.contact_translations?.[0]?.address ?? ''}
 									</Typography>
 								</div>
 							</div>

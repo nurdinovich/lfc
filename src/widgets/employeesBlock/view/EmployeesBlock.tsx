@@ -10,7 +10,7 @@ import { BASE_URL } from "@/shared/constants/constants"
 
 export const EmployeesBlock = () => {
 	const { t } = useSafeTranslation()
-	const {data} = useEmployeesBlock()
+	const {data} = useEmployeesBlock('ru')
 	
   return (
 		<section className={classes.section}>
@@ -22,7 +22,7 @@ export const EmployeesBlock = () => {
 			<div className={classes.container}>
 				<CustomSwiper spaceBetween={20} slidesPerView={4.5}>
 					{data?.map((item, index) => {
-						const translation = item.employee_translations[0] 
+						const translation = item.employee_translations?.[0] 
 						return (
 							<SwiperSlide key={index}>
 								<EmployeesCard
@@ -42,7 +42,7 @@ export const EmployeesBlock = () => {
 				<CustomButton
 					variant='primary'
 					actionType='link'
-					to='employees'
+					to='/employees'
 					className={classes.btn}
 				>
 					{t('buttons.choose')}

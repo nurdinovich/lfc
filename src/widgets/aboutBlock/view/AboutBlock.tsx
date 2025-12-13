@@ -5,21 +5,19 @@ import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useAboutBlock } from '../api/useAboutBlock'
 import { Loader } from '@/shared/ui/loader/view/Loader'
 
-
 export const AboutBlock = () => {
 	const { t } = useSafeTranslation()
-	const { data, isLoading } = useAboutBlock()
+	const { data, isLoading } = useAboutBlock('ru')
 
-	if (!data || !data[0]) return null
-	
+	if (isLoading) return <Loader />
+	if (!data?.[0]) return null
+
 	const stats = [
 		{ number: data[0].number1, title: data[0].title1 },
 		{ number: data[0].number2, title: data[0].title2 },
 		{ number: data[0].number3, title: data[0].title3 },
 		{ number: data[0].number4, title: data[0].title4 },
 	]
-	if (isLoading) return <Loader />
-
 
 	return (
 		<section className={classes.section}>

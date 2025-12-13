@@ -12,7 +12,7 @@ export const FaqBlock: FC = () => {
 	const [maxHeights, setMaxHeights] = useState<{ [key: number]: number }>({})
 	const contentRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
 	const { t } = useSafeTranslation()
-const {data} = useFaqBlock()
+const {data} = useFaqBlock('ru')
 	const toggleItem = (id: number) => {
 		setOpenItemId(prevId => (prevId === id ? null : id))
 	}

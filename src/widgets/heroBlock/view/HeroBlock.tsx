@@ -8,14 +8,14 @@ import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
 
 export const HeroBlock = () => {
-	const { data } = useHeroBlock()
+	const { data } = useHeroBlock('ru')
 const { t } = useSafeTranslation()
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
 				<div className={classes.container}>
 					<Typography variant='h1' weight='bold'>
-						{data && data[0] && data[0].title}
+						{data?.[0]?.title}
 					</Typography>
 
 					<div className={classes.content}>
@@ -25,7 +25,7 @@ const { t } = useSafeTranslation()
 								weight='regular'
 								className={classes.text}
 							>
-								{data && data[0] && data[0].description}
+								{data?.[0]?.description}
 							</Typography>
 
 							<CustomButton
