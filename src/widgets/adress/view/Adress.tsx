@@ -15,8 +15,11 @@ const { t } = useSafeTranslation()
 				{data?.map((item, index) => (
 					<div key={index} className={classes.item}>
 						<Typography variant='b2' weight='regular'>
-							{item.contact_translations[0].city}{' '}
-							<span>{item.contact_translations[0].address}</span>
+							{item.contact_translations[0].city ?? ''}{' '}
+							<span>
+								{' '}
+								{item.contact_translations?.[0].address ?? ''}
+							</span>
 						</Typography>
 						<Typography variant='b2' weight='regular'>
 							<a

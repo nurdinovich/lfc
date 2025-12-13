@@ -3,15 +3,10 @@ import { CustomButton, MultiContainer, ServicesCard, Typography } from '@/shared
 import classes from './ServicesBlock.module.scss'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useServicesBlock } from '../api/useServicesBlock'
-import { Loader } from '@/shared/ui/loader/view/Loader'
 
 export const ServicesBlock = () => {
 	const {t} = useSafeTranslation()
-	const { data, isLoading } = useServicesBlock()
-
-	if(isLoading) {
-		return <Loader />
-	}
+	const { data } = useServicesBlock('ru')
 	return (
 		<section className={classes.section}>
 			<MultiContainer>

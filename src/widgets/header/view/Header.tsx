@@ -24,10 +24,11 @@ const logoSrc = data?.[0]?.logo
 					<Link href='/' className={classes.icon}>
 						<Image
 							src={logoSrc}
-							alt='logo'
+							alt='LFC — Legal & Finance Consulting'
 							width={100}
 							height={100}
 							loading='eager'
+							priority
 						/>
 					</Link>
 					<nav

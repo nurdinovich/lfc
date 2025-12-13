@@ -10,7 +10,7 @@ import Link from "next/link"
 
 export const NewsBlock = () => {
 	const {t} = useSafeTranslation()
-	const {data} = useNewsBlock()
+	const {data} = useNewsBlock('ru')
   return (
 		<section className={classes.section}>
 			<MultiContainer>
