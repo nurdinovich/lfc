@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
 	images: {
 		remotePatterns: [
 			{
-				protocol: 'http',
-				hostname: '159.223.28.248',
+				protocol: 'https',
+				hostname: 'lfc.kg',
 			},
 		],
 	},
