@@ -1,5 +1,6 @@
 'use client'
-import { FC, useEffect, useState } from 'react'
+
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Typography } from '@/shared/ui'
 import classes from './MapAdress.module.scss'
 import { MapPin, Phone } from '@/shared/assest/icons'
@@ -7,47 +8,50 @@ import { useWorks } from '@/shared/api/useWorks'
 import { useMapAdress } from '@/shared/api/useMapAdress'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 
-interface ILocation {
-	phone: string[]
-	iframeSrc: string
+type Contact = {
+	id: number
+	maps: string
+	phone_number1?: string
+	phone_number2?: string
+	contact_translations?: Array<{
+		city?: string
+		address?: string
+		language_id?: number
+	}>
 }
 
 export const MapAdress: FC = () => {
 	const { data } = useWorks()
-	const { data: contacts } = useMapAdress()
-const { t } = useSafeTranslation()
-	const [locations, setLocations] = useState<ILocation[]>([])
-	const [activeIframe, setActiveIframe] = useState<string>('')
+	const { data: contactsRaw } = useMapAdress()
+	const { t } = useSafeTranslation()
+
+	// ✅ ВСЕГДА: id=1 первым, id=2 вторым (и т.д.)
+	const contacts = useMemo(() => {
+		return ((contactsRaw ?? []) as Contact[])
+			.map(c => ({ ...c, id: Number((c as any).id) }))
+			.sort((a, b) => a.id - b.id)
+	}, [contactsRaw])
+
+	const [activeId, setActiveId] = useState<number | null>(null)
 
 	useEffect(() => {
-		if (!contacts || !contacts[0]) return
-
-		const initializeData = () => {
-			const locs: ILocation[] = [
-				{
-					phone: [contacts[0].phone_number1, contacts[0].phone_number2],
-					iframeSrc: contacts[0].maps,
-				},
-				{
-					phone: [contacts[0].phone_number1, contacts[0].phone_number2],
-					iframeSrc: contacts[1].maps,
-				},
-			]
-
-			setLocations(locs)
-			setActiveIframe(locs[0].iframeSrc)
-		}
-
-		initializeData()
+		if (!contacts.length) return
+		setActiveId(prev => (prev === null ? contacts[0].id : prev))
 	}, [contacts])
 
-	const iframeSrc = activeIframe
+	const activeContact = useMemo(() => {
+		return contacts.find(c => c.id === activeId) ?? contacts[0]
+	}, [contacts, activeId])
+
+	const iframeSrc = activeContact?.maps ?? ''
 
 	return (
 		<div className={classes.wrapper}>
 			<div className={classes.map}>
 				{iframeSrc && (
 					<iframe
+						// ✅ важно, чтобы карта точно переключалась
+						key={iframeSrc}
 						src={iframeSrc}
 						width='100%'
 						height='100%'
@@ -60,47 +64,57 @@ const { t } = useSafeTranslation()
 
 			<div className={classes.sidePanel}>
 				<div className={classes.locations}>
-					{locations.map((loc: ILocation, index: number) => (
-						<div
-							key={index}
-							className={`${classes.locationCard} ${
-								activeIframe === loc.iframeSrc ? classes.active : ''
-							}`}
-							onClick={() => setActiveIframe(loc.iframeSrc)}
-						>
-							<div className={classes.address}>
-								<MapPin className={classes.icon} />
-								<div className={classes.addressSection}>
-									<Typography
-										variant='b1'
-										weight='bold'
-										className={classes.city}
-									>
-										{contacts?.[0]?.contact_translations?.[0]?.city ?? ''}
-									</Typography>
-									<Typography variant='bodyText' weight='medium'>
-										{contacts?.[0]?.contact_translations?.[0]?.address ?? ''}
-									</Typography>
-								</div>
-							</div>
+					{contacts.map(c => {
+						const tr = c.contact_translations?.[0]
+						const phones = [c.phone_number1, c.phone_number2].filter(
+							Boolean
+						) as string[]
+						const isActive = c.id === activeId
 
-							<div className={classes.phoneSection}>
-								<Phone className={classes.icon} />
-								<div className={classes.phones}>
-									{loc.phone.map((phoneNumber: string, i: number) => (
+						return (
+							<div
+								key={c.id}
+								className={`${classes.locationCard} ${
+									isActive ? classes.active : ''
+								}`}
+								onClick={() => setActiveId(c.id)}
+								role='button'
+								tabIndex={0}
+							>
+								<div className={classes.address}>
+									<MapPin className={classes.icon} />
+									<div className={classes.addressSection}>
 										<Typography
-											key={i}
-											variant='bodyText'
-											weight='medium'
-											className={classes.phone}
+											variant='b1'
+											weight='bold'
+											className={classes.city}
 										>
-											{phoneNumber}
+											{tr?.city ?? ''}
 										</Typography>
-									))}
+										<Typography variant='bodyText' weight='medium'>
+											{tr?.address ?? ''}
+										</Typography>
+									</div>
+								</div>
+
+								<div className={classes.phoneSection}>
+									<Phone className={classes.icon} />
+									<div className={classes.phones}>
+										{phones.map((p, i) => (
+											<Typography
+												key={i}
+												variant='bodyText'
+												weight='medium'
+												className={classes.phone}
+											>
+												{p}
+											</Typography>
+										))}
+									</div>
 								</div>
 							</div>
-						</div>
-					))}
+						)
+					})}
 				</div>
 			</div>
 

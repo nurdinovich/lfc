@@ -56,6 +56,16 @@
 
     .text {
       text-align: justify;
+
+      a{
+        color: #007BFF; // синий цвет
+          text-decoration: underline; // подчёркивание
+          transition: color 0.2s;
+        
+          &:hover {
+            color: #0056b3; // темнее при наведении
+          }
+      }
     }
 
     .btn {

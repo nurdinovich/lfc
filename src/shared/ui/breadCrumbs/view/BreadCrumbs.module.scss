@@ -2,20 +2,18 @@
 .breadCrumbs {
   display: flex;
   list-style: none;
+  align-items: center;
 
   &Container {
     padding-top: 25px;
     padding-bottom: 25px;
-
-    @include SmallMobile {
-      display: none;
-    }
   }
 
 }
 
 .link {
   display: flex;
+  align-items: center;
   color: var(--black-blur);
   gap: 5px;
 
