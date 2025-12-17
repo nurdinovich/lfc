@@ -1,93 +1,107 @@
 'use client'
-import { FC, useRef, useState, useLayoutEffect } from 'react'
+
+import { FC, useState } from 'react'
 import { AccordeonMinus, AccordeonPlus } from '@/shared/assest/icons'
-import { MultiContainer, Typography } from '@/shared/ui'
+import { AnimatedBlock, MultiContainer, Typography } from '@/shared/ui'
 import classes from './FaqBlock.module.scss'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { useFaqBlock } from '../api/useFaqBlock'
-
+import { AnimatePresence, motion } from 'framer-motion'
 
 export const FaqBlock: FC = () => {
 	const [openItemId, setOpenItemId] = useState<number | null>(null)
-	const [maxHeights, setMaxHeights] = useState<{ [key: number]: number }>({})
-	const contentRefs = useRef<{ [key: number]: HTMLDivElement | null }>({})
 	const { t } = useSafeTranslation()
-const {data} = useFaqBlock('ru')
+	const { data } = useFaqBlock('ru')
+
 	const toggleItem = (id: number) => {
-		setOpenItemId(prevId => (prevId === id ? null : id))
+		setOpenItemId(prev => (prev === id ? null : id))
 	}
 
-	const setContentRef = (id: number) => (el: HTMLDivElement | null) => {
-		contentRefs.current[id] = el
-	}
-
-	useLayoutEffect(() => {
-		const updateHeights = () => {
-			const newHeights: { [key: number]: number } = {}
-			for (const [id, el] of Object.entries(contentRefs.current)) {
-				if (el) newHeights[Number(id)] = el.scrollHeight
-			}
-			setMaxHeights(newHeights)
-		}
-		const rafId = requestAnimationFrame(updateHeights)
-		return () => cancelAnimationFrame(rafId)
-	}, [data])
-	
 	return (
 		<section className={classes.section}>
 			<MultiContainer>
-				<Typography variant='h2' weight='bold'>
-					{t('block.faq')}
-				</Typography>
+				{/* Заголовок */}
+				<AnimatedBlock animationType='slideUp'>
+					<Typography variant='h2' weight='bold'>
+						{t('block.faq')}
+					</Typography>
+				</AnimatedBlock>
 
-				{data?.map(item => {
-					const isOpen = openItemId === item.id
-					return (
-						<div
-							key={item.id}
-							className={`${classes.accordionItem} ${
-								isOpen ? classes.open : ''
-							}`}
-						>
-							<div
-								className={`${classes.accordionHeader} ${
-									isOpen ? classes.active : ''
+				{/* Список FAQ */}
+				<motion.div
+					initial={{ opacity: 0, y: 24 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6 }}
+					viewport={{ once: true, amount: 0.2 }}
+				>
+					{data?.map((item, index) => {
+						const isOpen = openItemId === item.id
+
+						return (
+							<motion.div
+								key={item.id}
+								className={`${classes.accordionItem} ${
+									isOpen ? classes.open : ''
 								}`}
-								onClick={() => toggleItem(item.id)}
+								initial={{ opacity: 0, y: 12 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.35, delay: index * 0.06 }}
+								viewport={{ once: true, amount: 0.2 }}
 							>
-								<Typography
-									variant='h3'
-									weight='regular'
-									className={classes.title}
+								<div
+									className={`${classes.accordionHeader} ${
+										isOpen ? classes.active : ''
+									}`}
+									onClick={() => toggleItem(item.id)}
+									role='button'
+									tabIndex={0}
+									aria-expanded={isOpen}
 								>
-									{item.id}.&nbsp;{item.title}
-								</Typography>
-								<span className={classes.icon}>
-									{isOpen ? <AccordeonMinus /> : <AccordeonPlus />}
-								</span>
-							</div>
-
-							<div
-								ref={setContentRef(item.id)}
-								className={classes.accordionContent}
-								style={{
-									maxHeight: isOpen ? `${maxHeights[item.id] || 0}px` : '0px',
-									transition: 'max-height 0.3s ease',
-								}}
-							>
-								<div className={classes.accordionInner}>
 									<Typography
-										variant='b1'
+										variant='h3'
 										weight='regular'
-										className={classes.text}
+										className={classes.title}
 									>
-										{item.description}
+										{item.id}.&nbsp;{item.title}
 									</Typography>
+
+									{/* Иконка: плавный поворот */}
+									<motion.span
+										className={classes.icon}
+										animate={{ rotate: isOpen ? 180 : 0 }}
+										transition={{ duration: 0.2 }}
+									>
+										{isOpen ? <AccordeonMinus /> : <AccordeonPlus />}
+									</motion.span>
 								</div>
-							</div>
-						</div>
-					)
-				})}
+
+								{/* Контент: height + opacity */}
+								<AnimatePresence initial={false}>
+									{isOpen && (
+										<motion.div
+											className={classes.accordionContent}
+											initial={{ height: 0, opacity: 0 }}
+											animate={{ height: 'auto', opacity: 1 }}
+											exit={{ height: 0, opacity: 0 }}
+											transition={{ duration: 0.3, ease: 'easeInOut' }}
+											style={{ overflow: 'hidden' }}
+										>
+											<div className={classes.accordionInner}>
+												<Typography
+													variant='b1'
+													weight='regular'
+													className={classes.text}
+												>
+													{item.description}
+												</Typography>
+											</div>
+										</motion.div>
+									)}
+								</AnimatePresence>
+							</motion.div>
+						)
+					})}
+				</motion.div>
 			</MultiContainer>
 		</section>
 	)

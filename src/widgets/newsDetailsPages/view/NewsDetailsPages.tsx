@@ -10,6 +10,7 @@ import { useParams } from 'next/navigation'
 import { BreadCrumbs } from '@/shared/ui/breadCrumbs/view/BreadCrumbs'
 import { useSafeTranslation } from '@/shared/hooks/useSafeTranslation'
 import { Error } from '@/shared/ui/error/view/Error'
+import Linkify from 'react-linkify'
 
 export const NewsDetailsPages = () => {
 	const { id } = useParams()
@@ -50,7 +51,9 @@ export const NewsDetailsPages = () => {
 					</div>
 
 					<Typography variant='b1' weight='medium' className={classes.text}>
+						<Linkify>
 						{detail?.text}
+						</Linkify>
 					</Typography>
 
 					<CustomButton

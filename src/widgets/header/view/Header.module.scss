@@ -44,8 +44,8 @@
       }
 
       @include SmallMobile {
-        width: 76px;
-        height: 42px;
+        width: 100px;
+        height: 50px;
       }
     }
   }
@@ -135,6 +135,7 @@
       color: var(--darkBlue);
       width: 100%;
       top: 90px;
+      z-index: 1;
     }
   }
 

@@ -18,9 +18,17 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
 
+      @include Tablet {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include SmallMobile {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
       .item {
         @include SmallTablet {
-          width: 302px;
+          grid-template-columns: repeat(1, 1fr);
         }
       }
     }
