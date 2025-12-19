@@ -93,7 +93,7 @@ const BookingForm: React.FC = () => {
 			<>
 				<BreadCrumbs
 					breadCrumbKey='employees'
-					thirdElement={'Запись на консультацию'}
+					thirdElement={t('buttons.book')}
 				/>
 				<Typography className={classes.titlePage} variant='h1' weight='bold'>
 					{t('buttons.book')}

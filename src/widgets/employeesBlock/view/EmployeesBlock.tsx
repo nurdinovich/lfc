@@ -21,7 +21,7 @@ export const EmployeesBlock = () => {
 				{/* Заголовок */}
 				<AnimatedBlock animationType='slideUp'>
 					<Typography variant='h2' weight='bold'>
-						{t('block.employees')}
+						{t('navigation.employees')}
 					</Typography>
 				</AnimatedBlock>
 			</MultiContainer>

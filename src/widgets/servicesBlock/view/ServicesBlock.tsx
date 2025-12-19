@@ -24,7 +24,7 @@ export const ServicesBlock = () => {
 					</Typography>
 				</AnimatedBlock>
 				<div className={classes.container}>
-					{data?.map((item, index) => {
+					{data?.slice(0, 3).map((item, index) => {
 						const animationType = index % 2 === 0 ? 'slideRight' : 'slideLeft'
 
 						return (

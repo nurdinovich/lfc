@@ -23,7 +23,7 @@ export const FaqBlock: FC = () => {
 				{/* Заголовок */}
 				<AnimatedBlock animationType='slideUp'>
 					<Typography variant='h2' weight='bold'>
-						{t('block.faq')}
+						{t('navigation.faq')}
 					</Typography>
 				</AnimatedBlock>
 
