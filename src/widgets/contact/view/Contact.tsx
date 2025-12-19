@@ -14,15 +14,13 @@ export const Contact = () => {
 		<section className={classes.section}>
 			<MultiContainer>
 				<div className={classes.container}>
-					{/* Заголовок */}
 					<AnimatedBlock animationType='slideUp'>
 						<Typography variant='h2' weight='bold'>
-							{t('block.contact')}
+							{t('navigation.contact')}
 						</Typography>
 					</AnimatedBlock>
 
-					{/* Контакты + карта */}
-					<AnimatedBlock animationType='none' delay={0.2}>
+					<AnimatedBlock animationType='none' delay={0.3}>
 						<motion.div
 							initial={{ opacity: 0, y: 30 }}
 							whileInView={{ opacity: 1, y: 0 }}

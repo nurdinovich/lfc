@@ -51,7 +51,7 @@ const { t } = useSafeTranslation()
 
 			{timeSlots.length === 0 ? (
 				<Typography variant='b2' weight='regular' className={styles.noSlots}>
-					{t('booking.uavilable')}
+					{t('booking.uavailable')}
 				</Typography>
 			) : (
 				<div className={styles.slotsList}>

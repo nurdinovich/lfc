@@ -4,16 +4,9 @@
 		"about": "About Us",
 		"news": "News",
 		"employees": "Employees",
-		"services": "Services"
-	},
-	"block": {
-		"about": "About Us",
-		"news": "News",
-		"employees": "Employees",
 		"services": "Services",
 		"contact": "Contact",
-		"faq": "Frequently Asked Questions (FAQ)",
-		"mode": "Accessibility Mode"
+		"faq": "Frequently Asked Questions (FAQ)"
 	},
 	"services": {
 		"desc": "We provide professional legal and accounting services for businesses and private clients. Our goal is to help you operate with confidence, avoid risks, and save time on solving complex issues.",
