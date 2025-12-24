@@ -31,4 +31,5 @@ export interface INewsDetail {
 	new_translation_id: number
 	created: string
 	updated: string
+	link: string
 }

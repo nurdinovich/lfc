@@ -1,12 +1,14 @@
 'use client'
+
 import { Swiper } from 'swiper/react'
 import { Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import './customPagination.scss'
+
 import { FC } from 'react'
-import { ISlider } from '../types/types'
 import classNames from 'classnames'
+import { ISlider } from '../types/types'
 
 export const CustomSwiper: FC<ISlider> = ({
 	children,
@@ -16,21 +18,30 @@ export const CustomSwiper: FC<ISlider> = ({
 	return (
 		<Swiper
 			modules={[Pagination, Autoplay]}
-			spaceBetween={spaceBetween}
-			slidesPerView={'auto'}
 			className={classNames(className, 'custom-swiper')}
-			slidesPerGroup={5}
-			loop={true}
+			slidesPerView='auto'
+			spaceBetween={spaceBetween}
+			loop
+			slidesPerGroup={1}
 			autoplay={{
 				delay: 5000,
 				disableOnInteraction: false,
+				pauseOnMouseEnter: true,
 			}}
+			/** 🔑 ВАЖНО ДЛЯ СКРОЛЛА */
+			direction='horizontal'
+			touchStartPreventDefault={false}
+			touchMoveStopPropagation={false}
+			touchReleaseOnEdges={true}
+			resistanceRatio={0.85}
+			simulateTouch={true}
+			/** ⬇️ Главное */
+			nested={true}
 			pagination={{
 				el: '.custom-pagination',
 				clickable: true,
-				renderBullet: function (index, className) {
-					return `<span class="${className}"></span>`
-				},
+				renderBullet: (index, className) =>
+					`<span class="${className}"></span>`,
 			}}
 			breakpoints={{
 				0: {
@@ -42,7 +53,7 @@ export const CustomSwiper: FC<ISlider> = ({
 			}}
 		>
 			{children}
-			<div className='custom-pagination'></div>
+			<div className='custom-pagination' />
 		</Swiper>
 	)
 }
